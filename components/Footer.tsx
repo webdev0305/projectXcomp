@@ -33,7 +33,7 @@ export default function Footer() {
                 <a href="https://www.avax.network/" target="_blank" rel="noreferrer" className="inline-block align-super">
                   <Image alt="Powered by Avalanche" src="/poweredbyavalanche.svg" height="38" width="113" className={styles.footerImage} /></a>
                 <a href="https://www.assuredefi.io/projects/projectx/" target="_blank" rel="noreferrer" className="inline-block" style={{maxWidth: "200px"}}>
-                  <Image src="/Assure_TransBG_White_crop.png" alt="KYC by Assure DeFi" /></a>
+                  <Image src="/Assure_TransBG_White_crop.png" alt="KYC by Assure DeFi" width={200} height={55}/></a>
               </div>
             </div>
             <br/>
