@@ -7,7 +7,7 @@ import { useRouter } from 'next/router'
 import { Value } from 'sass';
 
 
-export default function competitionId() {
+export default function CompetitionId() {
   const [tickets, setTicket] = useState(1)
   const router = useRouter()
   const { pid } = router.query

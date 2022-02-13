@@ -2,6 +2,7 @@ import styles from "styles/pages/Home.module.scss"; // Page styles
 import Clock from "components/Clock"
 import TwoImage from "components/TwoImage"
 import Hero from "components/Hero"
+import Link from "next/link"
 
 export default function Home() {
 
@@ -16,7 +17,7 @@ export default function Home() {
         </h1>
         <Clock type="white" endTime={1644041274}/>
         <h2 className="text-3xl md:mb-10">&nbsp;</h2>
-        <a href="/competitions" className={styles.home_button}>Play Now</a>
+        <Link href="/competitions" passHref><button className={styles.home_button}>Play Now</button></Link>
       </Hero>
       <div className="py-10">
         <div className={styles.container_fluid}>
@@ -119,7 +120,7 @@ export default function Home() {
           <div className="flex flex-auto flex-wrap justify-center items-center h-full">
             <div className="z-10 text-center uppercase">
               <h2 className="my-4">How it works</h2>
-              <a href="/competitions" className={styles.home_button}>Enter to Play</a>
+              <Link href="/competitions" passHref><button className={styles.home_button}>Enter to Play</button></Link>
               
             </div>
           </div>
@@ -133,7 +134,7 @@ export default function Home() {
               <p className="pt-0 leading-loose text-lg mb-4">
               For every month as a member, you will receive £9.99 credit to spend on ticket purchases which are 50% discounted with your exclusive discount code. Cancel anytime.
               </p>
-              <a href="/competitions" className={styles.home_button}>Sign Up</a>
+              <Link href="/competitions" passHref><button className={styles.home_button}>Sign Up</button></Link>
             </div>
           </div>
         </div>

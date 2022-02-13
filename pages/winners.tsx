@@ -1,5 +1,6 @@
 import styles from "styles/pages/Winners.module.scss"; // Page styles
 import Hero from "components/Hero"
+import Image from "next/image"
 
 export default function Winners() {
   const heroImage = "url(/Hero.jpg)"
@@ -16,22 +17,22 @@ export default function Winners() {
                 <div className="flex flex-wrap items-center relative">
                     <div className="w-full md:w-1/2 px-4">
                         <p className="date">09 February 2022</p>
-                        <img src="https://yiannimize.s3.eu-west-2.amazonaws.com/public/fo-competitions/dc5242c0-d255-4d39-a54d-9cc26256fc92/770x0/1644492902_8qF5IBLczs_3-John-Lowry-500-Site-Credit--1.JPG" alt="ABOUT YIANNIMIZE COMPETITIONS" data-xblocker="passed" style={{visibility: "visible"}} />
+                        <Image src="https://yiannimize.s3.eu-west-2.amazonaws.com/public/fo-competitions/dc5242c0-d255-4d39-a54d-9cc26256fc92/770x0/1644492902_8qF5IBLczs_3-John-Lowry-500-Site-Credit--1.JPG" alt="ABOUT YIANNIMIZE COMPETITIONS" width={770} height={433} />
                         <h4>JOHN LOWRY WINS £500 SITE CREDIT!</h4>
                     </div>
                     <div className="w-full md:w-1/2 px-4">
                         <p className="date">09 February 2022</p>
-                        <img src="https://yiannimize.s3.eu-west-2.amazonaws.com/public/fo-competitions/a4695b9d-34d9-4da9-ae96-05a7cfdda557/770x0/1644489796_tmDacnbFXO_11-Jonathon-Walling-2500-1.JPG" alt="ABOUT YIANNIMIZE COMPETITIONS" data-xblocker="passed" style={{visibility: "visible"}} />
+                        <Image src="https://yiannimize.s3.eu-west-2.amazonaws.com/public/fo-competitions/a4695b9d-34d9-4da9-ae96-05a7cfdda557/770x0/1644489796_tmDacnbFXO_11-Jonathon-Walling-2500-1.JPG" alt="ABOUT YIANNIMIZE COMPETITIONS" width={770} height={433} />
                         <h4>JOHN LOWRY WINS £500 SITE CREDIT!</h4>
                     </div>
                     <div className="w-full md:w-1/2 px-4">
                         <p className="date">09 February 2022</p>
-                        <img src="https://yiannimize.s3.eu-west-2.amazonaws.com/public/fo-competitions/a4695b9d-34d9-4da9-ae96-05a7cfdda557/770x0/1644489796_tmDacnbFXO_11-Jonathon-Walling-2500-1.JPG" alt="ABOUT YIANNIMIZE COMPETITIONS" data-xblocker="passed" style={{visibility: "visible"}} />
+                        <Image src="https://yiannimize.s3.eu-west-2.amazonaws.com/public/fo-competitions/a4695b9d-34d9-4da9-ae96-05a7cfdda557/770x0/1644489796_tmDacnbFXO_11-Jonathon-Walling-2500-1.JPG" alt="ABOUT YIANNIMIZE COMPETITIONS" width={770} height={433} />
                         <h4>JOHN LOWRY WINS £500 SITE CREDIT!</h4>
                     </div>
                     <div className="w-full md:w-1/2 px-4">
                         <p className="date">09 February 2022</p>
-                        <img src="https://yiannimize.s3.eu-west-2.amazonaws.com/public/fo-competitions/a4695b9d-34d9-4da9-ae96-05a7cfdda557/770x0/1644489796_tmDacnbFXO_11-Jonathon-Walling-2500-1.JPG" alt="ABOUT YIANNIMIZE COMPETITIONS" data-xblocker="passed" style={{visibility: "visible"}} />
+                        <Image src="https://yiannimize.s3.eu-west-2.amazonaws.com/public/fo-competitions/a4695b9d-34d9-4da9-ae96-05a7cfdda557/770x0/1644489796_tmDacnbFXO_11-Jonathon-Walling-2500-1.JPG" alt="ABOUT YIANNIMIZE COMPETITIONS" width={770} height={433}  />
                         <h4>JOHN LOWRY WINS £500 SITE CREDIT!</h4>
                     </div>
                 </div>

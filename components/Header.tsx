@@ -29,7 +29,7 @@ export default function Header() {
     <header className={navbar ? "fixed w-full z-20 opened":"fixed w-full z-10"}>
       <div className="flex flex-wrap items-center justify-between 2xl:container px-4 py-3 mx-auto md:flex-no-wrap md:px-6">
         <div className="flex items-center">
-          <img src={navbar?"/header-logo.png":"/black-logo.png"} alt="logo" width={155} height={60} />
+          <Image src={navbar?"/header-logo.png":"/black-logo.png"} alt="logo" width={155} height={60} />
         </div>
         <button
           className={cn("flex items-center block px-3 py-2 text-white border rounded md:hidden", navbar?"border-white":"border-black")}
