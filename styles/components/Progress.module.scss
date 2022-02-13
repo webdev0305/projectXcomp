@@ -1,0 +1,35 @@
+.progress{
+    width: 100%;
+    min-height: 105px;
+    margin-bottom: 0px !important;
+    >div{
+        
+        >div{
+            position: relative;
+            width: 100%;
+            flex-basis: 0;
+            flex-grow: 1;
+            max-width: 100%;
+            >p{
+                margin-top: 0;
+                line-height: 30px;
+                margin-bottom: 4px;
+                font-weight: 700;
+                text-transform: uppercase;
+                font-size: 11px;
+            }
+        }
+    }
+}
+.progressBar{
+    position: relative;
+    height: 10px;
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAAKCAMAAACOlf6TAAAAFVBMVEXq6+3r7O7x8/Xy9Pbz9fbz9ff09vikxlZYAAAAMUlEQVR42mXItwEAMQzEMDqI+2/8sZIPJVhrlq89eI1NlX0kRmIkRs75a7WRGImRGG/jjwJvvnqp6AAAAABJRU5ErkJggg==);
+    width: 100%;
+    >div{
+        position: absolute;
+        height: 100%;
+        background-color: red;
+        width: 10%;
+    }
+}

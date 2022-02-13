@@ -1,0 +1,82 @@
+.winners{
+    padding-top: calc(43px + 3vw);
+    padding-bottom: calc(43px + 3vw);
+    >div{
+        max-width: 1670px;
+        >div{
+            &::after{
+                content: '';
+                display: block;
+                width: 2px;
+                height: 100%;
+                position: absolute;
+                left: 50%;
+                background-color: black;
+            }
+            >div{
+                
+                padding: 0 50px;
+                &:nth-of-type(odd){
+                    margin-top: 0px;
+                    margin-bottom: 140px;
+                    >p{
+                        text-align: right;
+                        &::after{
+                            right: -56px;
+                            top: 10px;
+                        }
+                    }
+                }
+
+                &:nth-of-type(even){
+                    margin-top: 140px;
+                    >p{
+                        &::after{
+                            left: -54px;
+                            top: 10px;
+                        }
+                    }
+                }
+                >p{
+                    margin-top: 0;
+                    line-height: 30px;
+                    text-transform: uppercase;
+                    font-weight: 900;
+                    position: relative;
+                    &::after{
+                        content: '';
+                        display: inline-block;
+                        border: 2px solid black;
+                        border-radius: 100%;
+                        position: absolute;
+                        background-color: white;
+                        z-index: 1;
+                        width: 10px;
+                        height: 10px;
+                    }
+                }
+                img{
+                    width: 100%;
+                    margin-bottom: 37px;
+                }
+                h3{
+                    font-size: calc(18px + .6vw);
+                    line-height: calc(18px + .5vw);
+                    font-weight: 900;
+                    margin-top: 0;
+                    margin-bottom: 24px;
+                    text-transform: uppercase;
+                }
+            }
+        }
+    }
+
+    h4{
+        margin-top: 0;
+        margin-bottom: 24px;
+        text-transform: uppercase;
+        font-weight: 900;
+        font-size: calc(22.7px + .9vw);
+        line-height: calc(21.6px + .7vw);
+    }
+}

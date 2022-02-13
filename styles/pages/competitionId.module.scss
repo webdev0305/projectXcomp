@@ -1,0 +1,110 @@
+.competitionId{
+    padding-top: 100px;
+    >div:nth-of-type(1){
+        margin-top: 50px;
+    }
+}
+.Title{
+    margin-top: 0;
+    margin-bottom: 24px;
+    text-transform: uppercase;
+    font-size: calc(18px + .6vw);
+    line-height: calc(18px + .5vw);
+    font-weight: 900;
+}
+.input{
+    display: flex;
+    margin: 20px;
+    >label{
+        font-size: medium;
+        font-weight: 900;
+        margin: 10px 0px;
+        text-transform: uppercase;
+        margin-inline: 20px;
+    }
+    > input{
+        background-color: white;
+        border: 1px solid black;
+        border-inline-width: 0px;
+        padding: 5px;
+        color: #080808;
+        font-weight: 900;
+        font-size: 22px;
+        max-width: 100px;
+        text-align: center;
+    }
+    >div {
+        margin-inline: 20px;
+        text-align: center;
+        >button{
+            display: inline-block;
+            text-decoration: none;
+            cursor: pointer;
+            text-align: center;
+            background-size: cover;
+            border-width: 2px;
+            border-style: solid;
+            padding: 12px;
+            border-radius: 6px;
+            transition: background 200ms linear, filter 200ms linear;
+            min-width: 100px;
+            border: 2px solid #e2012b;
+            height: 45px;
+            line-height: 0px;
+            background-color: #e2012b;
+            color: white;
+            font-size: medium;
+            font-weight: 800;
+            text-transform: uppercase;
+            
+          &:hover{
+            background-color:white;
+            color:black;
+            border-color:#e2012b
+          }
+        }
+    }
+    >span:nth-of-type(1) {
+        display: inline-block;
+        cursor: pointer;
+        text-align: center;
+        border-width: 2px;
+        border-style: solid;
+        padding: 12px;
+        border-top-left-radius: 6px;
+        border-top-right-radius: 0px;
+        border-bottom-right-radius: 0px;
+        border-bottom-left-radius: 6px;
+        transition: background 200ms linear, filter 200ms linear;
+        min-width: 35px;
+        border: 2px solid #e2012b;
+        height: 45px;
+        line-height: 12px;
+        background-color: #e2012b;
+        color: white;
+        font-size: medium;
+        font-weight: 800;
+    }
+    >span:nth-of-type(2){
+        display: inline-block;
+        cursor: pointer;
+        text-align: center;
+        border-width: 2px;
+        border-style: solid;
+        padding: 12px;
+        border-top-left-radius: 0px;
+        border-top-right-radius: 6px;
+        border-bottom-right-radius: 6px;
+        border-bottom-left-radius: 0px;
+        transition: background 200ms linear, filter 200ms linear;
+        min-width: 30px;
+        border: 2px solid #e2012b;
+        height: 45px;
+        line-height: 12px;
+        background-color: #e2012b;
+        color: white;
+        font-size: medium;
+        font-weight: 800;
+    }
+
+}

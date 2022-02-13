@@ -1,0 +1,103 @@
+// Header: Connect Wallet + Actions menu
+.header__actions {
+  justify-content: flex-end;
+
+  // Connect Wallet
+  > button:nth-of-type(1) {
+    display: inline-block;
+        text-decoration: none;
+        cursor: pointer;
+        text-align: center;
+        background-size: cover;
+        border-width: 2px;
+        border-style: solid;
+        padding: 12px;
+        border-radius: 6px;
+        transition: background 200ms linear, filter 200ms linear;
+        min-width: 100px;
+        border: 2px solid #e2012b;
+        height: 45px;
+        line-height: 0px;
+        background-color: #e2012b;
+        color: white;
+        font-size: medium;
+        font-weight: 800;
+        text-transform: uppercase;
+        &:hover{
+            background-color:white;
+            color:black;
+            border-color:#e2012b
+        }
+      
+  }
+
+  // Actions menu
+  > button:nth-of-type(2) {
+    border-radius: 12px;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    border: 1px solid rgb(255, 255, 255);
+
+    > img {
+      display: flex;
+      height: 25px;
+      width: 25px;
+    }
+  }
+}
+
+// Header: Action menu
+// .header__actionMenu {
+//   text-transform: uppercase;
+//   &:hover{
+//     color: red
+//   };
+
+// }
+
+
+
+// Responsive
+@media screen and (max-width: 728px) {
+  .header {
+    padding: 2rem 1rem;
+  }
+
+  .header__actionMenu {
+    top: 96px;
+    right: 1rem;
+  }
+  .header__actions {
+    margin-top: 20px;
+    // Connect Wallet
+    > button:nth-of-type(1) {
+        display: inline-block;
+        text-decoration: none;
+        cursor: pointer;
+        text-align: center;
+        background-size: cover;
+        border-width: 2px;
+        border-style: solid;
+        padding: 12px 47px;
+        border-radius: 6px;
+        transition: background 200ms linear, filter 200ms linear;
+        min-width: 190px;
+        border: 2px solid #e2012b;
+        height: 40px;
+        line-height: 0px;
+        background-color: #e2012b;
+        color: white;
+        font-size: 14px;
+        font-weight: 800;
+        text-transform: uppercase;
+      &:hover{
+        background-color:white;
+        color:black;
+        border-color:#e2012b
+      }
+    }
+  }
+}
