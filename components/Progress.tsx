@@ -1,4 +1,4 @@
-import styles from "styles/components/progress.module.scss"; // Page styles
+import styles from "styles/components/Progress.module.scss"; // Page styles
 interface Prop {
     maxAmount: number;
     leftAmount: number;
