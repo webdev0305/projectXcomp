@@ -1,33 +1,33 @@
 // Header: Connect Wallet + Actions menu
 .header__actions {
   justify-content: flex-end;
-
+  margin-inline: 10px;
   // Connect Wallet
   > button:nth-of-type(1) {
     display: inline-block;
-        text-decoration: none;
-        cursor: pointer;
-        text-align: center;
-        background-size: cover;
-        border-width: 2px;
-        border-style: solid;
-        padding: 12px;
-        border-radius: 6px;
-        transition: background 200ms linear, filter 200ms linear;
-        min-width: 100px;
-        border: 2px solid #e2012b;
-        height: 45px;
-        line-height: 0px;
-        background-color: #e2012b;
-        color: white;
-        font-size: medium;
-        font-weight: 800;
-        text-transform: uppercase;
-        &:hover{
-            background-color:white;
-            color:black;
-            border-color:#e2012b
-        }
+    text-decoration: none;
+    cursor: pointer;
+    text-align: center;
+    background-size: cover;
+    border-width: 2px;
+    border-style: solid;
+    padding: 12px;
+    border-radius: 6px;
+    transition: background 200ms linear, filter 200ms linear;
+    min-width: 100px;
+    border: 2px solid #e2012b;
+    height: 45px;
+    line-height: 0px;
+    background-color: #e2012b;
+    color: white;
+    font-size: medium;
+    font-weight: 800;
+    text-transform: uppercase;
+    &:hover{
+        background-color:white;
+        color:black;
+        border-color:#e2012b
+    }
       
   }
 

@@ -7,6 +7,10 @@ import cn from "classnames";
 import styles from "styles/components/Header.module.scss"; // Component styles
 
 export default function Header() {
+  // Global state
+  const { address, unlock, lock }: { address: string | null; unlock: Function; lock: Function } =
+    eth.useContainer();
+
   const [navbar, setNavbar] = useState(false)
   const [mobileMenuIsOpen, setMobileMenuIsOpen] = useState(false);
   const [pathname, setPathname] = useState('')
@@ -14,7 +18,6 @@ export default function Header() {
   if (typeof window !== "undefined") {
     if(pathname!=window.location.pathname)
       setPathname(window.location.pathname)
-    console.log(pathname)
     const changeBackground = () => {
       if (window.scrollY >= 80) {
         setNavbar(true)
@@ -65,7 +68,17 @@ export default function Header() {
             </li>
           ))}
           <div className={styles.header__actions}>
-            <button>connect</button>
+            <Link href="/backend" passHref>
+              <button>Create</button>
+            </Link>
+          </div>
+          <div className={styles.header__actions}>
+            {!address?
+            <button onClick={() => unlock()}>connect</button>
+            : <button onClick={() => lock()}>
+            {address.substr(0, 6)}...{address.slice(address.length - 4)}
+          </button>}
+            
           </div>
         </ul>
         

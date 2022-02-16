@@ -16,8 +16,7 @@ const networkId = process.env.NEXT_PUBLIC_RPC_NETWORK
   ? // Use network
     Number(process.env.NEXT_PUBLIC_RPC_NETWORK)
   : // Else, default to Rinkeby
-    4;
-
+    43113;
 // Onboard.js wallet providers
 const wallets: (WalletModule | WalletInitOptions)[] = [
   { walletName: "metamask" },
@@ -54,6 +53,16 @@ function useEth() {
         await onboard.walletCheck();
       }
     }
+  };
+  /**
+   * lock wallet, store ethers provider and address
+   */
+   const lock = async () => {
+    setAddress(null)
+    setProvider(null)
+    window.localStorage.removeItem("selectedWallet");
+    // onboard?.walletSelect(undefined)
+    window.location.reload();
   };
 
   /**
@@ -120,7 +129,7 @@ function useEth() {
     }
   }, [onboard]);
 
-  return { address, provider, unlock };
+  return { address, provider, unlock, lock };
 }
 
 // Create unstated-next container
