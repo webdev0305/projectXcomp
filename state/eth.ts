@@ -24,7 +24,7 @@ const wallets: (WalletModule | WalletInitOptions)[] = [
     walletName: "walletConnect",
     networkId,
     rpc: {
-      [networkId]: process.env.NEXT_PUBLIC_RPC_URL ?? "",
+      [networkId]: process.env.NEXT_PUBLIC_RPC_URL ?? "https://api.avax-test.network/ext/bc/C/rpc",
     },
   },
 ];
