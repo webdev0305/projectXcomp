@@ -134,7 +134,7 @@ export default function Home() {
               <p className="pt-0 leading-loose text-lg mb-4">
               For every month as a member, you will receive £9.99 credit to spend on ticket purchases which are 50% discounted with your exclusive discount code. Cancel anytime.
               </p>
-              <Link href="/competitions" passHref><button className={styles.home_button}>Sign Up</button></Link>
+              <Link href="/join" passHref><button className={styles.home_button}>Sign Up</button></Link>
             </div>
           </div>
         </div>

@@ -1,29 +1,16 @@
 import { useState, useCallback } from 'react'
-import 'react-tabs/style/react-tabs.css';
 import Image from "next/image"
 import styles from "styles/pages/Join.module.scss"; // Page styles
 
 export default function Join() {
-    const [month, setMonth] = useState(1)
-    const removeMonth = useCallback(() =>{
-        if(month>=2)
-        setMonth(month-1)
-        else 
-          return
-      }, [month, setMonth])
-      const addMonth = useCallback(() => {
-        if(month<12)
-        setMonth(month+1)
-      }, [month, setMonth])
-
-      let months = [];
-      for (var i = 1; i < 13; i++) {
-        months.push(<option value={i} key={i}>{i}</option>);
-      }
-      let years = [];
-      for (var j = 1; j < 6; j++) {
-        years.push(<option value={j} key={j}>{j}</option>);
-      }
+    let months = [];
+    for (var i = 1; i < 13; i++) {
+    months.push(<option value={i} key={i}>{i}</option>);
+    }
+    let years = [];
+    for (var j = 1; j < 6; j++) {
+    years.push(<option value={j} key={j}>{j}</option>);
+    }
   return (
     <div style={{paddingBlock: "85px"}} className={styles.join}>
         <div className="container">
