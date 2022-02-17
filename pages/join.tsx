@@ -18,11 +18,11 @@ export default function Join() {
 
       let months = [];
       for (var i = 1; i < 13; i++) {
-        months.push(<option value={i}>{i}</option>);
+        months.push(<option value={i} key={i}>{i}</option>);
       }
       let years = [];
-      for (var i = 1; i < 6; i++) {
-        years.push(<option value={i}>{i}</option>);
+      for (var j = 1; j < 6; j++) {
+        years.push(<option value={j} key={j}>{j}</option>);
       }
   return (
     <div style={{paddingBlock: "85px"}} className={styles.join}>
@@ -121,23 +121,7 @@ export default function Join() {
                 </div>
                 
             </div>
-            {/* <div className="pt-20 text-center">
-                <Image src="https://yiannimize.s3.eu-west-2.amazonaws.com/public/plans/000/000/001/78x0/yclub-membership.png" alt="" width={78} height={49} />
-                <div className='items-center flex flex-col m-auto' style={{maxWidth: "400px"}}>
-                    <div className={styles.input}>
-                        <span onClick={removeMonth}>-</span>
-                        <input type="text" name="tickets_num" value={month} onChange={e=>setMonth(Number(e.target.value))}/>
-                        <span onClick={addMonth}>+</span>
-                    </div>
-                    <div className={styles.button}>
-                        <button>buy</button>
-                    </div>
-                </div>
-                <div>
-                    <span>Completion date of your membership</span>
-                    <span className='block'>Febrary 2</span>
-                </div>
-            </div> */}
+            
         </div>
        
     </div>

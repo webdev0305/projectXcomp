@@ -21,7 +21,7 @@ export default function HowToPlay() {
                     <div className="w-full md:w-1/4 px-4 relative">
                         <figure className="text-center">
                         <span>1.</span><small>Step 1</small>
-                        <Image src="https://yiannimize.s3.eu-west-2.amazonaws.com/public/modules/000/020/363/1640190424_jXWQXYgqBA_tap.svg" alt="SELECT YOUR COMPETITION" width={53} height={53}/>
+                        <Image src="/icons/click-hand.svg" alt="SELECT YOUR COMPETITION" width={53} height={53}/>
                         <h4>SELECT YOUR COMPETITION</h4>
                         <p>Choose a prize from our selection.</p>
                         </figure>
@@ -29,7 +29,7 @@ export default function HowToPlay() {
                     <div className="w-full md:w-1/4 px-4  relative">
                         <figure className="text-center">
                         <span>2.</span><small>Step 2</small>
-                        <Image src="https://yiannimize.s3.eu-west-2.amazonaws.com/public/modules/000/020/363/1640190424_JraVDsGXID_laptop.svg" alt="LOG IN OR SIGN UP" width={53} height={53}/>
+                        <Image src="/icons/laptop.svg" alt="LOG IN OR SIGN UP" width={53} height={53}/>
                         <h4>Buy ticket</h4>
                         <p>buy ticket with $PXT2 in your wallet</p>
                         </figure>
@@ -37,7 +37,7 @@ export default function HowToPlay() {
                     <div className="w-full md:w-1/4 px-4  relative">
                         <figure className="text-center">
                         <span>3.</span><small>Step 3</small>
-                        <Image src="https://yiannimize.s3.eu-west-2.amazonaws.com/public/modules/000/020/363/1640190424_dPUUQfOYdW_ticket.svg" alt="PROCEED TO CHECK OUT" width={53} height={53}/>
+                        <Image src="/icons/ticket.svg" alt="PROCEED TO CHECK OUT" width={53} height={53}/>
                         <h4>PROCEED TO CHECK OUT</h4>
                         <p>and wait for the live draw date to see if you’ve won.</p>
                         </figure>

@@ -45,7 +45,9 @@ p {
   margin-inline-start: 0px;
   margin-inline-end: 0px;
 }
-
+aside{
+  z-index: 20;
+}
 .container, .add-tickets.center .container-fluid {
   width: 100%;
   padding-right: 15px;

@@ -36,7 +36,7 @@ export default function CompetittionItem({ title, detailLink, ticketPrice, membe
                     <h5><span style={{color:"red"}}>{memberPrice}</span></h5>
                 </div>
             </div>
-            <Link href={detailLink} passHref>
+            <Link href={detailLink} >
                 <Image src={compImage} alt={title} width={500} height={500}/>
             </Link>
         </div>

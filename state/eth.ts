@@ -76,8 +76,8 @@ function useEth() {
       hideBranding: true,
       // Setup custom wallets for selection
       walletSelect: {
-        heading: `Connect to ${tokenName}`,
-        description: `Please select a wallet to authenticate with ${tokenName}.`,
+        heading: `Connect to ProjectX competition`,
+        description: `Please select a wallet to authenticate with $PXT.`,
         wallets: wallets,
       },
       // Track subscriptions
