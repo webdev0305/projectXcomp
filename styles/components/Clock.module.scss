@@ -55,13 +55,11 @@
         text-align: center;
         > div{
             text-align: center;
-            margin: 0 5px;
             border-radius: 5px;
-            display: inline-block;
             background-color: black;
             color: #f8f8f8;
-            padding: 10px 0px;
-            width: 70px;
+            padding-top: 10px;
+            padding-bottom: 5px;
             > span{
                 font-size: 16px;
                 line-height: 16px;
@@ -70,19 +68,15 @@
             >div{
                 font-size: 10px;
                 padding-top: 4px;
-                font-weight: 800;
                 text-transform: uppercase;
+                color: #777;
             }
         }
     }
     
     
     > h4 {
-        font-weight: bold;
-        text-transform: uppercase;
         font-style: italic;
-        text-align: center;
-        margin-bottom: 10px;
     }
      >span{
         text-transform: uppercase;

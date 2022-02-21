@@ -2,9 +2,19 @@ const express = require('express')
 const next = require('next')
 const app = express()
 
+const account = require('./backend/account')
+const competition = require('./backend/competition')
+
 const port = process.argv[3]
-const server = next({ dev:true, port })
+const server = next({ dev:false, port })
 const handle = server.getRequestHandler()
+
+app.get('/test', (req,res)=>{
+	res.json({success:'true'})
+})
+app.use('/api/account', account)
+app.use('/api/competition', competition)
+
 server.prepare().then(() => {
 	app.all('*', (req, res) => {
     return handle(req, res)

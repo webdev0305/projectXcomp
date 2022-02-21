@@ -1,0 +1,133 @@
+.container {
+    margin-top: 100px;
+    margin-bottom: 30px;
+    min-height: 50vh;
+    &.loading, &.submitting {
+        position: relative;
+        &::after {
+            content:'';
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: rgba(255,255,255,0.5) url(/loading.gif) no-repeat center;
+            background-size: 40vw;
+            position: absolute;
+        }
+    }
+}
+
+.item {
+    background-color: white;
+    border-radius: 1em;
+    padding: 20px 10px;
+    margin-bottom: 1px;
+    position: relative;
+    box-shadow: 0 0 5px #ddd;
+    &.selected {
+        color:white;
+        background-color: black;
+        &::before {
+            position: absolute;
+            height: 100%;
+            top: 0;
+            left: 100%;
+            content: "";
+            transform: translateX(-50%);
+            width: 2em;
+            background: black;
+            border-radius: 0 1em 1em 0;
+        }
+    }
+    &:hover {
+        background-color: #fefefe;
+    }
+    img:hover {
+        opacity: 0.65;
+    }
+    h2, img {
+        cursor: pointer;
+    }
+    h3{
+        display: block;
+        font-size: larger;
+        font-weight: 700;
+    }
+    span{
+        display: block;
+        font-size: small;
+        font-weight: 500;
+    }
+}
+
+.imageBox {
+    position: relative;
+    border: 2px solid white;
+    border-radius: 4px;
+    box-shadow: 0 0 5px #ddd;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    span.emptyBox {
+        width: 200px;
+        height: 200px;
+        display: block;
+        text-align: center;
+        line-height: 200px;
+        font-weight: 900;
+        color: white;
+        text-shadow: 0 0 5px #888;
+        cursor: pointer;
+    }
+    img {
+        width: auto;
+        height: 200px;
+        border-radius: 2px;
+    }
+    .btnDeleteImage {
+        position: absolute;
+        top: 0;
+        right: 0;
+        background: red;
+        color: white;
+        text-align: center;
+        border-bottom-left-radius: 0.5em;
+        font-weight: bold;
+        opacity: 0.5;
+        padding: 0 0.5em;
+        cursor: pointer;
+        &:hover {
+            opacity: 1;
+            width: auto;
+            &::after {
+                content: "Delete Image";
+                font-size: 0.7em;
+                white-space: nowrap;
+                margin-left: 0.5em;
+                position: relative;
+                top: -0.2em;
+            }
+        }
+    }
+}
+
+.inputPrice {
+    &:disabled {
+        color: transparent;
+    }
+}
+
+.publish {
+    .price {
+        text-align: center;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 0;
+        width: 15em;
+        label {
+            display: block;
+            background-color: white;
+            border-bottom: 1px solid #ddd;
+            border-radius: 5px 5px 0 0;
+        }
+    }    
+}
