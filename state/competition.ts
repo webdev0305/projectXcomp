@@ -284,47 +284,47 @@ function useToken() {
     setDataLoading(true)
     
     // Force authentication
-    if (address) {
-      const rows = await getCompetition()
-      const res = await axios.get('/api/competition')
-      competitions.splice(0)
-      for(const row of Object.values(rows)) {
-        const id = row.id.toNumber()
-        const rowData = res.data.data[id]??{}
-        competitions.push({
-          id: id,
-          title: rowData.title,
-          description: rowData.description,
-          logoImage: rowData.logo_url,
-          winnerImage: rowData.winner_url,
-          images: JSON.parse(rowData.images),
-          forGuest: row.priceForGuest.gt(-1),
-          forMember: row.priceForMember.gt(-1),
-          priceForGuest: row.priceForGuest.gt(-1)?Number(formatFixed(row.priceForGuest,18)):0,
-          priceForMember: row.priceForMember.gt(-1)?Number(formatFixed(row.priceForMember,18)):0,
-          status: row.status,
-          timeEnd: row.timeEnd.gt(0)?new Date(row.timeEnd.toNumber()*1000):undefined,
-          timeStart: row.timeEnd.gt(0)?new Date(row.timeStart.toNumber()*1000):undefined,
-          countTotal: row.countTotal,
-          countSold: row.countSold,
-          winner: row.winner?{
-            id: row.winner,
-            firstName: rowData.winner_first_name,
-            lastName: rowData.winner_last_name,
-            nickName: rowData.winner_first_name || rowData.winner_last_name?`${rowData.winner_first_name} ${rowData.winner_last_name}`:`0x${row.winner.substring(2, 12)}...${row.winner.slice(-10)}`,
-            email: rowData.winner_email,
-            phone1: rowData.winner_phone1,
-            phone2: rowData.winner_phone2,
-            address: rowData.winner_address
-          }:{}
-        } as ICompetition)
-      }
-      competitions.sort((c1: ICompetition, c2:ICompetition)=>{
-        if(c1.timeUpdated && c2.timeUpdated)
-          return c1.timeUpdated > c2.timeUpdated? -1: 1
-        return 0
-      })
+    // if (address) {
+    const rows = await getCompetition()
+    const res = await axios.get('/api/competition')
+    competitions.splice(0)
+    for(const row of Object.values(rows)) {
+      const id = row.id.toNumber()
+      const rowData = res.data.data[id]??{}
+      competitions.push({
+        id: id,
+        title: rowData.title,
+        description: rowData.description,
+        logoImage: rowData.logo_url,
+        winnerImage: rowData.winner_url,
+        images: JSON.parse(rowData.images),
+        forGuest: row.priceForGuest.gt(-1),
+        forMember: row.priceForMember.gt(-1),
+        priceForGuest: row.priceForGuest.gt(-1)?Number(formatFixed(row.priceForGuest,18)):0,
+        priceForMember: row.priceForMember.gt(-1)?Number(formatFixed(row.priceForMember,18)):0,
+        status: row.status,
+        timeEnd: row.timeEnd.gt(0)?new Date(row.timeEnd.toNumber()*1000):undefined,
+        timeStart: row.timeEnd.gt(0)?new Date(row.timeStart.toNumber()*1000):undefined,
+        countTotal: row.countTotal,
+        countSold: row.countSold,
+        winner: row.winner?{
+          id: row.winner,
+          firstName: rowData.winner_first_name,
+          lastName: rowData.winner_last_name,
+          nickName: rowData.winner_first_name || rowData.winner_last_name?`${rowData.winner_first_name} ${rowData.winner_last_name}`:`0x${row.winner.substring(2, 12)}...${row.winner.slice(-10)}`,
+          email: rowData.winner_email,
+          phone1: rowData.winner_phone1,
+          phone2: rowData.winner_phone2,
+          address: rowData.winner_address
+        }:{}
+      } as ICompetition)
     }
+    competitions.sort((c1: ICompetition, c2:ICompetition)=>{
+      if(c1.timeUpdated && c2.timeUpdated)
+        return c1.timeUpdated > c2.timeUpdated? -1: 1
+      return 0
+    })
+    // }
     // Toggle loading
     setDataLoading(false)
   }
