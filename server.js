@@ -6,7 +6,7 @@ const account = require('./backend/account')
 const competition = require('./backend/competition')
 
 const port = process.argv[3]
-const server = next({ dev:false, port })
+const server = next({ dev:process.argv[4] && process.argv[4]==='-dev', port })
 const handle = server.getRequestHandler()
 
 app.get('/test', (req,res)=>{

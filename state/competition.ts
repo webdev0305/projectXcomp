@@ -54,7 +54,7 @@ export interface IUser {
   creditPlus?: BigNumber
   creditMinus?: BigNumber
   creditBalance?: BigNumber
-  balance?: BigNumber
+  balanceETH?: BigNumber
   balanceToken?: BigNumber
 }
 
@@ -256,7 +256,7 @@ function useToken() {
 
   const getBalance = async () => {
     provider?.getBalance(String(address)).then(balance=>setUser(user=>{
-      return {...user, balance}
+      return {...user, balanceETH:balance}
     }))
     const contract: ethers.Contract = getContract()
     const tokenAddress = await contract.token()
@@ -332,14 +332,6 @@ function useToken() {
   // On load:
   useEffect(() => {
     if(address) {
-      getBalance()
-      getAllowance().then(approved=>setUser(user=>{
-        return {...user, approved}
-      }))
-      getOwnerAddress().then(owner=>setUser(user=>{
-        return {...user, isOwner: owner.toLowerCase()===address?.toLowerCase()}
-      }))
-      getMember(address)
       axios.get(`/api/account/${address}`).then(res=>{
         setUser(user=>{
           return {
@@ -352,9 +344,17 @@ function useToken() {
             avatar: res.data?.avatar_url?.startsWith('https://')?res.data.avatar_url:'/avatar.png'
           }
         })
-      })
+      })      
+      getBalance()
+      getAllowance().then(approved=>setUser(user=>{
+        return {...user, approved}
+      }))
+      getOwnerAddress().then(owner=>setUser(user=>{
+        return {...user, isOwner: owner.toLowerCase()===address?.toLowerCase()}
+      }))
+      getMember(address)
+      getConfig()
     }
-    // getConfig()
     syncStatus()
   }, [address])
 

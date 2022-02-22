@@ -102,7 +102,7 @@ export default function Header() {
                   <div className={cn(styles.balance, "flex flex-col gap-1")}>
                     <div className="flex justify-between">
                       <strong>Balance</strong>
-                      <span>{user.balance ? parseFloat(formatFixed(user.balance, 18)).toFixed(8) : 0} <strong>AVAX</strong></span>
+                      <span>{user.balanceETH ? parseFloat(formatFixed(user.balanceETH, 18)).toFixed(8) : 0} <strong>AVAX</strong></span>
                     </div>
                     <div className="flex justify-between">
                       <span />
