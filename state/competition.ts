@@ -294,7 +294,8 @@ function useToken() {
    */
   const syncStatus = async (): Promise<void> => {
     setDataLoading(true)
-    
+    if(!contractCompetition)
+      getContract()
     const rows = await getCompetitions()
     const res = await axios.get('/api/competition')
     competitions.splice(0)
@@ -399,7 +400,8 @@ function useToken() {
     setCompetitions,
     setUser,
     payForMonth,
-    payForYear
+    payForYear,
+    syncStatus
   }
 }
 

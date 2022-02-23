@@ -2,16 +2,20 @@ import styles from "styles/pages/Claim.module.scss"; // Page styles
 import Hero from "components/Hero"
 import CompetitionItem from "components/CompetitionItem"
 import { ICompetition, token } from "state/competition"
+import { useEffect } from "react";
+import { eth } from "state/eth";
 
 export default function Competitions() {
+  const { provider } = eth.useContainer()
   const {
     dataLoading,
-    competitions
-  }: {
-    dataLoading: boolean
-    competitions: ICompetition[]
+    competitions,
+    syncStatus
   } = token.useContainer()
   const heroImage = "url(/Hero.jpg)"
+  useEffect(() => {
+    syncStatus()
+  }, [provider])
   return (
     <div style={{ paddingTop: "85px" }}>
       <Hero heroImage={heroImage}>
