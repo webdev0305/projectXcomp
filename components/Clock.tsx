@@ -15,6 +15,7 @@ export default function Clock({ className, type, endTime, drawDate, onDone }: Pr
   const [mDisplay, setMDisplay] = useState<string>()
   const [sDisplay, setSDisplay] = useState<string>()
   function secondsToHms(t: number) {
+    const ac = new AbortController()
     if (t <= 0) {
       setDDisplay('0')
       setHDisplay('00')
@@ -31,6 +32,7 @@ export default function Clock({ className, type, endTime, drawDate, onDone }: Pr
       setMDisplay(m < 10 ? m.toString().padStart(2, "0") : m.toString());
       setSDisplay(s < 10 ? s.toString().padStart(2, "0") : s.toString());
     }
+    ac.abort()
   }
   const timer = setInterval(() => {
     if (endTime !== undefined) {

@@ -1,12 +1,16 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import Image from "next/image"
 import styles from "styles/pages/Join.module.scss"; // Page styles
 import { token } from 'state/competition';
-import { formatFixed } from '@ethersproject/bignumber';
-import classNames from 'classnames';
-import Link from 'next/link';
+import { formatFixed } from '@ethersproject/bignumber'
+import classNames from 'classnames'
+import Link from 'next/link'
+import { eth } from 'state/eth'
+import DefaultErrorPage from 'next/error'
+import Router from 'next/router';
 
 export default function Join() {
+    const { address } = eth.useContainer()
     const { user, feePerMonth, feePerYear, creditsPerMonth, payForMonth, payForYear } = token.useContainer()
     const [months, setMonths] = useState(1)
     const [years, setYears] = useState(1)
@@ -34,7 +38,11 @@ export default function Join() {
         }
         setLoading(false)
     }
-    return (
+    useEffect(() => {
+        if (!address)
+            Router.push('/')
+    }, [address])
+    return address ? (
         <div className={classNames(styles.join, loading && styles.loading)}>
             <div className="container">
                 <div className='flex flex-wrap'>
@@ -59,17 +67,17 @@ export default function Join() {
                         <div className='flex justify-between'>
                             <label className='w-1/2'>Total Paid:</label>
                             <span>
-                                <strong>{user.totalPaid ? parseFloat(formatFixed(user.totalPaid, 18)).toFixed(8) : 0}</strong> $PXT
+                                <strong>{user.totalPaid ? formatFixed(user.totalPaid, 18) : 0}</strong> $PXT
                             </span>
                         </div>
                         <div className='flex justify-between'>
-                            <label className='w-1/2' style={{ whiteSpace: 'nowrap' }}>Total Received Credit:</label>
+                            <label className='w-1/2' style={{ whiteSpace: 'nowrap' }}>Received Credit:</label>
                             <strong>
                                 {user.creditPlus ? formatFixed(user.creditPlus ?? 0, 18) : 0}
                             </strong>
                         </div>
                         <div className='flex justify-between'>
-                            <label className='w-1/2'>Total Spent Credit:</label>
+                            <label className='w-1/2'>Spent Credit:</label>
                             <strong>
                                 {user.creditMinus ? formatFixed(user.creditMinus ?? 0, 18) : 0}
                             </strong>
@@ -140,5 +148,5 @@ export default function Join() {
             </div>
 
         </div>
-    );
+    ) : <DefaultErrorPage statusCode={404} />
 }

@@ -6,8 +6,12 @@ import { IUser, token } from 'state/competition';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import Image from 'next/image';
+import { eth } from 'state/eth';
+import DefaultErrorPage from 'next/error'
+import Router from 'next/router';
 
 export default function EditAccount() {
+    const { address } = eth.useContainer()
     const { user, setUser } = token.useContainer()
     const [loading, setLoading] = useState(false)
     const [avatar, setAvatar] = useState<string>()
@@ -17,6 +21,10 @@ export default function EditAccount() {
     useEffect(() => {
         setAccount({ ...user })
     }, [user])
+    useEffect(() => {
+        if (!address)
+            Router.push('/')
+    }, [address])
     const onFileChange = async (e: any) => {
         const file = e?.target?.files[0]
         try {
@@ -75,7 +83,7 @@ export default function EditAccount() {
             setUser({ ...account, nickName: (account.firstName || account.lastName ? `${account.firstName} ${account.lastName}` : `0x${account.id?.substring(2, 6)}...${account.id?.slice(-4)}`) })
         }).finally(() => setLoading(false))
     }
-    return (
+    return address ? (
         <div className={classNames(styles.container, loading && styles.loading)}>
             <div className="container md:w-96">
                 <form onSubmit={save}>
@@ -134,5 +142,5 @@ export default function EditAccount() {
                 </form>
             </div>
         </div>
-    );
+    ) : <DefaultErrorPage statusCode={404} />
 }

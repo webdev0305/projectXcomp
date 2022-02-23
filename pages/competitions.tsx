@@ -24,7 +24,7 @@ export default function Competitions() {
           {!dataLoading && competitions?.filter((item) => {
             return item.status === 1 && item.timeEnd != undefined && item.timeEnd > new Date()
           }).map((item, index) => (
-            <div className="flex-shrink mb-12 md:w-1/4 md:px-4" key={index}>
+            <div className="flex-shrink mb-12 md:w-1/3 md:px-4" key={index}>
               <CompetitionItem
                 href={`/competition/${item.id}`}
                 item={item}

@@ -1,7 +1,7 @@
 import Link from "next/link" // Dynamic routing
 import Image from "next/image" // Images
 import { eth } from "state/eth" // Global state
-import { useState } from "react" // State management
+import { useEffect, useState } from "react" // State management
 // import { useRouter } from "next/router" // Routing
 import cn from "classnames"
 import styles from "styles/components/Header.module.scss" // Component styles
@@ -9,6 +9,7 @@ import { token } from "state/competition"
 import { OuterClick } from "react-outer-click"
 import { formatEther } from "ethers/lib/utils"
 import { formatFixed } from "@ethersproject/bignumber"
+import Router from "next/router"
 
 export default function Header() {
   // Global state
@@ -19,8 +20,8 @@ export default function Header() {
   const [pathname, setPathname] = useState('')
   const [showInfo, setShowInfo] = useState(false)
   if (typeof window !== "undefined") {
-    if (pathname != window.location.pathname)
-      setPathname(window.location.pathname)
+    // if (pathname != window.location.pathname)
+    //   setPathname(window.location.pathname)
     const changeBackground = () => {
       if (window.scrollY >= 80) {
         setNavbar(true)
@@ -33,6 +34,9 @@ export default function Header() {
   const toggleInfo = () => {
     setShowInfo(!showInfo)
   }
+  useEffect(() => {
+    setPathname(Router.asPath)
+  })
   return (
     <header className={navbar ? "fixed w-full z-20 opened" : "fixed w-full z-10"}>
       <div className="flex flex-wrap items-center justify-between 2xl:container px-4 py-3 mx-auto md:flex-no-wrap md:px-6">
@@ -65,10 +69,14 @@ export default function Header() {
             { title: "WINNERS", route: "/winners" },
             { title: "JOIN XCLUB", route: "/join" },
 
-          ].map(({ route, title }) => (
+          ].filter(({ route }) => {
+            if (route === '/join')
+              return address ? true : false
+            return true
+          }).map(({ route, title }) => (
             <li className="mt-3 md:mt-0 md:mr-6 font-bold" key={title}>
               <Link href={route} passHref>
-                <a className={`uppercase hover:text-red-600 ${pathname == route ? "text-red-600" : ""}`}>{title}</a>
+                <a className={cn("uppercase hover:text-red-600", pathname == route && styles.active)}>{title}</a>
               </Link>
             </li>
           ))}
@@ -90,7 +98,7 @@ export default function Header() {
                 <div className={cn(styles.info, "flex flex-col gap-2")}>
                   <div className={styles.avatar}>
                     <div><img src={user.avatar} alt="Avatar" /></div>
-                    <Link href="/account" passHref><button title="Edit Account" /></Link>
+                    <Link href="/account" passHref><button title="Edit Account" onClick={toggleInfo} /></Link>
                   </div>
                   <button type="button" className={styles.address} title="Copy Wallet Address">
                     0x{address.substring(2, 12)}...{address.slice(-10)}

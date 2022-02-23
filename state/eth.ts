@@ -12,11 +12,7 @@ import type {
 import type { Web3Provider } from "@ethersproject/providers";
 
 // Network
-const networkId = process.env.NEXT_PUBLIC_RPC_NETWORK
-  ? // Use network
-    Number(process.env.NEXT_PUBLIC_RPC_NETWORK)
-  : // Else, default to Rinkeby
-    43113;
+const networkId = Number(process.env.NEXT_PUBLIC_RPC_NETWORK ?? 43113)
 // Onboard.js wallet providers
 const wallets: (WalletModule | WalletInitOptions)[] = [
   { walletName: "metamask" },

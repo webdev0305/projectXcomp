@@ -59,14 +59,11 @@ export interface IUser {
 }
 
 function useToken() {
-  // Collect global ETH state
-  const {
-    address,
-    provider,
-  }: {
-    address: string | null
-    provider: ethers.providers.Web3Provider | null
-  } = eth.useContainer()
+  const defaultProvider = new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_URL)
+  let contractCompetition: ethers.Contract
+  let contractToken: ethers.Contract
+
+  const { address,provider } = eth.useContainer()
 
   const [user, setUser] = useState<IUser>({})
   const [dataLoading, setDataLoading] = useState<boolean>(true) // Data retrieval status
@@ -79,21 +76,23 @@ function useToken() {
    * Get contract
    * @returns {ethers.Contract} signer-initialized contract
    */
-  const getContract = (): ethers.Contract => {
-    return new ethers.Contract(
-      // Contract address
-      process.env.NEXT_PUBLIC_CONTRACT_ADDRESS ?? "0x8730B8bCd563d5a77e431C71a74688a4cB924618",
+  const getContract = () => {
+    contractCompetition = new ethers.Contract(
+      String(process.env.NEXT_PUBLIC_CONTRACT_ADDRESS),
       CompetitionABI,
-      // Get signer from authed provider
-      provider?.getSigner()
+      address?provider?.getSigner():defaultProvider
     )
+    contractCompetition.token().then((tokenAddress:string)=>{
+      contractToken = getToken(tokenAddress)
+      getBalance()
+    })
   }
 
   const getToken = (address: string): ethers.Contract => {
     return new ethers.Contract(
       address,
       ERC20ABI,
-      provider?.getSigner()
+      address?provider?.getSigner():defaultProvider
     )
   }
 
@@ -102,11 +101,9 @@ function useToken() {
     if (!address) {
       throw new Error("Not Authenticated")
     }
-
-    // Collect competition contract
-    const contract: ethers.Contract = getContract()
-    // Try to creat new competition and refresh sync status
-    const tx = await contract.create(countTotal, priceForGuest, priceForMember, maxPerPerson, path)
+    if(!contractCompetition)
+      getContract()
+    const tx = await contractCompetition.create(countTotal, priceForGuest, priceForMember, maxPerPerson, path)
     await tx.wait()
     getBalance()
     // syncStatus()
@@ -116,11 +113,9 @@ function useToken() {
     if (!address) {
       throw new Error("Not Authenticated")
     }
-
-    // Collect competition contract
-    const contract: ethers.Contract = getContract()
-    // Try to update competition and refresh sync status
-    const tx = await contract.update(id, countTotal, priceForGuest, priceForMember, maxPerPerson, path)
+    if(!contractCompetition)
+      getContract()
+    const tx = await contractCompetition.update(id, countTotal, priceForGuest, priceForMember, maxPerPerson, path)
     await tx.wait()
     getBalance()
     // syncStatus()
@@ -130,8 +125,9 @@ function useToken() {
     if (!address) {
       throw new Error("Not Authenticated")
     }
-    const contract: ethers.Contract = getContract()
-    const tx = await contract.start(comp.id, endTime)
+    if(!contractCompetition)
+      getContract()
+    const tx = await contractCompetition.start(comp.id, endTime)
     await tx.wait()
     comp.timeStart = new Date()
     comp.timeEnd = new Date(endTime*1000)
@@ -143,28 +139,28 @@ function useToken() {
     if (!address) {
       throw new Error("Not Authenticated")
     }
-    const contract: ethers.Contract = getContract()
-    const tx = await contract.finish(comp.id)
+    if(!contractCompetition)
+      getContract()
+    const tx = await contractCompetition.finish(comp.id)
     await tx.wait()
     getBalance()
-    return await contract.competitions((comp.id??1)-1)
+    return await contractCompetition.competitions((comp.id??1)-1)
   }
 
   const buyTicket = async (comp: ICompetition, count: number): Promise<void> => {
     if (!address) {
       throw new Error("Not Authenticated")
     }
-    const contract: ethers.Contract = getContract()
-    const tokenAddress = await contract.token()
-    const token: ethers.Contract = getToken(tokenAddress)
+    if(!contractCompetition)
+      await getContract()
     if(!user.approved) {
-      const tx = await token.approve(contract.address, UINT256_MAX)
+      const tx = await contractToken?.approve(contractCompetition.address, UINT256_MAX)
       await tx.wait()
       setUser(user=>{
         return {...user, approved:true}
       })
     }
-    const tx = await contract.buy(comp.id, count)
+    const tx = await contractCompetition.buy(comp.id, count)
     await tx.wait()
     comp.countSold = (comp.countSold??0) + count
     getBalance()
@@ -174,8 +170,9 @@ function useToken() {
     if (!address) {
       throw new Error("Not Authenticated")
     }
-    const contract: ethers.Contract = getContract()
-    const tx = await contract.payFeePerMonth(months)
+    if(!contractCompetition)
+      getContract()
+    const tx = await contractCompetition.payFeePerMonth(months)
     await tx.wait()
     getBalance()
     getMember()
@@ -185,8 +182,9 @@ function useToken() {
     if (!address) {
       throw new Error("Not Authenticated")
     }
-    const contract: ethers.Contract = getContract()
-    const tx = await contract.payFeePerYear(years)
+    if(!contractCompetition)
+      getContract()
+    const tx = await contractCompetition.payFeePerYear(years)
     await tx.wait()
     getBalance()
     getMember()
@@ -196,18 +194,14 @@ function useToken() {
     if (!address) {
       throw new Error("Not Authenticated")
     }
-    const contract: ethers.Contract = getContract()
-    const tokenAddress = await contract.token()
-    const token: ethers.Contract = getToken(tokenAddress)
-    const approved:BigNumber = await token.allowance(address, contract.address)
-    if(approved.eq(0))
+    const approved:BigNumber = await contractToken?.allowance(address, contractCompetition.address)
+    if(approved?.eq(0))
       return false
     return true
   }
 
   const getOwnerAddress = async (): Promise<string> => {
-    const competition: ethers.Contract = getContract()
-    return await competition.owner()
+    return await contractCompetition.owner()
   }
 
   /**
@@ -215,14 +209,12 @@ function useToken() {
    * @param {number} id competition id
    * @returns {Promise<object>} competition 
    */
-  const getCompetition = async (): Promise<object> => {
-    const competition: ethers.Contract = getContract()
-    return await competition.getCompetitions()
+  const getCompetitions = async (): Promise<object> => {
+    return await contractCompetition.getCompetitions()
   }
 
   const getMember = async (account?:string) => {
-    const competition: ethers.Contract = getContract()
-    competition.members(account??address).then((member:any)=>{
+    contractCompetition.members(account??address).then((member:any)=>{
       const timeUntil = new Date(member.timeUntil*1000)
       const isMember = timeUntil>new Date()
       if(isMember)
@@ -230,7 +222,7 @@ function useToken() {
           return {
             ...user,
             isMember, 
-            balance:member.balance, 
+            totalPaid:member.balance, 
             creditPlus:member.creditPlus,
             creditMinus:member.creditMinus,
             joinTime:new Date(member.timeStart*1000),
@@ -255,37 +247,34 @@ function useToken() {
   }
 
   const getBalance = async () => {
+    if(!address)
+      return
     provider?.getBalance(String(address)).then(balance=>setUser(user=>{
       return {...user, balanceETH:balance}
     }))
-    const contract: ethers.Contract = getContract()
-    const tokenAddress = await contract.token()
-    const token: ethers.Contract = getToken(tokenAddress)
-    token.balanceOf(address).then((balance:any)=>setUser(user=>{
-      return {...user, balanceToken:BigNumber.from(balance)}
-    }))
-    contract.creditBalance(address).then((balance:any)=>setUser(user=>{
+    contractToken?.balanceOf(address).then((balance:any)=>{
+      setUser(user=>{
+        return {...user, balanceToken:BigNumber.from(balance)}
+      })
+    })
+    contractCompetition.creditBalance(address).then((balance:any)=>setUser(user=>{
       return {...user, creditBalance:balance}
     }))
   }
 
   const getConfig = async () => {
-    const contract: ethers.Contract = getContract()
-    contract.feePerMonth().then((fee:any)=>setFeePerMonth(fee))
-    contract.feePerYear().then((fee:any)=>setFeePerYear(fee))
-    contract.creditsPerMonth().then((credits:any)=>setCreditsPerMonth(credits))
+    contractCompetition.feePerMonth().then((fee:any)=>setFeePerMonth(fee))
+    contractCompetition.feePerYear().then((fee:any)=>setFeePerYear(fee))
+    contractCompetition.creditsPerMonth().then((credits:any)=>setCreditsPerMonth(credits))
   }
 
   /**
    * After authentication, update number of tokens to claim + claim status
    */
   const syncStatus = async (): Promise<void> => {
-    // Toggle loading
     setDataLoading(true)
     
-    // Force authentication
-    // if (address) {
-    const rows = await getCompetition()
+    const rows = await getCompetitions()
     const res = await axios.get('/api/competition')
     competitions.splice(0)
     for(const row of Object.values(rows)) {
@@ -324,39 +313,50 @@ function useToken() {
         return c1.timeUpdated > c2.timeUpdated? -1: 1
       return 0
     })
-    // }
-    // Toggle loading
     setDataLoading(false)
   }
 
   // On load:
   useEffect(() => {
-    if(address) {
-      axios.get(`/api/account/${address}`).then(res=>{
+    getContract()
+    if(provider) {
+      if(address) {
+        // contractCompetition.connect(provider.getSigner())
+        // contractToken?.connect(provider.getSigner())
+        // contractToken.connect(provider.getSigner())
         setUser(user=>{
           return {
             ...user, 
-            id:address,
-            firstName:res.data.first_name,
-            lastName:res.data.last_name,
-            nickName:res.data?`${res.data.first_name} ${res.data.last_name}`:`0x${address.substring(2, 6)}...${address.slice(-4)}`,
-            email:res.data.email,
-            avatar: res.data?.avatar_url?.startsWith('https://')?res.data.avatar_url:'/avatar.png'
+            id: address,
+            nickName: `0x${address?.substring(2, 6)}...${address?.slice(-4)}`
           }
         })
-      })      
-      getBalance()
-      getAllowance().then(approved=>setUser(user=>{
-        return {...user, approved}
-      }))
-      getOwnerAddress().then(owner=>setUser(user=>{
-        return {...user, isOwner: owner.toLowerCase()===address?.toLowerCase()}
-      }))
-      getMember(address)
-      getConfig()
+        axios.get(`/api/account/${address}`).then(res=>{
+          setUser(user=>{
+            return {
+              ...user, 
+              id:address,
+              firstName:res.data.first_name,
+              lastName:res.data.last_name,
+              nickName:res.data?`${res.data.first_name} ${res.data.last_name}`:`0x${address.substring(2, 6)}...${address.slice(-4)}`,
+              email:res.data.email,
+              avatar: res.data?.avatar_url?.startsWith('https://')?res.data.avatar_url:'/avatar.png'
+            }
+          })
+        })      
+        getBalance()
+        getAllowance().then(approved=>setUser(user=>{
+          return {...user, approved}
+        }))
+        getOwnerAddress().then(owner=>setUser(user=>{
+          return {...user, isOwner: owner.toLowerCase()===address?.toLowerCase()}
+        }))
+        getMember(address)
+        getConfig()
+      }
     }
     syncStatus()
-  }, [address])
+  }, [provider, address])
 
   return {
     dataLoading,

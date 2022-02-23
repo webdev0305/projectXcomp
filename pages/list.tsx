@@ -4,7 +4,8 @@ import { token, ICompetition } from "state/competition" // Global state: Tokens
 import DefaultErrorPage from 'next/error'
 import Link from "next/link"
 import CompetitionItem from "components/CompetitionItem"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import Router from "next/router"
 
 export default function ListCompetitionPage() {
   const {
@@ -20,6 +21,10 @@ export default function ListCompetitionPage() {
       return `/edit/${item.id}`
     return `/competition/${item.id}`
   }
+  useEffect(() => {
+    if (!user.isOwner)
+      Router.push('/')
+  }, [user])
   return user.isOwner ? (
     <div className={cn(admin.container, "container", dataLoading && admin.loading)}>
       <div className="flex mb-4 gap-2">
