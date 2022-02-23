@@ -62,6 +62,7 @@ function useToken() {
   const defaultProvider = new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_URL)
   let contractCompetition: ethers.Contract
   let contractToken: ethers.Contract
+  let tokenAddress: string
 
   const { address,provider } = eth.useContainer()
 
@@ -82,18 +83,17 @@ function useToken() {
       CompetitionABI,
       address?provider?.getSigner():defaultProvider
     )
-    contractCompetition.token().then((tokenAddress:string)=>{
-      contractToken = getToken(tokenAddress)
-      getBalance()
-    })
   }
 
-  const getToken = (address: string): ethers.Contract => {
-    return new ethers.Contract(
-      address,
+  const getToken = async () => {
+    if(!tokenAddress)
+      tokenAddress = await contractCompetition.token()
+    contractToken = new ethers.Contract(
+      tokenAddress,
       ERC20ABI,
       address?provider?.getSigner():defaultProvider
     )
+    getBalance()
   }
 
   const createNewCompetition = async (countTotal:number, priceForGuest:string, priceForMember:string, maxPerPerson:number, path:string): Promise<void> => {
@@ -152,8 +152,9 @@ function useToken() {
       throw new Error("Not Authenticated")
     }
     if(!contractCompetition)
-      await getContract()
+      getContract()
     if(!user.approved) {
+      await getToken()
       const tx = await contractToken?.approve(contractCompetition.address, UINT256_MAX)
       await tx.wait()
       setUser(user=>{
@@ -172,6 +173,14 @@ function useToken() {
     }
     if(!contractCompetition)
       getContract()
+    if(!user.approved) {
+      await getToken()
+      const tx = await contractToken?.approve(contractCompetition.address, UINT256_MAX)
+      await tx.wait()
+      setUser(user=>{
+        return {...user, approved:true}
+      })
+    }
     const tx = await contractCompetition.payFeePerMonth(months)
     await tx.wait()
     getBalance()
@@ -184,6 +193,14 @@ function useToken() {
     }
     if(!contractCompetition)
       getContract()
+    if(!user.approved) {
+      await getToken()
+      const tx = await contractToken?.approve(contractCompetition.address, UINT256_MAX)
+      await tx.wait()
+      setUser(user=>{
+        return {...user, approved:true}
+      })
+    }
     const tx = await contractCompetition.payFeePerYear(years)
     await tx.wait()
     getBalance()
@@ -194,8 +211,9 @@ function useToken() {
     if (!address) {
       throw new Error("Not Authenticated")
     }
-    const approved:BigNumber = await contractToken?.allowance(address, contractCompetition.address)
-    if(approved?.eq(0))
+    await getToken()
+    const approved:BigNumber = await contractToken.allowance(address, contractCompetition.address)
+    if(approved.eq(0))
       return false
     return true
   }
@@ -223,8 +241,8 @@ function useToken() {
             ...user,
             isMember, 
             totalPaid:member.balance, 
-            creditPlus:member.creditPlus,
-            creditMinus:member.creditMinus,
+            creditPlus:member.creditsPlus,
+            creditMinus:member.creditsMinus,
             joinTime:new Date(member.timeStart*1000),
             untilTime:timeUntil,
             paidTime:new Date(member.timeLastPaid*1000)
@@ -296,6 +314,7 @@ function useToken() {
         timeStart: row.timeEnd.gt(0)?new Date(row.timeStart.toNumber()*1000):undefined,
         countTotal: row.countTotal,
         countSold: row.countSold,
+        maxPerPerson: row.maxPerPerson,
         winner: row.winner?{
           id: row.winner,
           firstName: rowData.winner_first_name,
@@ -319,6 +338,7 @@ function useToken() {
   // On load:
   useEffect(() => {
     getContract()
+    getToken()
     if(provider) {
       if(address) {
         // contractCompetition.connect(provider.getSigner())

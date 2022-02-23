@@ -40,9 +40,11 @@ export default function Competition() {
     try {
       await buyTicket(competition, tickets)
       toast.success(`Bought ${tickets} tickets successfully!`)
-    } catch (ex) {
-      console.log(ex)
-      toast.error('Buy Error!')
+    } catch (ex: any) {
+      if (typeof ex == 'object')
+        toast.error(`Error! ${(ex.data?.message ?? null) ? ex.data.message.replace('execution reverted: ', '') : ex.message}`)
+      else
+        toast.error(`Error! ${ex}`)
     }
     setBuying(false)
   }

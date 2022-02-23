@@ -8,6 +8,7 @@ import Link from 'next/link'
 import { eth } from 'state/eth'
 import DefaultErrorPage from 'next/error'
 import Router from 'next/router';
+import { toast } from 'react-toastify';
 
 export default function Join() {
     const { address } = eth.useContainer()
@@ -30,13 +31,22 @@ export default function Join() {
         }).format(date)
     }
     const pay = async (mode: string) => {
-        setLoading(true)
-        if (mode == 'month') {
-            await payForMonth(months)
-        } else {
-            await payForYear(years)
+        try {
+            setLoading(true)
+            if (mode == 'month') {
+                await payForMonth(months)
+            } else {
+                await payForYear(years)
+            }
+            toast.success('Paid membership successfully!')
+        } catch (ex: any) {
+            if (typeof ex == 'object')
+                toast.error(`Error! ${(ex.data?.message ?? null) ? ex.data.message.replace('execution reverted: ', '') : ex.message}`)
+            else
+                toast.error(`Error! ${ex}`)
+        } finally {
+            setLoading(false)
         }
-        setLoading(false)
     }
     useEffect(() => {
         if (!address)

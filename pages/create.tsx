@@ -185,7 +185,6 @@ export default function EditCompetitionPage() {
                 }
             })
         } catch (ex: any) {
-            console.log(ex)
             if (typeof ex == 'object')
                 toast.error(`Error! ${(ex.data?.message ?? null) ? ex.data.message.replace('execution reverted: ', '') : ex.message}`)
             else
