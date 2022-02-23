@@ -1,5 +1,5 @@
 import classNames from "classnames"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import styles from "styles/components/Clock.module.scss"
 
 interface Prop extends React.HTMLAttributes<HTMLDivElement> {
@@ -34,16 +34,31 @@ export default function Clock({ className, type, endTime, drawDate, onDone }: Pr
     }
     ac.abort()
   }
-  const timer = setInterval(() => {
+  useEffect(() => {
     if (endTime !== undefined) {
       const secs = new Date(endTime).getTime() / 1000 - new Date().getTime() / 1000
-      secondsToHms(secs)
-      if (secs === 0) {
-        clearInterval(timer)
-        if (onDone) onDone()
+      if (secs > 0) {
+        const timer = setInterval(() => {
+          const secs = new Date(endTime).getTime() / 1000 - new Date().getTime() / 1000
+          secondsToHms(secs)
+          if (secs === 0) {
+            clearInterval(timer)
+            if (onDone) onDone()
+          }
+        }, 1000)
       }
     }
-  }, 1000)
+  }, [endTime])
+  // const [seconds, setSeconds] = useState(new Date(endTime ?? 0).getTime() / 1000 - new Date().getTime() / 1000)
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     const secs = new Date(endTime ?? 0).getTime() / 1000 - new Date().getTime() / 1000
+  //     if (secs > 0) {
+  //       secondsToHms(secs)
+  //       setSeconds(secs)
+  //     }
+  //   }, 1000)
+  // }, [seconds])
   if (type == "white")
     return (
       <div className={classNames(styles.clock1, className)}>

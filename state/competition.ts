@@ -1,4 +1,3 @@
-import config from "config" // Airdrop config
 import { eth } from "state/eth" // ETH state provider
 import { ethers } from "ethers" // Ethers
 import { formatFixed } from "@ethersproject/bignumber"
@@ -6,7 +5,6 @@ import { useEffect, useState } from "react" // React
 import { createContainer } from "unstated-next" // State management
 import { BigNumber } from "ethers"
 import axios from 'axios'
-import { getJsonWalletAddress } from "ethers/lib/utils"
 
 const CompetitionABI = require("abi/CompetitionAbi.json")
 const ERC20ABI = require("abi/ERC20Abi.json")
@@ -69,6 +67,7 @@ function useToken() {
   const [user, setUser] = useState<IUser>({})
   const [dataLoading, setDataLoading] = useState<boolean>(true) // Data retrieval status
   const [competitions, setCompetitions] = useState<ICompetition[]>([])
+  const [lastIndex, setLastIndex] = useState(0)
   const [feePerMonth, setFeePerMonth] = useState<BigNumber>()
   const [feePerYear, setFeePerYear] = useState<BigNumber>()
   const [creditsPerMonth, setCreditsPerMonth] = useState<BigNumber>()
@@ -96,26 +95,26 @@ function useToken() {
     getBalance()
   }
 
-  const createNewCompetition = async (countTotal:number, priceForGuest:string, priceForMember:string, maxPerPerson:number, path:string): Promise<void> => {
+  const createNewCompetition = async (countTotal:number, priceForGuest:string, priceForMember:string, maxPerPerson:number): Promise<void> => {
     // If not authenticated throw
     if (!address) {
       throw new Error("Not Authenticated")
     }
     if(!contractCompetition)
       getContract()
-    const tx = await contractCompetition.create(countTotal, priceForGuest, priceForMember, maxPerPerson, path)
+    const tx = await contractCompetition.create(countTotal, priceForGuest, priceForMember, maxPerPerson)
     await tx.wait()
+    setLastIndex(lastIndex+1)
     getBalance()
-    // syncStatus()
   }
 
-  const updateCompetition = async (id:number, countTotal:number, priceForGuest:string, priceForMember:string, maxPerPerson:number, path:string): Promise<void> => {
+  const updateCompetition = async (id:number, countTotal:number, priceForGuest:string, priceForMember:string, maxPerPerson:number): Promise<void> => {
     if (!address) {
       throw new Error("Not Authenticated")
     }
     if(!contractCompetition)
       getContract()
-    const tx = await contractCompetition.update(id, countTotal, priceForGuest, priceForMember, maxPerPerson, path)
+    const tx = await contractCompetition.update(id, countTotal, priceForGuest, priceForMember, maxPerPerson)
     await tx.wait()
     getBalance()
     // syncStatus()
@@ -135,7 +134,7 @@ function useToken() {
     getBalance()
   }
 
-  const finishCompetition = async (comp: ICompetition): Promise<ICompetition> => {
+  const finishCompetition = async (comp: ICompetition): Promise<any> => {
     if (!address) {
       throw new Error("Not Authenticated")
     }
@@ -147,7 +146,7 @@ function useToken() {
     return await contractCompetition.competitions((comp.id??1)-1)
   }
 
-  const buyTicket = async (comp: ICompetition, count: number): Promise<void> => {
+  const buyTicket = async (comp: ICompetition, count: number): Promise<ICompetition> => {
     if (!address) {
       throw new Error("Not Authenticated")
     }
@@ -163,8 +162,8 @@ function useToken() {
     }
     const tx = await contractCompetition.buy(comp.id, count)
     await tx.wait()
-    comp.countSold = (comp.countSold??0) + count
     getBalance()
+    return await contractCompetition.competitions((comp.id??1)-1)
   }
 
   const payForMonth = async (months:number): Promise<void> => {
@@ -222,12 +221,16 @@ function useToken() {
     return await contractCompetition.owner()
   }
 
+  const isSponser = async (account:string): Promise<boolean> => {
+    return await contractCompetition.sponsers(account)
+  }
+
   /**
    * Collects competitions for id
    * @param {number} id competition id
    * @returns {Promise<object>} competition 
    */
-  const getCompetitions = async (): Promise<object> => {
+  const getCompetitions = async (): Promise<any[]> => {
     return await contractCompetition.getCompetitions()
   }
 
@@ -275,7 +278,7 @@ function useToken() {
         return {...user, balanceToken:BigNumber.from(balance)}
       })
     })
-    contractCompetition.creditBalance(address).then((balance:any)=>setUser(user=>{
+    if(user.isMember) contractCompetition.creditBalance(address).then((balance:any)=>setUser(user=>{
       return {...user, creditBalance:balance}
     }))
   }
@@ -295,16 +298,17 @@ function useToken() {
     const rows = await getCompetitions()
     const res = await axios.get('/api/competition')
     competitions.splice(0)
-    for(const row of Object.values(rows)) {
+    for(const row of rows) {
       const id = row.id.toNumber()
-      const rowData = res.data.data[id]??{}
+      if(!res.data.data[id]) continue
+      const rowData = res.data.data[id]
       competitions.push({
         id: id,
         title: rowData.title,
         description: rowData.description,
         logoImage: rowData.logo_url,
         winnerImage: rowData.winner_url,
-        images: JSON.parse(rowData.images),
+        images: rowData.images?JSON.parse(rowData.images):[],
         forGuest: row.priceForGuest.gt(-1),
         forMember: row.priceForMember.gt(-1),
         priceForGuest: row.priceForGuest.gt(-1)?Number(formatFixed(row.priceForGuest,18)):0,
@@ -332,6 +336,7 @@ function useToken() {
         return c1.timeUpdated > c2.timeUpdated? -1: 1
       return 0
     })
+    setLastIndex(rows.length)
     setDataLoading(false)
   }
 
@@ -368,8 +373,8 @@ function useToken() {
         getAllowance().then(approved=>setUser(user=>{
           return {...user, approved}
         }))
-        getOwnerAddress().then(owner=>setUser(user=>{
-          return {...user, isOwner: owner.toLowerCase()===address?.toLowerCase()}
+        isSponser(address).then((ret:boolean)=>setUser(user=>{
+          return {...user, isOwner: ret}
         }))
         getMember(address)
         getConfig()
@@ -385,6 +390,7 @@ function useToken() {
     feePerMonth,
     feePerYear,
     creditsPerMonth,
+    lastIndex,
     createNewCompetition,
     updateCompetition,
     startCompetition,

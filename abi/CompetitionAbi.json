@@ -64,11 +64,6 @@
 				"internalType": "uint32",
 				"name": "maxPerPerson",
 				"type": "uint32"
-			},
-			{
-				"internalType": "string",
-				"name": "path",
-				"type": "string"
 			}
 		],
 		"name": "create",
@@ -258,6 +253,24 @@
 		"inputs": [
 			{
 				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			},
+			{
+				"internalType": "bool",
+				"name": "active",
+				"type": "bool"
+			}
+		],
+		"name": "setSponser",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
 				"name": "_token",
 				"type": "address"
 			}
@@ -316,11 +329,6 @@
 				"internalType": "uint32",
 				"name": "maxPerPerson",
 				"type": "uint32"
-			},
-			{
-				"internalType": "string",
-				"name": "path",
-				"type": "string"
 			}
 		],
 		"name": "update",
@@ -390,11 +398,6 @@
 				"internalType": "uint256",
 				"name": "timeEnd",
 				"type": "uint256"
-			},
-			{
-				"internalType": "string",
-				"name": "path",
-				"type": "string"
 			},
 			{
 				"internalType": "address",
@@ -554,11 +557,6 @@
 						"type": "uint256"
 					},
 					{
-						"internalType": "string",
-						"name": "path",
-						"type": "string"
-					},
-					{
 						"internalType": "address",
 						"name": "winner",
 						"type": "address"
@@ -648,6 +646,25 @@
 				"internalType": "address",
 				"name": "",
 				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "sponsers",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
 			}
 		],
 		"stateMutability": "view",

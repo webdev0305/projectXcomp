@@ -22,7 +22,7 @@ export default function Competitions() {
       <div className="container mt-10">
         <div className="flex flex-wrap">
           {!dataLoading && competitions?.filter((item) => {
-            return item.status === 1 && item.timeEnd != undefined && item.timeEnd > new Date()
+            return item.status === 1 /*&& item.timeEnd != undefined && item.timeEnd > new Date()*/
           }).map((item) => (
             <div className="flex-shrink mb-12 md:w-1/3 md:px-4" key={item.id}>
               <CompetitionItem

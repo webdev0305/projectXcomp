@@ -21,11 +21,12 @@ export default function ListCompetitionPage() {
       return `/edit/${item.id}`
     return `/competition/${item.id}`
   }
-  useEffect(() => {
-    if (!user.isOwner)
-      Router.push('/')
-  }, [user])
-  return user.isOwner ? (
+  // useEffect(() => {
+  //   console.log(user)
+  //   if (!user || !user.isOwner)
+  //     Router.push('/')
+  // }, [user])
+  return (
     <div className={cn(admin.container, "container", dataLoading && admin.loading)}>
       <div className="flex mb-4 gap-2">
         <select className="border-2 rounded-md p-2" value={filter.status} onChange={(e) => setFilter({ ...filter, status: e.currentTarget.value })}>
@@ -63,5 +64,5 @@ export default function ListCompetitionPage() {
         ))}
       </div>
     </div>
-  ) : <DefaultErrorPage statusCode={404} />
+  )
 }

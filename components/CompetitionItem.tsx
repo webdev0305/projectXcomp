@@ -4,7 +4,7 @@ import Progress from "components/Progress"
 import Link, { LinkProps } from "next/link"
 import { ICompetition, token } from "state/competition";
 import classNames from "classnames";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
 
@@ -15,11 +15,7 @@ interface Prop extends LinkProps {
 }
 
 export default function CompetitionItem({ href, className, item, showStatus }: Prop) {
-    const {
-        startCompetition, finishCompetition
-    }: {
-        startCompetition: Function, finishCompetition: Function
-    } = token.useContainer()
+    const { user, startCompetition, finishCompetition } = token.useContainer()
     const [loading, setLoading] = useState(false)
     const [timeout, setTimedout] = useState(false)
     const [showPublish, setShowPublish] = useState(false)
@@ -102,20 +98,26 @@ export default function CompetitionItem({ href, className, item, showStatus }: P
     const draw = async () => {
         setLoading(true)
         try {
-            const itemRet = await finishCompetition(item)
-            const res = await axios.get(`/api/account/${itemRet.winner}`)
+            const comp = await finishCompetition(item)
+            const res = await axios.get(`/api/account/${comp.winner}`)
             item.winner = {
-                id: itemRet.winner,
-                firstName: res.data[0].first_name,
-                lastName: res.data[0].last_name
+                id: comp.winner,
+                firstName: res.data.first_name,
+                lastName: res.data.last_name,
+                nickName: res.data ? `${res.data.first_name} ${res.data.last_name}` : `0x${comp.winner.substring(2, 6)}...${comp.winner.slice(-4)}`,
+                email: res.data.email,
+                avatar: res.data?.avatar_url?.startsWith('https://') ? res.data.avatar_url : '/avatar.png'
             }
-            item.status = itemRet.status
-            axios.post(`/api/competition/update`, { winner: itemRet.winner, id: item.id }).then(res => {
+            item.status = comp.status
+            axios.post(`/api/competition/update`, { winner: comp.winner, id: item.id }).then(res => {
                 if (res.data.success)
                     toast.success('Drawn successfully!')
             }).finally(() => setLoading(false))
-        } catch (e) {
-            toast.error('Draw error!')
+        } catch (ex: any) {
+            if (typeof ex == 'object')
+                toast.error(`Error! ${(ex.data?.message ?? null) ? ex.data.message.replace('execution reverted: ', '') : ex.message}`)
+            else
+                toast.error(`Error! ${ex}`)
             setLoading(false)
         }
     }
@@ -172,9 +174,12 @@ export default function CompetitionItem({ href, className, item, showStatus }: P
             />}
             {item.status == 1 && !timeout && <Clock className="mt-2" type="black" endTime={item.timeEnd} drawDate={formatDate(item.timeEnd, 'US')} />}
             {item.status == 1 && timeout &&
-                <div className="flex gap-1 mt-2">
-                    <button className="flex-grow py-2 font-bold text-white bg-orange-500 rounded-md hover:bg-orange-700" onClick={draw}>Draw</button>
-                </div>}
+                (user.isOwner ?
+                    <div className="flex gap-1 mt-2">
+                        <button className="flex-grow py-2 font-bold text-white bg-orange-500 rounded-md hover:bg-orange-700" onClick={draw}>Draw</button>
+                    </div> :
+                    <div className="flex-grow text-center py-2 font-bold text-white bg-red-300 rounded-md">Timed out</div>
+                )}
             {item.status == 0 &&
                 <div className="flex gap-1 mt-2">
                     <Link href={`/edit/${item.id}`} passHref>
@@ -196,7 +201,7 @@ export default function CompetitionItem({ href, className, item, showStatus }: P
                     </div>
                 </div>
             }
-            {item.status == 2 &&
+            {user.isOwner && item.status == 2 &&
                 <div className={classNames(styles.winner, "mt-2")}>
                     <label>Winner</label>
                     <span className="flex flex-col gap-2">

@@ -14,6 +14,7 @@ export default function EditCompetitionPage() {
     const router = useRouter()
     const { id } = router.query
     const {
+        lastIndex,
         dataLoading,
         competitions,
         createNewCompetition,
@@ -117,9 +118,10 @@ export default function EditCompetitionPage() {
             data.push({
                 path: 'logo', content: logoImage
             })
+        let i = 0
         if (images.length) for (const img of images) {
             data.push({
-                path: new Date().getTime(), content: img
+                path: new Date().getTime() + (++i), content: img
             })
         }
         if (data.length) {
@@ -145,8 +147,7 @@ export default function EditCompetitionPage() {
                     competition.countTotal ?? 0,
                     competition.forGuest ? new BigNumber(competition.priceForGuest ?? 0).shiftedBy(18).toString() : '-1',
                     competition.forMember ? new BigNumber(competition.priceForMember ?? 0).shiftedBy(18).toString() : '-1',
-                    competition.maxPerPerson ?? 0,
-                    ''
+                    competition.maxPerPerson ?? 0
                 )
                 for (let i = 0; i < competitions.length; i++) {
                     if (competitions[i].id == competition.id) {
@@ -161,11 +162,10 @@ export default function EditCompetitionPage() {
                     competition.countTotal ?? 0,
                     competition.forGuest ? new BigNumber(competition.priceForGuest ?? 0).shiftedBy(18).toString() : '-1',
                     competition.forMember ? new BigNumber(competition.priceForMember ?? 0).shiftedBy(18).toString() : '-1',
-                    competition.maxPerPerson ?? 0,
-                    ''
+                    competition.maxPerPerson ?? 0
                 )
                 msg = 'Created successfully!'
-                competition.id = competitions.length
+                competition.id = lastIndex + 1
                 competition.status = 0
                 competitions.unshift(competition)
             }
@@ -218,7 +218,7 @@ export default function EditCompetitionPage() {
                         <label className='mt-2 font-bold md:w-1/4 md:flex md:justify-end pr-4'>Title</label>
                         <input
                             className="mb-4 border-2 rounded-xl p-2 w-full md:w-3/4"
-                            value={competition.title}
+                            value={competition.title ?? ''}
                             name="title"
                             onChange={handleChange}
                             required
@@ -247,7 +247,7 @@ export default function EditCompetitionPage() {
                                     className={cn(styles.inputPrice, "mb-4 border-2 rounded-xl p-2")}
                                     type="number"
                                     step="any"
-                                    value={competition.priceForGuest}
+                                    value={competition.priceForGuest ?? ''}
                                     name="priceForGuest"
                                     onChange={handleChange}
                                     disabled={!competition.forGuest}
@@ -263,7 +263,7 @@ export default function EditCompetitionPage() {
                                     className={cn(styles.inputPrice, "mb-4 border-2 rounded-xl p-2")}
                                     type="number"
                                     step="any"
-                                    value={competition.priceForMember}
+                                    value={competition.priceForMember ?? ''}
                                     name="priceForMember"
                                     onChange={handleChange}
                                     disabled={!competition.forMember}
@@ -277,7 +277,7 @@ export default function EditCompetitionPage() {
                         <input
                             type="number"
                             className="mb-4 border-2 rounded-xl p-2 w-full md:w-1/4"
-                            value={competition.countTotal}
+                            value={competition.countTotal ?? ''}
                             name="countTotal"
                             onChange={handleChange}
                             required
@@ -286,7 +286,7 @@ export default function EditCompetitionPage() {
                         <input
                             type="number"
                             className="mb-4 border-2 rounded-xl p-2 w-full md:w-1/4"
-                            value={competition.maxPerPerson}
+                            value={competition.maxPerPerson ?? ''}
                             name="maxPerPerson"
                             onChange={handleChange}
                             required

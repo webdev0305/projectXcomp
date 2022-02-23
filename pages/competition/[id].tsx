@@ -13,6 +13,7 @@ export default function Competition() {
   const [tickets, setTicket] = useState(1)
   const [buying, setBuying] = useState(false)
   const [items, setItems] = useState<any[]>([])
+  const [timeout, setTimedout] = useState(false)
   const router = useRouter()
   const { id } = router.query
   const {
@@ -38,7 +39,9 @@ export default function Competition() {
   const buy = async () => {
     setBuying(true)
     try {
-      await buyTicket(competition, tickets)
+      const item = await buyTicket(competition, tickets)
+      console.log(item)
+      competition.countSold = item.countSold
       toast.success(`Bought ${tickets} tickets successfully!`)
     } catch (ex: any) {
       if (typeof ex == 'object')
@@ -67,6 +70,12 @@ export default function Competition() {
     })
     setItems(items)
   }, [competition])
+  const timer = setInterval(() => {
+    if (!timeout && competition.timeEnd && competition.timeEnd <= new Date()) {
+      setTimedout(true)
+      clearInterval(timer)
+    }
+  }, 1000)
   return competition && (
     <div className={classNames(styles.competition, buying && styles.loading)}>
       <ImageGallery items={items} showThumbnails={false} showFullscreenButton={false} showPlayButton={false} showNav={false} autoPlay={true} />
@@ -101,7 +110,7 @@ export default function Competition() {
             <Clock className="mt-2" type="black" endTime={competition.timeEnd} drawDate={formatDate(competition.timeEnd)} />
           </div>
         </div>
-        <div className='flex flex-col items-center'>
+        {!timeout && <div className='flex flex-col items-center'>
           <div className={styles.input}>
             <label>Tickets</label>
             <span onClick={removeTicket}>-</span>
@@ -111,7 +120,7 @@ export default function Competition() {
               <button onClick={buy}>{buying ? (user.approved ? "Buying..." : "Approving...") : "Buy"}</button>
             </div>
           </div>
-        </div>
+        </div>}
       </div>
     </div>
   )
