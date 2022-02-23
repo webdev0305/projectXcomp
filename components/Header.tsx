@@ -97,7 +97,7 @@ export default function Header() {
               <OuterClick onOuterClick={() => setShowInfo(false)}>
                 <div className={cn(styles.info, "flex flex-col gap-2")}>
                   <div className={styles.avatar}>
-                    <div><img src={user.avatar} alt="Avatar" /></div>
+                    <div><Image src={user.avatar ?? '/avatar.png'} alt="Avatar" width={100} height={100} /></div>
                     <Link href="/account" passHref><button title="Edit Account" onClick={toggleInfo} /></Link>
                   </div>
                   <button type="button" className={styles.address} title="Copy Wallet Address">
