@@ -128,7 +128,7 @@ export default function EditCompetitionPage() {
             const res = await uploadData(data)
             if (res.data && res.data.length == data.length) {
                 if (logoImage) {
-                    competition.logoImage = res.data.pop().path
+                    competition.logoImage = res.data.shift().path
                     setLogoImage(undefined)
                 }
                 const imgs = competition.images ?? []
