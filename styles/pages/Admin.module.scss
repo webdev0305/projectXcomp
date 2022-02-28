@@ -1,5 +1,7 @@
 .container {
+    background-color: #eee;
     margin-top: 100px;
+    padding-top: 30px;
     margin-bottom: 30px;
     min-height: 50vh;
     &.loading, &.submitting {

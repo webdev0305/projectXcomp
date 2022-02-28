@@ -36,7 +36,7 @@ server.prepare().then(() => {
 		})
 		httpsServer.listen(443, (err) => {
 			if (err) throw err
-			console.log(`> Ready on https://localhost:${port}`)
+			console.log(`> Ready on https://localhost`)
 		})
 	} else {
 		httpsServer.listen(port, (err) => {

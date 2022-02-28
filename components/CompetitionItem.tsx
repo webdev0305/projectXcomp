@@ -1,4 +1,4 @@
-import Clock from "components/Clock"
+import Counter from "components/Counter"
 import styles from "styles/components/CompetitionItems.module.scss"; // Page styles
 import Progress from "components/Progress"
 import Link, { LinkProps } from "next/link"
@@ -6,7 +6,9 @@ import { ICompetition, token } from "state/competition";
 import classNames from "classnames";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
-import axios from "axios";
+import axios from "axios"
+import { CircularProgressbarWithChildren } from 'react-circular-progressbar'
+import 'react-circular-progressbar/dist/styles.css'
 
 interface Prop extends LinkProps {
     showStatus: boolean
@@ -142,37 +144,50 @@ export default function CompetitionItem({ href, className, item, showStatus }: P
                     {item.title}
                 </h2>
             </Link>
-            <div className={classNames(styles.price, "flex flex-wrap justify-between mb-2")}>
-                {item.forGuest &&
-                    <div>
-                        <p className="font-bold">Ticket Price</p>
-                        <h5>{item.priceForGuest}</h5>
-                    </div>
-                }
-                {item.forMember &&
-                    <div>
-                        <p className="font-bold">Member Price</p>
-                        <h5><span style={{ color: "red" }}>{item.priceForMember}</span></h5>
-                    </div>
-                }
-            </div>
-            <div className={item.countTotal == item.countSold ? styles.soldout : ""}>
+            <div className={classNames(item.countTotal == item.countSold && styles.soldout, "mt-2")}>
                 {item.status === 2 && item.winnerImage &&
                     <Link href={href} passHref>
-                        <img src={item.winnerImage} alt={item.title} width="100%" height="auto" />
+                        <img src={item.winnerImage} alt={item.title} width="100%" height="auto" className="rounded-md" />
                     </Link>}
                 {item.status !== 2 && item.logoImage &&
                     <Link href={href} passHref>
-                        <img src={item.logoImage} alt={item.title} width="100%" height="auto" />
+                        <img src={item.logoImage} alt={item.title} width="100%" height="auto" className="rounded-md" />
                     </Link>}
             </div>
-            {item.status == 1 && <Progress
-                className="mt-2"
-                maxAmount={item.countTotal ?? 0}
-                leftAmount={(item.countTotal ?? 0) - (item.countSold ?? 0)}
-                limitedAmount={item.maxPerPerson ?? 0}
-            />}
-            {item.status == 1 && !timeout && <Clock className="mt-2" type="black" endTime={item.timeEnd} drawDate={formatDate(item.timeEnd, 'US')} />}
+            <div className="flex flex-wrap justify-between my-2 gap-4">
+                <div className="flex-1">
+                    <table style={{ height: "100%" }}>
+                        <tbody>
+                            <tr>
+                                <td className="text-sm">Ticket Price</td>
+                                <td align="right" className="font-bold text-blue-700">{item.priceForGuest} $PXT</td>
+                            </tr>
+                            <tr>
+                                <td className="text-sm">Member Price</td>
+                                <td align="right" className="font-bold text-red-700">{item.priceForMember} $PXT</td>
+                            </tr>
+                            <tr>
+                                <td className="text-sm">Count of tickets</td>
+                                <td align="right" className="font-bold text-cyan-700">{item.countTotal}</td>
+                            </tr>
+                            <tr>
+                                <td className="text-sm">Tickets sold</td>
+                                <td align="right" className="font-bold text-red-700">{item.countSold}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div className="w-1/3">
+                    <CircularProgressbarWithChildren value={(item.countSold ?? 0) * 100 / (item.countTotal ?? 100)}>
+                        <div className="flex flex-col items-center">
+                            <span className="font-bold text-xl text-red-700">{item.countSold}</span>
+                            <small>of</small>
+                            <span className="font-bold text-xl text-cyan-700">{item.countTotal}</span>
+                        </div>
+                    </CircularProgressbarWithChildren>
+                </div>
+            </div>
+            {item.status == 1 && !timeout && <Counter className="mt-2" endTime={item.timeEnd ?? new Date()} drawDate={formatDate(item.timeEnd, 'US')} />}
             {item.status == 1 && timeout &&
                 (user.isOwner ?
                     <div className="flex gap-1 mt-2">

@@ -84,7 +84,7 @@ export default function EditAccount() {
         }).finally(() => setLoading(false))
     }
     return address ? (
-        <div className={classNames(styles.container, loading && styles.loading)}>
+        <div className={classNames(styles.container, loading && styles.loading, "bg-white")}>
             <div className="container md:w-96">
                 <form onSubmit={save}>
                     <input

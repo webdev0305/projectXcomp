@@ -20,8 +20,6 @@ export default function Header() {
   const [pathname, setPathname] = useState('')
   const [showInfo, setShowInfo] = useState(false)
   if (typeof window !== "undefined") {
-    // if (pathname != window.location.pathname)
-    //   setPathname(window.location.pathname)
     const changeBackground = () => {
       if (window.scrollY >= 80) {
         setNavbar(true)
@@ -39,9 +37,9 @@ export default function Header() {
   })
   return (
     <header className={navbar ? "fixed w-full z-20 opened" : "fixed w-full z-10"}>
-      <div className="flex flex-wrap items-center justify-between 2xl:container px-4 py-3 mx-auto md:flex-no-wrap md:px-6">
+      <div className="flex flex-wrap items-center justify-between 2xl:container mx-auto md:flex-no-wrap">
         <div className="flex items-center">
-          <Image src={navbar ? "/header-logo.png" : "/black-logo.png"} alt="logo" width={155} height={60} />
+          <Image className="logo" src="/header-logo.png" alt="logo" width={155} height={60} />
         </div>
         <button
           className={cn("flex items-center block px-3 py-2 text-white border rounded md:hidden", navbar ? "border-white" : "border-black")}
@@ -56,36 +54,31 @@ export default function Header() {
             <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" fill={navbar ? "white" : "black"} />
           </svg>
         </button>
-
         <ul
           className=
-          "md:flex flex-col md:flex-row md:items-center md:justify-center text-sm w-full md:w-auto hidden md:block"
+          "md:flex flex-col md:flex-row md:items-center md:justify-center w-full md:w-auto hidden md:block"
         >
           {[
             { title: "Home", route: "/" },
-            { title: "COMPETITIONS", route: "/competitions" },
-            { title: "HOW TO PLAY", route: "/howtoplay" },
+            { title: "Competitions", route: "/competitions" },
+            { title: "Winners", route: "/winners" },
+            // { title: "HOW TO PLAY", route: "/howtoplay" },
             { title: "ABOUT", route: "/about" },
-            { title: "WINNERS", route: "/winners" },
-            { title: "JOIN XCLUB", route: "/join" },
-
-          ].filter(({ route }) => {
-            if (route === '/join')
-              return address ? true : false
+            { title: "Admin", route: "/list", admin: true },
+            { title: "Membership", route: "/join", user: true },
+          ].filter(menu => {
+            if ((menu.user || menu.admin) && !address)
+              return false
+            else if (menu.admin && !user.isOwner)
+              return false
             return true
           }).map(({ route, title }) => (
-            <li className="mt-3 md:mt-0 md:mr-6 font-bold" key={title}>
+            <li className="mt-3 md:mt-0 md:mr-8 font-bold" key={title}>
               <Link href={route} passHref>
-                <a className={cn("uppercase hover:text-red-600", pathname == route && styles.active)}>{title}</a>
+                <a className={pathname == route ? 'active' : ''}>{title}</a>
               </Link>
             </li>
           ))}
-          {user.isOwner &&
-            <div className={styles.header__actions}>
-              <Link href="/list" passHref>
-                <button>Management</button>
-              </Link>
-            </div>}
           <div className={styles.header__actions}>
             {!address ?
               <button onClick={unlock}>Connect</button>
@@ -132,7 +125,6 @@ export default function Header() {
               </OuterClick>}
           </div>
         </ul>
-
       </div>
       <div className={cn("z-20 bg-black block md:hidden absolute top-0 left-0 w-full h-auto", mobileMenuIsOpen ? `translate-x-0` : `translate-x-full`)}
         style={{ transition: "transform 200ms linear" }}>

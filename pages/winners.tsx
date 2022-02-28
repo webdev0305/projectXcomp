@@ -17,13 +17,12 @@ export default function Winners() {
         }).format(date)
     }
     return (
-        <div style={{ paddingTop: "85px" }}>
-            <Hero heroImage={heroImage} isOverlay={true}>
+        <div>
+            <Hero>
                 <h1 className="text-white mt-0 mb-10 text-5xl font-black" style={{ fontSize: "calc(25px + 1.8vw)", lineHeight: "calc(25px + 1.8vw)" }}>
                     WINNERS
                 </h1>
             </Hero>
-
             <div className={styles.winners}>
                 <div className="container">
                     <div className="flex flex-wrap items-center relative">

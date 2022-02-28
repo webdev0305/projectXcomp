@@ -53,7 +53,7 @@ export default function Join() {
             Router.push('/')
     }, [address])
     return address ? (
-        <div className={classNames(styles.join, loading && styles.loading)}>
+        <div className={classNames(styles.join, loading && styles.loading, "bg-white")}>
             <div className="container">
                 <div className='flex flex-wrap'>
                     <div className={classNames(styles.account, 'flex flex-col flex-shrink w-full md:w-1/3 gap-2')}>
@@ -99,7 +99,7 @@ export default function Join() {
                             </strong>
                         </div>
                     </div>
-                    <div className='flex-shrink w-full md:w-2/3 text-center'>
+                    <div className='flex-shrink w-full md:w-2/3 text-center md:py-20'>
                         <h2 className='mt-4 md:mb-10'>Payment for Membership</h2>
                         <div className='flex flex-wrap flex-col md:flex-row justify-center'>
                             <div className='w-full md:w-2/5 pb-4 md:border-r-2 px-6 flex flex-col gap-4'>
