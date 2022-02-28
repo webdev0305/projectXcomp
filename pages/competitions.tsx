@@ -27,6 +27,7 @@ export default function Competitions() {
       if (cur.status != 1 || cur.timeEnd == undefined) return prev
       if (prev.timeEnd == undefined || prev?.timeEnd > cur?.timeEnd)
         return cur
+      return prev
     }, {})
     if (comp) setCompetition(comp)
   }, [competitions])
