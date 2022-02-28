@@ -41,11 +41,11 @@ export default function Competitions() {
       </Hero>
       <div id="competitions" />
       <div className="pt-10 bg-gray-300">
-        <div className="container flex flex-wrap">
+        <div className="container flex flex-wrap gap-2">
           {!dataLoading && competitions?.filter((item) => {
             return item.status === 1 /*&& item.timeEnd != undefined && item.timeEnd > new Date()*/
           }).map((item) => (
-            <div className="flex-shrink mb-12 py-4 md:w-1/3 md:px-4 bg-white rounded-md" key={item.id}>
+            <div className="flex-shrink mb-12 py-4 md:w-1/3 lg:w-1/4 md:px-4 bg-white rounded-md" key={item.id}>
               <CompetitionItem
                 href={`/competition/${item.id}`}
                 item={item}
