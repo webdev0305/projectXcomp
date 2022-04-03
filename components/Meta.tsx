@@ -1,5 +1,4 @@
 import Head from "next/head"; // HTML Head
-
 // Setup project details
 const url: string = process.env.NEXT_PUBLIC_URL ?? "https://token.com/";
 const tokenName: string = process.env.NEXT_PUBLIC_TOKEN_NAME ?? "Token Name";
@@ -20,6 +19,8 @@ export default function Meta() {
         href={`https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap`}
         rel="stylesheet"
       />
+
+      
 
       {/* Primary Meta */}
       <title>{tokenName}</title>

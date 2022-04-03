@@ -10,6 +10,8 @@ import { OuterClick } from "react-outer-click"
 import { formatEther } from "ethers/lib/utils"
 import { formatFixed } from "@ethersproject/bignumber"
 import Router from "next/router"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTwitter, faDiscord} from "@fortawesome/free-brands-svg-icons";
 
 export default function Header() {
   // Global state
@@ -36,10 +38,12 @@ export default function Header() {
     setPathname(Router.asPath)
   })
   return (
-    <header className={navbar ? "fixed w-full z-20 opened" : "fixed w-full z-10"}>
-      <div className="flex flex-wrap items-center justify-between 2xl:container mx-auto md:flex-no-wrap">
-        <div className="flex items-center">
-          <Image className="logo" src="/header-logo.png" alt="logo" width={155} height={60} />
+    <header className={navbar ? "fixed w-full z-20 opened fadeInDown animated" : "fixed w-full z-10 mt-5"}>
+      <div className="flex flex-wrap items-center justify-between container mx-auto md:flex-no-wrap">
+        <div className="flex items-center cursor-pointer">
+          <Link href='/' passHref>
+            <Image className="logo" src="/assets/images/logos/competitionx-logo-3-letters-onblack.png" width={266} height={100} alt="logo" />
+          </Link>
         </div>
         <button
           className={cn("flex items-center block px-3 py-2 text-white border rounded md:hidden", navbar ? "border-white" : "border-black")}
@@ -54,12 +58,9 @@ export default function Header() {
             <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" fill={navbar ? "white" : "black"} />
           </svg>
         </button>
-        <ul
-          className=
-          "md:flex flex-col md:flex-row md:items-center md:justify-center w-full md:w-auto hidden md:block"
-        >
+        <ul className="md:flex flex-col md:flex-row md:items-center md:justify-center w-full md:w-auto hidden md:block">
           {[
-            { title: "Home", route: "/" },
+            // { title: "Home", route: "/" },
             { title: "Competitions", route: "/competitions" },
             { title: "Winners", route: "/winners" },
             // { title: "HOW TO PLAY", route: "/howtoplay" },
@@ -79,12 +80,14 @@ export default function Header() {
               </Link>
             </li>
           ))}
+          <li className="mt-3 md:mt-0 md:mr-8 font-bold"><a href="https://twitter.com/ProjectXNodes" target="_blank" rel="noreferrer"><FontAwesomeIcon icon={faTwitter} style={{ fontSize: 16 }}></FontAwesomeIcon></a></li>
+          <li className="mt-3 md:mt-0 md:mr-8 font-bold"><a href="https://discord.com/invite/projectx" target="_blank" rel="noreferrer"><FontAwesomeIcon icon={faDiscord} style={{ fontSize: 16 }}></FontAwesomeIcon></a></li>
           <div className={styles.header__actions}>
             {!address ?
-              <button onClick={unlock}>Connect</button>
+              <button onClick={unlock}>Connect wallet</button>
               :
               <button onClick={toggleInfo}>
-                {user.nickName}
+                {(user.nickName).substring(0, 10)}
               </button>}
             {address && showInfo &&
               <OuterClick onOuterClick={() => setShowInfo(false)}>

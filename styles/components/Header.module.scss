@@ -6,16 +6,21 @@
   > button:nth-of-type(1) {
     cursor: pointer;
     text-align: center;
-    padding: 8px 22px;
+    padding: 10px 22px;
     transition: background 200ms linear, filter 200ms linear;
+    text-transform: uppercase;
     min-width: 100px;
-    background-color: white;
+    background-image: -webkit-linear-gradient(7deg,#a90267 0,#6c0092 100%);
     color: black;
     font-size: 1rem;
+    font-weight: 600;
     letter-spacing: .5px;
     line-height: normal;
+    color: white;
+    border-radius: 2rem;
     &:hover{
-      background-color:#0197de;
+      background:white;
+      color: black;
     }      
   }
 
