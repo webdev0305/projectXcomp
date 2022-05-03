@@ -79,7 +79,7 @@ export default function Header() {
                     <a href="/#draws">Competitions</a>
                   </li>
                   <li>
-                    <a href="/my">MY</a>
+                    <a href="/draws">MY</a>
                   </li>
                   <li>
                     <a

@@ -40,8 +40,11 @@ describe("Competition Test", ()=>{
       const amount  = await Token.balanceOf(addr1.address)
       console.log(amount)
       await(await Token.connect(addr1).approve(Competition.address, amount))
-      await(await Competition.connect(addr1).buy(1, 1)).wait()
+      await(await Competition.connect(addr1).buy(1, 10)).wait()
       console.log(await Token.balanceOf(addr1.address))
+    })
+    it("get tickets amount",async()=>{
+      console.log(await Competition.getPurchasedTickets(addr1.address,1))
     })
   })
 })

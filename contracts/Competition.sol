@@ -214,8 +214,8 @@ contract Competition {
             require(hasMembership, "Buy: Only Members can buy.");
         uint256 price = uint256(
             competition.priceForGuest > -1
-                ? competition.priceForMember
-                : competition.priceForGuest
+                ? competition.priceForGuest
+                : competition.priceForMember
         ) * count;
         if (count >= 10) price -= (price * discount10) / 10000;
         else if (count >= 5) price -= (price * discount5) / 10000;
@@ -249,6 +249,10 @@ contract Competition {
         );
         TicketInfo[] storage tickets = ticketSold[id - 1];
         tickets.push(TicketInfo({account: msg.sender, amount: count}));
+    }
+
+    function getPurchasedTickets(address account, uint256 competitionId) public view returns(uint32){
+        return ticketPerson[account][competitionId];
     }
 
     function sell(uint256 id, uint32 count) public {

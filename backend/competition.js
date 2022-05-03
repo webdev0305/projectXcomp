@@ -35,7 +35,7 @@ app.post('/insert', (req, res) => {
 
 app.post('/update', (req, res)=>{
   const competition = req.body
-  competition.last_time = new Date().getTime()
+  // competition.last_time = new Date().getTime()
   db.query("UPDATE competition SET ? WHERE id=?",[competition, competition.id]).then(()=>{
     res.json({
       success: true
