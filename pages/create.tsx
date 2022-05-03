@@ -311,7 +311,7 @@ export default function EditCompetitionPage() {
                             </div>
                             {showImages && ((competition.images?.length ?? 0) > 0 || images?.length > 0) ? (
                                 <div className='flex flex-wrap mt-4'>
-                                    {competition.images?.map((path, index) => (
+                                    {competition.images?.map((path:any, index:number) => (
                                         <div key={index} className={styles.imageBox}>
                                             <img src={path} height={100} alt='file' />
                                             <span onClick={() => onImageRemove(index)} className={styles.btnDeleteImage}>&times;</span>

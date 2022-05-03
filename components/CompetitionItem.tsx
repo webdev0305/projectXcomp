@@ -136,7 +136,6 @@ export default function CompetitionItem({ href, className, item, showStatus }: P
     const diffDays = !timeout?Math.ceil(diff / (1000 * 3600*24)):0;
     const diffHours = !timeout?Math.ceil(diff / (1000 * 3600)):0;
     const diffMins = !timeout?Math.ceil(diff / (1000 * 60)):0;
-    console.log(endTime - startTime, diff / (1000 * 60), Math.ceil(diff / (1000 * 60)))
 
     return (
         <div className="contest-card">

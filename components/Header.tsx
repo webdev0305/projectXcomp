@@ -79,7 +79,7 @@ export default function Header() {
                     <a href="/#draws">Competitions</a>
                   </li>
                   <li>
-                    <a href="/draws">MY</a>
+                    <a href="/my">MY</a>
                   </li>
                   <li>
                     <a
@@ -99,9 +99,13 @@ export default function Header() {
                       ProjectX
                     </a>
                   </li>
+                  {user.isOwner?
                   <li>
                     <a href="/list">Admin</a>
                   </li>
+                  :''
+                  }
+                  
                   <li>
                     <a
                       href="https://twitter.com/ProjectXNodes"
