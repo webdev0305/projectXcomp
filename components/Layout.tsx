@@ -9,20 +9,23 @@ export default function Layout({
 }: {
   children: ReactElement | ReactElement[];
 }) {
+
   return (
-    // Layout wrapper
-    <div className="flex flex-col min-h-screen">
-      {/* Site meta */}
-      <Meta />
+      // Layout wrapper
+      <div className="flex flex-col min-h-screen">
+        
+          {/* Site meta */}
+          <Meta />
+          
+          {/* Global header */}
+          <Header />
 
-      {/* Global header */}
-      <Header />
+          {/* Injected child content */}
+          <div className="flex-1">{children}</div>
 
-      {/* Injected child content */}
-      <div className="flex-1">{children}</div>
-
-      {/* Global footer */}
-      <Footer />
-    </div>
-  );
+          {/* Global footer */}
+          <Footer />
+         
+        </div>
+  )  
 }

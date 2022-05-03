@@ -7,6 +7,7 @@ import Document, {
   NextScript,
 } from "next/document";
 
+
 // Custom document class
 export default class MyDocument extends Document {
   // Collect and return props
@@ -22,6 +23,7 @@ export default class MyDocument extends Document {
         {/* Preload head */}
         <Head />
         <body>
+          
           <Main />
           <NextScript />
         </body>
