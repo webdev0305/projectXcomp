@@ -10,8 +10,11 @@ import classNames from 'classnames'
 import Hero from 'components/Hero'
 import Image from 'next/image'
 
-
 export default function Competition() {
+  const [dDisplay, setDDisplay] = useState<string>()
+  const [hDisplay, setHDisplay] = useState<string>()
+  const [mDisplay, setMDisplay] = useState<string>()
+  const [sDisplay, setSDisplay] = useState<string>()
   const [tickets, setTicket] = useState(1)
   const [buying, setBuying] = useState(false)
   const [items, setItems] = useState<any[]>([])
@@ -38,11 +41,30 @@ export default function Competition() {
       day: "2-digit"
     }).format(date)
   }
+  function secondsToHms(t: number) {
+    const ac = new AbortController()
+    if (t <= 0) {
+      setDDisplay('0')
+      setHDisplay('00')
+      setMDisplay('00')
+      setSDisplay('00')
+    } else {
+      const d = Math.floor(t / 86400);
+      const h = Math.floor(t % 86400 / 3600);
+      const m = Math.floor(t % 3600 / 60);
+      const s = Math.floor(t % 3600 % 60);
+
+      setDDisplay(d.toString());
+      setHDisplay(h < 10 ? h.toString().padStart(2, "0") : h.toString());
+      setMDisplay(m < 10 ? m.toString().padStart(2, "0") : m.toString());
+      setSDisplay(s < 10 ? s.toString().padStart(2, "0") : s.toString());
+    }
+    ac.abort()
+  }
   const buy = async () => {
     setBuying(true)
     try {
       const item = await buyTicket(competition, tickets)
-      console.log(item)
       competition.countSold = item.countSold
       toast.success(`Bought ${tickets} tickets successfully!`)
     } catch (ex: any) {
@@ -74,43 +96,78 @@ export default function Competition() {
     // if (document && document.querySelector("img.logo"))
     // document.querySelector("img.logo").style.visibility = 'visible'
   }, [competition])
-  const timer = setInterval(() => {
-    if (!timeout && competition.timeEnd && competition.timeEnd <= new Date()) {
-      setTimedout(true)
-      clearInterval(timer)
-    }
-  }, 1000)
+  const promissHour = competition.timeEnd;
+  const nowHour = new Date();
+  var diff = Math.abs(promissHour?.getTime() - nowHour.getTime());
+  var diffHours = Math.ceil(diff / (1000 * 3600));
+  var diffMins = Math.ceil(diff / (1000 * 60));
   return competition && (
     <div className={classNames(styles.competition, buying && styles.loading)}>
-      <div className={styles.hero}>
-        <div className={classNames(styles.background, "flex flex-col")}>
-          <div className={styles.price}>
-            <label>Price</label>
-            {user.isMember ? competition.priceForMember : competition.priceForGuest} $PXT
-          </div>
-          <div className={styles.description}>{competition.description}
-            <Progress
-              maxAmount={competition.countTotal ?? 0}
-              leftAmount={(competition.countTotal ?? 0) - (competition.countSold ?? 0)}
-              limitedAmount={competition.maxPerPerson ?? 0}
-            />
-          </div>
-          <Counter className="mt-4" endTime={competition.timeEnd ?? new Date()} drawDate={formatDate(competition.timeEnd)} />
-          {!timeout && <div className='flex items-center w-full justify-between mt-4 gap-10'>
-            <div className={styles.input}>
-              <button onClick={removeTicket}>-</button>
-              <input type="text" name="tickets_num" value={tickets} onChange={e => setTicket(Number(e.target.value))} />
-              <button onClick={addTicket}>+</button>
+      <div className={styles.inner_hero_section}>
+        <div className={styles.bg_shape}>
+          <img src={competition.winnerImage} alt={competition.title} width="100%" height="auto" className= {styles.imageSize}/>
+        </div>
+      </div>
+      <div className={styles.section}>
+        <div className={styles.container}>
+            <div className={styles.content}>
+              <div className={styles.col_6}>
+                <div className={styles.clock_wrapper}>
+                  <div className={styles.mb_2}>
+                  
+                    This competition ends in <Counter className="mt-4" endTime={competition.timeEnd ?? new Date()} drawDate={formatDate(competition.timeEnd)} />
+                  </div>
+                  <div className={styles.clock}>
+                  </div>
+                </div>
+              </div>
+              <div className={styles.col_12}>
+                <div className={styles.contest_cart}>
+                  <div className={styles.contest_cart_left}>
+                      <div className={styles.contest_cart_slider_area}>
+                        <div className={styles.contest_cart_thumb_slider}>
+                          <div className={styles.single_slide}>
+                            <img src={competition.logoImage} alt={competition.title}  className={styles.logoImage} />
+                          </div>
+                         </div>
+                      </div>
+                  </div>
+                  <div className={styles.contest_cart_right}>
+                    <h3 className={styles.contest_name}>{competition.title}</h3>
+                    <div className={styles.contest_num}>Competition: <span>{competition.id}</span></div>
+                    <h4>Tickets sold</h4>
+                    <div className={styles.ticket_amount}>
+                      <Progress
+                        maxAmount={competition.countTotal ?? 0}
+                        leftAmount={(competition.countTotal ?? 0) - (competition.countSold ?? 0)}
+                        limitedAmount={competition.maxPerPerson ?? 0}
+                      />
+                    </div>
+                    <div className={styles.ticket_price}>
+                      <span className={styles.amount}>{user.isMember ? competition.priceForMember : competition.priceForGuest} $PXT</span>
+                      <small>Per ticket</small>
+                    </div>
+                    <div className={styles.column1}>
+                      <div className={styles.column2}><a href="#0" onClick={buy} className={styles.style_three}>{buying ? (user.approved ? "Buying..." : "Approving...") : "Buy ticket"}</a></div>
+                    </div>
+                    <ul className={styles.social_links}>
+                      <li>Share :</li>
+                      <li><a href="#0"><i className="fab fa-facebook"></i></a></li>
+                      <li><a href="#0"><i className="fab fa-twitter"></i></a></li>
+                      <li><a href="#0"><i className="fab fa-discord"></i></a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div className={styles.col_10}>
+                <div className={styles.contest_description}>
+                  <div className={styles.content_block}>
+                    <h3 className={styles.title}>Prize details</h3>
+                    <p>{competition.description}</p>
+                  </div>
+               </div>
+              </div>
             </div>
-            <button onClick={buy} className="bg-white hover:bg-red-500 text-black font-bold w-full py-2">{buying ? (user.approved ? "Buying..." : "Approving...") : "Buy"}</button>
-          </div>}
-        </div>
-        <div className={styles.logo}>
-          <Image src="/logo.png" layout="fill" width={650} height={703} />
-        </div>
-        <h1>{competition.title}</h1>
-        <div className={styles.slider}>
-          <ImageGallery items={items} showThumbnails={true} showFullscreenButton={false} showPlayButton={false} showNav={false} autoPlay={true} />
         </div>
       </div>
     </div>

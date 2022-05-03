@@ -28,20 +28,4 @@ describe("Competition Test", ()=>{
       Competition = await deployContract("Competition",Token.address)
     })
   })
-  describe("test", ()=>{
-    it("create comp", async ()=> {
-      await(await Competition.create(1000,ethers.utils.parseEther("10"),-1,100)).wait()
-    });
-    it("start comp", async ()=> {
-      await(await Competition.start(1, parseInt(new Date()/1000)+10000)).wait()
-    });
-    it("buy ticket", async ()=> {
-      await(await Token.transfer(addr1.address, ethers.utils.parseEther("1000"))).wait()
-      const amount  = await Token.balanceOf(addr1.address)
-      console.log(amount)
-      await(await Token.connect(addr1).approve(Competition.address, amount))
-      await(await Competition.connect(addr1).buy(1, 1)).wait()
-      console.log(await Token.balanceOf(addr1.address))
-    })
-  })
 })

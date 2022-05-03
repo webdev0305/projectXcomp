@@ -46,45 +46,8 @@ export default function Clock({ className, theme, endTime, drawDate, onDone }: P
     return () => clearInterval(timer)
   }, [endTime])
   return (
-    <div className={classNames(styles.counter, theme && styles[theme], className)}>
       <div>
-        <time>
-          <svg fill="white" width="100%" height="100%" viewBox="0 0 70 100" xmlns="http://www.w3.org/2000/svg">
-            <text x="50%" y="73" fontFamily="Impact" fontSize="60" textAnchor="middle">{dDisplay}</text>
-          </svg>
-          <span />
-        </time>
-        <i />
-        <time>
-          <svg fill="white" width="100%" height="100%" viewBox="0 0 70 100" xmlns="http://www.w3.org/2000/svg">
-            <text x="20%" y="73" fontFamily="Impact" fontSize="60" textAnchor="middle">{hDisplay?.slice(0, 1)}</text>
-            <text x="80%" y="73" fontFamily="Impact" fontSize="60" textAnchor="middle">{hDisplay?.slice(-1)}</text>
-          </svg>
-          <span />
-        </time>
-        <i>:</i>
-        <time>
-          <svg fill="white" width="100%" height="100%" viewBox="0 0 70 100" xmlns="http://www.w3.org/2000/svg">
-            <text x="20%" y="73" fontFamily="Impact" fontSize="60" textAnchor="middle">{mDisplay?.slice(0, 1)}</text>
-            <text x="80%" y="73" fontFamily="Impact" fontSize="60" textAnchor="middle">{mDisplay?.slice(-1)}</text>
-          </svg>
-          <span />
-        </time>
-        <i>:</i>
-        <time>
-          <svg fill="white" width="100%" height="100%" viewBox="0 0 70 100" xmlns="http://www.w3.org/2000/svg">
-            <text x="20%" y="73" fontFamily="Impact" fontSize="60" textAnchor="middle">{sDisplay?.slice(0, 1)}</text>
-            <text x="80%" y="73" fontFamily="Impact" fontSize="60" textAnchor="middle">{sDisplay?.slice(-1)}</text>
-          </svg>
-          <span />
-        </time>
+        {dDisplay} days {hDisplay?.slice(0, 1)}{hDisplay?.slice(-1)} hours {mDisplay?.slice(0, 1)}{mDisplay?.slice(-1)} min {sDisplay?.slice(0, 1)}{sDisplay?.slice(-1)} seconds
       </div>
-      <div>
-        <em>DAYs</em>
-        <em>HOURs</em>
-        <em>MINUTEs</em>
-        <em>SECONDs</em>
-      </div>
-    </div>
   )
 }

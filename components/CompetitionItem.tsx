@@ -1,5 +1,5 @@
 import Counter from "components/Counter"
-import styles from "styles/components/CompetitionItems.module.scss"; // Page styles
+import styles from "../styles/components/CompetitionItems.module.scss"; // Page styles
 import Progress from "components/Progress"
 import Link, { LinkProps } from "next/link"
 import { ICompetition, token } from "state/competition";
@@ -129,22 +129,14 @@ export default function CompetitionItem({ href, className, item, showStatus }: P
             clearInterval(timer)
         }
     }, 1000)
+    const endTime = (item.timeEnd)?.getTime();
+    const startTime = (item.timeStart)?.getTime();
+    const diff = Math.abs(endTime - startTime);
+    const diffDays = Math.ceil(diff / (1000 * 3600*24));
+    const diffHours = Math.ceil(diff / (1000 * 3600));
     return (
-        <div className={classNames(styles.competition, className, loading && styles.loading)}>
-            {showStatus &&
-                <span className={classNames(styles.status, styles['status' + item.status])}>
-                    {item.status == 0 && "Ready"}
-                    {item.status == 1 && (timeout ? "Timeout" : "Pending")}
-                    {item.status == 2 && "Drawn"}
-                    {item.status == 3 && "Complete"}
-                </span>
-            }
-            <Link href={href} passHref>
-                <h2 className="tracking-normal">
-                    {item.title}
-                </h2>
-            </Link>
-            <div className={classNames(item.countTotal == item.countSold && styles.soldout, "mt-2")}>
+        <div className="contest-card">
+            <div className="contest-card__thumb">
                 {item.status === 2 && item.winnerImage &&
                     <Link href={href} passHref>
                         <img src={item.winnerImage} alt={item.title} width="100%" height="auto" className="rounded-md" />
@@ -153,69 +145,44 @@ export default function CompetitionItem({ href, className, item, showStatus }: P
                     <Link href={href} passHref>
                         <img src={item.logoImage} alt={item.title} width="100%" height="auto" className="rounded-md" />
                     </Link>}
-            </div>
-            <div className="flex flex-wrap justify-between my-2 gap-4">
-                <div className="flex-1">
-                    <table style={{ height: "100%" }}>
-                        <tbody>
-                            <tr>
-                                <td className="text-sm">Ticket Price</td>
-                                <td align="right" className="font-bold text-blue-700">{item.priceForGuest} $PXT</td>
-                            </tr>
-                            <tr>
-                                <td className="text-sm">Member Price</td>
-                                <td align="right" className="font-bold text-red-700">{item.priceForMember} $PXT</td>
-                            </tr>
-                            <tr>
-                                <td className="text-sm">Count of tickets</td>
-                                <td align="right" className="font-bold text-cyan-700">{item.countTotal}</td>
-                            </tr>
-                            <tr>
-                                <td className="text-sm">Tickets sold</td>
-                                <td align="right" className="font-bold text-red-700">{item.countSold}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div className="w-1/3">
-                    <CircularProgressbarWithChildren value={(item.countSold ?? 0) * 100 / (item.countTotal ?? 100)}>
-                        <div className="flex flex-col items-center">
-                            <span className="font-bold text-xl text-red-700">{item.countSold}</span>
-                            <small>of</small>
-                            <span className="font-bold text-xl text-cyan-700">{item.countTotal}</span>
-                        </div>
-                    </CircularProgressbarWithChildren>
+                <div className="contest-num">
+                    <h6>Comp no:</h6>
+                    {/* <h4 className="number">{item.title}</h4> */}
+                    <h4 className="number">{item.id}</h4>
                 </div>
             </div>
-            {item.status == 1 && !timeout && <Counter className="mt-2" endTime={item.timeEnd ?? new Date()} drawDate={formatDate(item.timeEnd, 'US')} />}
-            {item.status == 1 && timeout &&
-                (user.isOwner ?
-                    <div className="flex gap-1 mt-2">
-                        <button className="flex-grow py-2 font-bold text-white bg-orange-500 rounded-md hover:bg-orange-700" onClick={draw}>Draw</button>
-                    </div> :
-                    <div className="flex-grow text-center py-2 font-bold text-white bg-red-300 rounded-md">Timed out</div>
-                )}
-            {item.status == 0 &&
-                <div className="flex gap-1 mt-2">
-                    <Link href={`/edit/${item.id}`} passHref>
-                        <button className="flex-grow py-2 font-bold text-white bg-blue-500 rounded-md hover:bg-blue-700">Modify</button>
-                    </Link>
-                    <button className="flex-grow py-2 font-bold text-white bg-orange-500 rounded-md hover:bg-orange-700" onClick={() => showPublishPanel(true)}>Publish</button>
-                </div>}
-            {
-                item.status == 0 &&
-                showPublish &&
-                <div className={styles.publish}>
-                    <div className="p-1">
-                        <label className="mb-2">Competition will be drawn at:</label>
-                        <input type="datetime-local" ref={dateEnd} className="border-2 rounded-md p-1 w-full" defaultValue={formatDate(item.timeEnd, 'CA') + 'T08:00'} />
-                    </div>
-                    <div className="flex gap-1 mt-2">
-                        <button className="flex-grow py-2 font-bold text-white bg-red-500 rounded-md hover:bg-red-700" onClick={publish}>{loading ? 'Publishing...' : 'Publish'}</button>
-                        <button className="flex-grow py-2 font-bold text-gray bg-gray-200 rounded-md hover:bg-gray-300" onClick={() => showPublishPanel(false)}>Cancel</button>
-                    </div>
+            <div className={classNames(item.countTotal == item.countSold && styles.soldout, "mt-2")}>
+            </div>
+            <div className="contest-card__content">
+                <div className="left">
+                    <h5 className="contest-card__name">
+                        {item.title}
+                    </h5>
                 </div>
-            }
+                <div className="right">
+                    <span className="contest-card__price">
+                        {item.priceForGuest}
+                    </span>
+                </div>
+            </div>
+            <div className="contest-card__footer">
+                <ul className="contest-card__meta">
+                    <li>
+                    <i className="las la-clock"></i>
+                        {diffDays >= 1?
+                            <span>{diffDays} d</span>
+                        :
+                            <span>{diffHours} hrs</span>
+                        }
+                        
+                    </li>
+                    <li>
+                    <i className="las la-ticket-alt"></i>
+                        <span>{(item.countTotal ?? 0) - (item.countSold ?? 0)}</span>
+                    <p>Remaining</p>
+                    </li>
+                </ul>
+            </div>
             {user.isOwner && item.status == 2 &&
                 <div className={classNames(styles.winner, "mt-2")}>
                     <label>Winner</label>

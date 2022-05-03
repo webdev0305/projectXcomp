@@ -1,46 +1,91 @@
 import Image from "next/image"; // Images
-import styles from "styles/components/Footer.module.scss"; // Component styles
-
-/**
- * Links to render in footer
- * @dev Does not render any links where url is undefined, allowing conditional rendering
- */
-const footerLinks: { icon: string; url: string | undefined }[] = [
-  // Discord
-  { icon: "/icons/discord.svg", url: process.env.NEXT_PUBLIC_DISCORD },
-  // Twitter
-  { icon: "/icons/twitter.svg", url: process.env.NEXT_PUBLIC_TWITTER },
-  // Github
-  { icon: "/icons/github.svg", url: process.env.NEXT_PUBLIC_GITHUB },
-];
 
 export default function Footer() {
   return (
-    <div className={styles.footer}>
-      <div>
-        <div className="container">
-          <div>
-            <div>
-              <a target="_blank" href="https://coinmarketcap.com/currencies/project-x-nodes/" rel="noreferrer">CoinMarketCap</a>&nbsp; | &nbsp;
-              <a target="_blank" href="https://twitter.com/ProjectXNodes" rel="noreferrer">Twitter</a>&nbsp; | &nbsp;
-              <a target="_blank" href="https://discord.com/invite/projectx" rel="noreferrer">Discord</a>&nbsp; | &nbsp;
-              <a target="_blank" href="https://discord.com/invite/projectx" rel="noreferrer">Support</a>&nbsp; | &nbsp;
-              <a target="_blank" href="https://forms.gle/hf7QfxytJYRzYrn58" rel="noreferrer">OTC Trade</a>
-              <br/>
-              <a target="_blank" href="https://dexscreener.com/avalanche/0x9e20Af05AB5FED467dFDd5bb5752F7d5410C832e" rel="noreferrer">DEX SCREENER 0x9e20Af05AB5FED467dFDd5bb5752F7d5410C832e</a>
-              <br/>
-              <div className="align-super">
-                <a href="https://www.avax.network/" target="_blank" rel="noreferrer" className="inline-block align-super">
-                  <Image alt="Powered by Avalanche" src="/poweredbyavalanche.svg" height="38" width="113" className={styles.footerImage} /></a>
-                <a href="https://www.assuredefi.io/projects/projectx/" target="_blank" rel="noreferrer" className="inline-block" style={{maxWidth: "200px"}}>
-                  <Image src="/Assure_TransBG_White_crop.png" alt="KYC by Assure DeFi" width={200} height={55}/></a>
-              </div>
+    <footer className="footer-section">
+        <div className="container pt-120">
+          <div className="row pb-5 align-items-center">
+            <div className="col-lg-4">
+              <ul className="app-btn">
+                <li>
+                  <a
+                    href="https://www.avax.network/"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <img
+                      alt="Powered by Avalanche"
+                      src="assets/images/projectx/footer/poweredbyavalanche.svg"
+                      height="38"
+                      width="113"
+                      className="poweredbyavalanche"
+                    />
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://www.assuredefi.io/projects/projectx/"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <img
+                      src="assets/images/projectx/footer/Assure_TransBG_White_crop.png"
+                      height="38"
+                      width="113"
+                      alt="KYC by Assure DeFi"
+                    />
+                  </a>
+                </li>
+              </ul>
             </div>
-            <br/>
-            <p>© 2022 All rights reserved. (V1.0)</p>
+            <div className="col-lg-8">
+              <ul className="short-links justify-content-lg-end justify-content-center">
+                <li>
+                  <a href="">About</a>
+                </li>
+                <li>
+                  <a href="">FAQs</a>
+                </li>
+                <li>
+                  <a href="">Terms &amp; conditions</a>
+                </li>
+                <li>
+                  <a href="">Privacy</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <hr />
+          <div className="row py-5 align-items-center">
+            <div className="col-lg-6">
+              <p className="copy-right-text text-lg-left text-center mb-lg-0 mb-3">
+                Copyright © 2022. ProjectX
+              </p>
+            </div>
+            <div className="col-lg-6">
+              <ul className="social-links justify-content-lg-end justify-content-center">
+                <li>
+                  <a
+                    href="https://twitter.com/ProjectXNodes"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <i className="fab fa-twitter"></i>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://discord.com/invite/projectx"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <i className="fab fa-discord"></i>
+                  </a>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
+      </footer>
   );
 }
