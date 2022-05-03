@@ -129,8 +129,8 @@ export default function CompetitionItem({ href, className, item, showStatus }: P
             clearInterval(timer)
         }
     }, 1000)
-    const endTime = (item.timeEnd)?.getTime();
-    const startTime = (item.timeStart)?.getTime();
+    const endTime = item.timeEnd?item.timeEnd.getTime():0;
+    const startTime = item.timeStart?item.timeStart.getTime():0;
     const diff = Math.abs(endTime - startTime);
     const diffDays = Math.ceil(diff / (1000 * 3600*24));
     const diffHours = Math.ceil(diff / (1000 * 3600));

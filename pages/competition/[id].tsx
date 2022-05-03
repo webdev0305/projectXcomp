@@ -96,7 +96,7 @@ export default function Competition() {
     // if (document && document.querySelector("img.logo"))
     // document.querySelector("img.logo").style.visibility = 'visible'
   }, [competition])
-  const promissHour = competition.timeEnd;
+  const promissHour = competition.timeEnd??new Date();
   const nowHour = new Date();
   var diff = Math.abs(promissHour?.getTime() - nowHour.getTime());
   var diffHours = Math.ceil(diff / (1000 * 3600));
