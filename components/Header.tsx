@@ -6,7 +6,7 @@ import { useEffect, useState } from "react" // State management
 import cn from "classnames"
 import { token } from "state/competition"
 import { OuterClick } from "react-outer-click"
-import { formatEther } from "ethers/lib/utils"
+// import { formatEther } from "ethers/lib/utils"
 import { formatFixed } from "@ethersproject/bignumber"
 import Router from "next/router"
 
