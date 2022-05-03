@@ -1,18 +1,20 @@
-const deployContract = async (contractName,...args)=>{
-  const factory = await ethers.getContractFactory(contractName)
-  const contract = await factory.deploy(...args)
-  await contract.deployed()
-  return contract
-}
+const { ethers } = require("hardhat")
+const { deploy, deployProxy, upgradeProxy } = require('./utils')
+// const deployContract = async (contractName,...args)=>{
+//   const factory = await ethers.getContractFactory(contractName)
+//   const contract = await factory.deploy(...args)
+//   await contract.deployed()
+//   return contract
+// }
 
 const main = async () => {
   let owner, addr1, addr2, addrs;
   let Token, Competition;
 
   [owner, addr1, addr2, ...addrs] = await ethers.getSigners()
-  Token = await deployContract("Token")
-  Multicall = await deployContract("Multicall")
-  Competition = await deployContract("Competition",Token.address)
+  Token = await deploy("Token")
+  Multicall = await deploy("Multicall")
+  Competition = await deployProxy("Competition",[Token.address])
 
   console.log("Token address:", Token.address)
   console.log("Multicall address:", Multicall.address)

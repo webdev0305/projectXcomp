@@ -1,0 +1,436 @@
+{
+  "manifestVersion": "3.2",
+  "admin": {
+    "address": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+    "txHash": "0x67bd31d00875060c124971933a8e152149e059136513b2155178fcffa962950b"
+  },
+  "proxies": [
+    {
+      "address": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+      "txHash": "0x45f73e1a5d9426d0acaf1ace075141582ed74efc8d00bf7691d01e8852e72886",
+      "kind": "transparent"
+    },
+    {
+      "address": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
+      "txHash": "0x81f94c11e09d3e17fbaa069a8a171a8adfe508825e49fbab5c96c5e5fe677634",
+      "kind": "transparent"
+    }
+  ],
+  "impls": {
+    "e9570f2c0bfdc11a630adcbc7b8855fe4ac9b244989646ade3ed674fcf1f7578": {
+      "address": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
+      "txHash": "0xa605d868b93fd26a27b65b9fbe26bbae95dfd8456900a0085d74050dfebc3b36",
+      "layout": {
+        "storage": [
+          {
+            "label": "_initialized",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint8",
+            "contract": "Initializable",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:62",
+            "retypedFrom": "bool"
+          },
+          {
+            "label": "_initializing",
+            "offset": 1,
+            "slot": "0",
+            "type": "t_bool",
+            "contract": "Initializable",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:67"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ContextUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:36"
+          },
+          {
+            "label": "_balances",
+            "offset": 0,
+            "slot": "51",
+            "type": "t_mapping(t_address,t_uint256)",
+            "contract": "ERC20Upgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:37"
+          },
+          {
+            "label": "_allowances",
+            "offset": 0,
+            "slot": "52",
+            "type": "t_mapping(t_address,t_mapping(t_address,t_uint256))",
+            "contract": "ERC20Upgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:39"
+          },
+          {
+            "label": "_totalSupply",
+            "offset": 0,
+            "slot": "53",
+            "type": "t_uint256",
+            "contract": "ERC20Upgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:41"
+          },
+          {
+            "label": "_name",
+            "offset": 0,
+            "slot": "54",
+            "type": "t_string_storage",
+            "contract": "ERC20Upgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:43"
+          },
+          {
+            "label": "_symbol",
+            "offset": 0,
+            "slot": "55",
+            "type": "t_string_storage",
+            "contract": "ERC20Upgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:44"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "56",
+            "type": "t_array(t_uint256)45_storage",
+            "contract": "ERC20Upgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:394"
+          },
+          {
+            "label": "_owner",
+            "offset": 0,
+            "slot": "101",
+            "type": "t_address",
+            "contract": "Competition",
+            "src": "contracts\\Competition.sol:41"
+          },
+          {
+            "label": "competitions",
+            "offset": 0,
+            "slot": "102",
+            "type": "t_array(t_struct(CompInfo)1188_storage)dyn_storage",
+            "contract": "Competition",
+            "src": "contracts\\Competition.sol:42"
+          },
+          {
+            "label": "sponsers",
+            "offset": 0,
+            "slot": "103",
+            "type": "t_mapping(t_address,t_bool)",
+            "contract": "Competition",
+            "src": "contracts\\Competition.sol:43"
+          },
+          {
+            "label": "ticketPerson",
+            "offset": 0,
+            "slot": "104",
+            "type": "t_mapping(t_address,t_mapping(t_uint256,t_uint32))",
+            "contract": "Competition",
+            "src": "contracts\\Competition.sol:44"
+          },
+          {
+            "label": "ticketSold",
+            "offset": 0,
+            "slot": "105",
+            "type": "t_mapping(t_uint256,t_array(t_struct(TicketInfo)1149_storage)dyn_storage)",
+            "contract": "Competition",
+            "src": "contracts\\Competition.sol:45"
+          },
+          {
+            "label": "members",
+            "offset": 0,
+            "slot": "106",
+            "type": "t_mapping(t_address,t_struct(MemberInfo)1162_storage)",
+            "contract": "Competition",
+            "src": "contracts\\Competition.sol:46"
+          },
+          {
+            "label": "winningPrizes",
+            "offset": 0,
+            "slot": "107",
+            "type": "t_mapping(t_uint256,t_struct(PrizeInfo)1167_storage)",
+            "contract": "Competition",
+            "src": "contracts\\Competition.sol:47"
+          },
+          {
+            "label": "token",
+            "offset": 0,
+            "slot": "108",
+            "type": "t_address",
+            "contract": "Competition",
+            "src": "contracts\\Competition.sol:48"
+          },
+          {
+            "label": "discount5",
+            "offset": 0,
+            "slot": "109",
+            "type": "t_uint256",
+            "contract": "Competition",
+            "src": "contracts\\Competition.sol:49"
+          },
+          {
+            "label": "discount10",
+            "offset": 0,
+            "slot": "110",
+            "type": "t_uint256",
+            "contract": "Competition",
+            "src": "contracts\\Competition.sol:50"
+          },
+          {
+            "label": "discountCancel",
+            "offset": 0,
+            "slot": "111",
+            "type": "t_uint256",
+            "contract": "Competition",
+            "src": "contracts\\Competition.sol:51"
+          },
+          {
+            "label": "feePerMonth",
+            "offset": 0,
+            "slot": "112",
+            "type": "t_uint256",
+            "contract": "Competition",
+            "src": "contracts\\Competition.sol:52"
+          },
+          {
+            "label": "feePerYear",
+            "offset": 0,
+            "slot": "113",
+            "type": "t_uint256",
+            "contract": "Competition",
+            "src": "contracts\\Competition.sol:53"
+          },
+          {
+            "label": "creditsPerMonth",
+            "offset": 0,
+            "slot": "114",
+            "type": "t_uint256",
+            "contract": "Competition",
+            "src": "contracts\\Competition.sol:54"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_array(t_struct(CompInfo)1188_storage)dyn_storage": {
+            "label": "struct CompInfo[]",
+            "numberOfBytes": "32"
+          },
+          "t_array(t_struct(TicketInfo)1149_storage)dyn_storage": {
+            "label": "struct TicketInfo[]",
+            "numberOfBytes": "32"
+          },
+          "t_array(t_uint256)45_storage": {
+            "label": "uint256[45]",
+            "numberOfBytes": "1440"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]",
+            "numberOfBytes": "1600"
+          },
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_int256": {
+            "label": "int256",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_bool)": {
+            "label": "mapping(address => bool)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_mapping(t_address,t_uint256))": {
+            "label": "mapping(address => mapping(address => uint256))",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_mapping(t_uint256,t_uint32))": {
+            "label": "mapping(address => mapping(uint256 => uint32))",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_struct(MemberInfo)1162_storage)": {
+            "label": "mapping(address => struct MemberInfo)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_uint256)": {
+            "label": "mapping(address => uint256)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_array(t_struct(TicketInfo)1149_storage)dyn_storage)": {
+            "label": "mapping(uint256 => struct TicketInfo[])",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_struct(PrizeInfo)1167_storage)": {
+            "label": "mapping(uint256 => struct PrizeInfo)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_uint32)": {
+            "label": "mapping(uint256 => uint32)",
+            "numberOfBytes": "32"
+          },
+          "t_string_storage": {
+            "label": "string",
+            "numberOfBytes": "32"
+          },
+          "t_struct(CompInfo)1188_storage": {
+            "label": "struct CompInfo",
+            "members": [
+              {
+                "label": "id",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "countTotal",
+                "type": "t_uint32",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "countSold",
+                "type": "t_uint32",
+                "offset": 4,
+                "slot": "1"
+              },
+              {
+                "label": "priceForGuest",
+                "type": "t_int256",
+                "offset": 0,
+                "slot": "2"
+              },
+              {
+                "label": "priceForMember",
+                "type": "t_int256",
+                "offset": 0,
+                "slot": "3"
+              },
+              {
+                "label": "maxPerPerson",
+                "type": "t_uint32",
+                "offset": 0,
+                "slot": "4"
+              },
+              {
+                "label": "timeStart",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "5"
+              },
+              {
+                "label": "timeEnd",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "6"
+              },
+              {
+                "label": "winner",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "7"
+              },
+              {
+                "label": "status",
+                "type": "t_uint8",
+                "offset": 20,
+                "slot": "7"
+              }
+            ],
+            "numberOfBytes": "256"
+          },
+          "t_struct(MemberInfo)1162_storage": {
+            "label": "struct MemberInfo",
+            "members": [
+              {
+                "label": "balance",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "creditsPlus",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "creditsMinus",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "2"
+              },
+              {
+                "label": "timeStart",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "3"
+              },
+              {
+                "label": "timeUntil",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "4"
+              },
+              {
+                "label": "timeLastPaid",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "5"
+              }
+            ],
+            "numberOfBytes": "192"
+          },
+          "t_struct(PrizeInfo)1167_storage": {
+            "label": "struct PrizeInfo",
+            "members": [
+              {
+                "label": "token",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "amount",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(TicketInfo)1149_storage": {
+            "label": "struct TicketInfo",
+            "members": [
+              {
+                "label": "account",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "amount",
+                "type": "t_uint32",
+                "offset": 20,
+                "slot": "0"
+              }
+            ],
+            "numberOfBytes": "32"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          },
+          "t_uint32": {
+            "label": "uint32",
+            "numberOfBytes": "4"
+          },
+          "t_uint8": {
+            "label": "uint8",
+            "numberOfBytes": "1"
+          }
+        }
+      }
+    }
+  }
+}

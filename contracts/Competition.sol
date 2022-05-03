@@ -2,6 +2,7 @@
 pragma solidity ^0.8.0;
 
 import "./common/IERC20.sol";
+import "@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol";
 
 struct TicketInfo {
     address account;
@@ -36,7 +37,7 @@ struct CompInfo {
     uint8 status; // 0-Created, 1-Started, 2-SaleEnd, 3-Past
 }
 
-contract Competition {
+contract Competition is ERC20Upgradeable{
     address private _owner;
     CompInfo[] public competitions;
     mapping(address => bool) public sponsers;
@@ -44,20 +45,26 @@ contract Competition {
     mapping(uint256 => TicketInfo[]) public ticketSold;
     mapping(address => MemberInfo) public members;
     mapping(uint256 => PrizeInfo) private winningPrizes;
-    address public token = address(0);
-    uint256 public discount5 = 250;
-    uint256 public discount10 = 500;
-    uint256 public discountCancel = 5000;
-    uint256 public feePerMonth = 1e18;
-    uint256 public feePerYear = 10e18;
-    uint256 public creditsPerMonth = 5e17;
+    address public token;
+    uint256 public discount5;
+    uint256 public discount10;
+    uint256 public discountCancel;
+    uint256 public feePerMonth;
+    uint256 public feePerYear;
+    uint256 public creditsPerMonth;
 
-    constructor(address tokenAddress) {
+    function initialize(address tokenAddress) public initializer {
         _owner = msg.sender;
         sponsers[msg.sender] = true;
         token = tokenAddress;
+        discount5 = 250;
+        discount10 = 500;
+        discountCancel = 5000;
+        feePerMonth = 1e18;
+        feePerYear = 10e18;
+        creditsPerMonth = 5e17;
     }
-
+    
     modifier forOwner() {
         require(_owner == msg.sender, "Modifier: Only owner call.");
         _;
@@ -214,8 +221,8 @@ contract Competition {
             require(hasMembership, "Buy: Only Members can buy.");
         uint256 price = uint256(
             competition.priceForGuest > -1
-                ? competition.priceForMember
-                : competition.priceForGuest
+                ? competition.priceForGuest
+                : competition.priceForMember
         ) * count;
         if (count >= 10) price -= (price * discount10) / 10000;
         else if (count >= 5) price -= (price * discount5) / 10000;
@@ -249,6 +256,10 @@ contract Competition {
         );
         TicketInfo[] storage tickets = ticketSold[id - 1];
         tickets.push(TicketInfo({account: msg.sender, amount: count}));
+    }
+
+    function getPurchasedTickets(address account, uint256 competitionId) public view returns(uint32){
+        return ticketPerson[account][competitionId];
     }
 
     function sell(uint256 id, uint32 count) public {

@@ -70,6 +70,7 @@ function useEth() {
       networkId,
       // Hide Blocknative branding
       hideBranding: true,
+      darkMode: true,
       // Setup custom wallets for selection
       walletSelect: {
         heading: `Connect to ProjectX competition`,

@@ -6,7 +6,7 @@ import { useEffect, useState } from "react" // State management
 import cn from "classnames"
 import { token } from "state/competition"
 import { OuterClick } from "react-outer-click"
-import { formatEther } from "ethers/lib/utils"
+// import { formatEther } from "ethers/lib/utils"
 import { formatFixed } from "@ethersproject/bignumber"
 import Router from "next/router"
 
@@ -57,9 +57,6 @@ export default function Header() {
                   src="assets/images/logos/competitionx-logo-3-letters-onblack.png"
                   alt="site-logo"
                 />
-                <span className="logo-icon">
-                  <i className="flaticon-fire"></i>
-                </span>
               </a>
               <button
                 className="navbar-toggler ml-auto"
@@ -77,6 +74,13 @@ export default function Header() {
                 id="navbarSupportedContent"
               >
                 <ul className="navbar-nav main-menu ml-auto">
+                  
+                  <li>
+                    <a href="/#draws">Competitions</a>
+                  </li>
+                  <li>
+                    <a href="/draws">MY</a>
+                  </li>
                   <li>
                     <a
                       href="https://app.bogged.finance/avax/swap?tokenIn=AVAX&tokenOut=0x9e20Af05AB5FED467dFDd5bb5752F7d5410C832e"
@@ -87,9 +91,6 @@ export default function Header() {
                     </a>
                   </li>
                   <li>
-                    <a href="#draws">Competitions</a>
-                  </li>
-                  <li>
                     <a
                       href="https://projectx.financial"
                       target="_blank"
@@ -98,9 +99,13 @@ export default function Header() {
                       ProjectX
                     </a>
                   </li>
+                  {user.isOwner?
                   <li>
-                    <a href="">Winners</a>
+                    <a href="/list">Admin</a>
                   </li>
+                  :''
+                  }
+                  
                   <li>
                     <a
                       href="https://twitter.com/ProjectXNodes"
@@ -121,9 +126,12 @@ export default function Header() {
                   </li>
                 </ul>
                 <div className="nav-right">
-                  <a href="" className="cmn-btn style--three btn--sm">
-                    Connect Wallet
-                  </a>
+                  {!address ?
+                    <button className="cmn-btn style--three btn--sm" onClick={unlock}>Connect wallet</button>
+                    :
+                    <button className="cmn-btn style--three btn--sm" onClick={lock}>
+                      {user.nickName?.substring(0, 10)}
+                    </button> }
                 </div>
               </div>
             </nav>

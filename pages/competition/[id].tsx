@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import ImageGallery from 'react-image-gallery'
+import cn from 'classnames'
 import Progress from 'components/Progress'
 import Counter from 'components/Counter'
 import styles from "styles/pages/Buy.module.scss" // Page styles
@@ -87,7 +88,7 @@ export default function Competition() {
   useEffect(() => {
     // competition.images?.reduce((arr, el) => ([...arr, { original: el }]), [])
     const items: any[] = []
-    competition.images?.map(item => {
+    competition.images?.map((item: any) => {
       items.push({
         original: item
       })
@@ -96,79 +97,82 @@ export default function Competition() {
     // if (document && document.querySelector("img.logo"))
     // document.querySelector("img.logo").style.visibility = 'visible'
   }, [competition])
-  const promissHour = competition.timeEnd;
+  const promissHour = competition.timeEnd ?? new Date();
   const nowHour = new Date();
   var diff = Math.abs(promissHour?.getTime() - nowHour.getTime());
   var diffHours = Math.ceil(diff / (1000 * 3600));
   var diffMins = Math.ceil(diff / (1000 * 60));
   return competition && (
     <div className={classNames(styles.competition, buying && styles.loading)}>
-      <div className={styles.inner_hero_section}>
-        <div className={styles.bg_shape}>
-          <img src={competition.winnerImage} alt={competition.title} width="100%" height="auto" className= {styles.imageSize}/>
+      <div className="page-wrapper">
+        <div className="inner-hero-section">
+          <div className="bg-shape"><img src="assets/images/elements/inner-hero-shape.png" alt="image"/></div>
         </div>
-      </div>
-      <div className={styles.section}>
-        <div className={styles.container}>
-            <div className={styles.content}>
-              <div className={styles.col_6}>
-                <div className={styles.clock_wrapper}>
-                  <div className={styles.mb_2}>
-                  
+        <section className="pb-120 mt-minus-300">
+          <div className="container">
+            <div className="row justify-content-center">
+              <div className="col-lg-6">
+                <div className="clock-wrapper">
+                  <div className="mb-2" style ={{color: "white", fontSize: "18px"}}>
                     This competition ends in <Counter className="mt-4" endTime={competition.timeEnd ?? new Date()} drawDate={formatDate(competition.timeEnd)} />
                   </div>
-                  <div className={styles.clock}>
-                  </div>
+                  <div className="clock" data-clock="2020/12/10"></div>
                 </div>
               </div>
-              <div className={styles.col_12}>
-                <div className={styles.contest_cart}>
-                  <div className={styles.contest_cart_left}>
-                      <div className={styles.contest_cart_slider_area}>
-                        <div className={styles.contest_cart_thumb_slider}>
-                          <div className={styles.single_slide}>
-                            <img src={competition.logoImage} alt={competition.title}  className={styles.logoImage} />
-                          </div>
-                         </div>
+              <div className="col-lg-12">
+                <div className="contest-cart">
+                  <div className="contest-cart__left">
+                    <div className="contest-cart__slider-area">
+                      <div className="contest-cart__thumb-slider">
+                        <div className="single-slide">
+                          <img src={competition.logoImage} alt={competition.title}  style = {{ width: "80%", margin: "auto"}} />
+                        </div>
                       </div>
+                    </div>
                   </div>
-                  <div className={styles.contest_cart_right}>
-                    <h3 className={styles.contest_name}>{competition.title}</h3>
-                    <div className={styles.contest_num}>Competition: <span>{competition.id}</span></div>
-                    <h4>Tickets sold</h4>
-                    <div className={styles.ticket_amount}>
+                  <div className="contest-cart__right">
+                    <h3 className="contest-name">{competition.title}</h3>
+                    <div className="contest-num">Comp ID: <span>{competition.id}</span></div>
+                    <h4>{competition.countSold ?? 0} Tickets sold</h4>
+                    <div className="ticket-amount">
                       <Progress
                         maxAmount={competition.countTotal ?? 0}
                         leftAmount={(competition.countTotal ?? 0) - (competition.countSold ?? 0)}
                         limitedAmount={competition.maxPerPerson ?? 0}
                       />
                     </div>
-                    <div className={styles.ticket_price}>
-                      <span className={styles.amount}>{user.isMember ? competition.priceForMember : competition.priceForGuest} $PXT</span>
+                    <div className="ticket-price">
+                      <span className="amount">{user.isMember ? competition.priceForMember : competition.priceForGuest} $PXT</span>
                       <small>Per ticket</small>
                     </div>
-                    <div className={styles.column1}>
-                      <div className={styles.column2}><a href="#0" onClick={buy} className={styles.style_three}>{buying ? (user.approved ? "Buying..." : "Approving...") : "Buy ticket"}</a></div>
+                    <div className="d-flex flex-wrap align-items-center mb-30">
+                      <div className={cn(styles.input, "mr-[20px]")}>
+                        <button onClick={removeTicket}>-</button>
+                        <input type="text" name="tickets_num" value={tickets} onChange={e => setTicket(Number(e.target.value))} />
+                        <button onClick={addTicket}>+</button>
+                      </div>
+                      <div className="mt-sm-0 mt-3"><a href="#0" onClick={buy} className="cmn-btn style--three">{buying ? (user.approved ? "Buying..." : "Approving...") : "Buy ticket"}</a></div>
                     </div>
-                    <ul className={styles.social_links}>
+                    <ul className="social-links align-items-center">
                       <li>Share :</li>
-                      <li><a href="#0"><i className="fab fa-facebook"></i></a></li>
+                      <li><a href="#0"><i className="fab fa-facebook-f"></i></a></li>
                       <li><a href="#0"><i className="fab fa-twitter"></i></a></li>
-                      <li><a href="#0"><i className="fab fa-discord"></i></a></li>
+                      <li><a href="#0"><i className="fab fa-linkedin-in"></i></a></li>
                     </ul>
                   </div>
                 </div>
               </div>
-              <div className={styles.col_10}>
-                <div className={styles.contest_description}>
-                  <div className={styles.content_block}>
-                    <h3 className={styles.title}>Prize details</h3>
+              <div className="col-lg-10">
+                <div className="contest-description">
+                  <div className="content-block">
+                    <h3 className="title">Prize details</h3>
                     <p>{competition.description}</p>
                   </div>
-               </div>
+                </div>
               </div>
             </div>
-        </div>
+          </div>
+        </section>
       </div>
     </div>
   )
