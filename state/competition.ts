@@ -14,6 +14,7 @@ export interface ICompetition {
   id?: number
   title?: string
   description?: string
+  instruction?: string
   countSold?: number
   countTotal?: number
   maxPerPerson?: number
@@ -307,6 +308,7 @@ function useToken() {
         id: id,
         title: rowData.title,
         description: rowData.description,
+        instruction: rowData.instruction,
         logoImage: rowData.logo_url,
         winnerImage: rowData.winner_url,
         images: rowData.images?JSON.parse(rowData.images):[],
