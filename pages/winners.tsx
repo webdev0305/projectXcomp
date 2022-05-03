@@ -35,7 +35,6 @@ export default function Winners() {
                     </div>
                 </div>
             </div>
-
         </div>
     );
 }

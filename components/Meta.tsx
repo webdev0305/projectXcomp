@@ -1,4 +1,5 @@
 import Head from "next/head"; // HTML Head
+
 // Setup project details
 const url: string = process.env.NEXT_PUBLIC_URL ?? "https://token.com/";
 const tokenName: string = process.env.NEXT_PUBLIC_TOKEN_NAME ?? "Token Name";
@@ -7,20 +8,21 @@ const description: string =
 
 export default function Meta() {
   return (
-    <Head>
+	<Head>
       {/* Fonts: Inter */}
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link
-        rel="preconnect"
-        href="https://fonts.gstatic.com"
-        crossOrigin="true"
-      />
-      <link
-        href={`https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap`}
-        rel="stylesheet"
-      />
-
-      
+	  <link rel="stylesheet" href="assets/css/vendor/bootstrap.min.css" />
+	  <link rel="stylesheet" href="assets/css/all.min.css" />
+	  <link rel="stylesheet" href="assets/css/line-awesome.min.css" />
+	  <link rel="stylesheet" href="assets/css/vendor/animate.min.css" />
+	  <link rel="stylesheet" href="assets/css/vendor/slick.css" />
+	  <link rel="stylesheet" href="assets/css/vendor/jquery-ui.min.css" />
+	  <link rel="stylesheet" href="assets/css/main.css" />
+	  
+	  <script src="assets/js/vendor/jquery-3.5.1.min.js"></script>
+	  <script src="assets/js/vendor/bootstrap.bundle.min.js"></script>
+	  <script src="assets/js/vendor/wow.min.js"></script>
+	  <script src="assets/js/vendor/slick.min.js"></script>
+	  <script src="assets/js/app.js"></script>
 
       {/* Primary Meta */}
       <title>{tokenName}</title>

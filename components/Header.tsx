@@ -4,20 +4,16 @@ import { eth } from "state/eth" // Global state
 import { useEffect, useState } from "react" // State management
 // import { useRouter } from "next/router" // Routing
 import cn from "classnames"
-import styles from "styles/components/Header.module.scss" // Component styles
 import { token } from "state/competition"
 import { OuterClick } from "react-outer-click"
 import { formatEther } from "ethers/lib/utils"
 import { formatFixed } from "@ethersproject/bignumber"
 import Router from "next/router"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTwitter, faDiscord} from "@fortawesome/free-brands-svg-icons";
 
 export default function Header() {
   // Global state
   const { address, unlock, lock } = eth.useContainer()
   const { user } = token.useContainer()
-  console.log(user.isOwner)
   const [navbar, setNavbar] = useState(false)
   const [mobileMenuIsOpen, setMobileMenuIsOpen] = useState(false)
   const [pathname, setPathname] = useState('')
@@ -39,126 +35,100 @@ export default function Header() {
     setPathname(Router.asPath)
   })
   return (
-    <header className={navbar ? "fixed w-full z-20 opened fadeInDown animated" : "fixed w-full z-10 mt-5"}>
-      <div className="flex flex-wrap items-center justify-between container mx-auto md:flex-no-wrap">
-        <div className="flex items-center cursor-pointer">
-          <Link href='/' passHref>
-            <Image className="logo" src="/assets/images/logos/competitionx-logo-3-letters-onblack.png" width={266} height={100} alt="logo" />
-          </Link>
-        </div>
-        <button
-          className={cn("flex items-center block px-3 py-2 text-white border rounded md:hidden", navbar ? "border-white" : "border-black")}
-          onClick={() => setMobileMenuIsOpen(!mobileMenuIsOpen)}
-        >
-          <svg
-            className="w-3 h-3 fill-current"
-            viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <title>Menu</title>
-            <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" fill={navbar ? "white" : "black"} />
-          </svg>
-        </button>
-        <ul className="md:flex flex-col md:flex-row md:items-center md:justify-center w-full md:w-auto hidden md:block">
-          {[
-            // { title: "Home", route: "/" },
-            { title: "Competitions", route: "/competitions" },
-            { title: "Winners", route: "/winners" },
-            // { title: "HOW TO PLAY", route: "/howtoplay" },
-            { title: "ABOUT", route: "/about" },
-            { title: "Admin", route: "/list", admin: true },
-            { title: "Membership", route: "/join", user: true },
-          ].filter(menu => {
-            if ((menu.user || menu.admin) && !address)
-              return false
-            else if (menu.admin && !user.isOwner)
-              return false
-            return true
-          }).map(({ route, title }) => (
-            <li className="mt-3 md:mt-0 md:mr-8 font-bold" key={title}>
-              <Link href={route} passHref>
-                <a className={pathname == route ? 'active' : ''}>{title}</a>
-              </Link>
-            </li>
-          ))}
-          <li className="mt-3 md:mt-0 md:mr-8 font-bold"><a href="https://twitter.com/ProjectXNodes" target="_blank" rel="noreferrer"><FontAwesomeIcon icon={faTwitter} style={{ fontSize: 16 }}></FontAwesomeIcon></a></li>
-          <li className="mt-3 md:mt-0 md:mr-8 font-bold"><a href="https://discord.com/invite/projectx" target="_blank" rel="noreferrer"><FontAwesomeIcon icon={faDiscord} style={{ fontSize: 16 }}></FontAwesomeIcon></a></li>
-          <div className={styles.header__actions}>
-            {!address ?
-              <button onClick={unlock}>Connect wallet</button>
-              :
-              <button onClick={toggleInfo}>
-                {user.nickName?.substring(0, 10)}
-              </button>}
-            {address && showInfo &&
-              <OuterClick onOuterClick={() => setShowInfo(false)}>
-                <div className={cn(styles.info, "flex flex-col gap-2")}>
-                  <div className={styles.avatar}>
-                    <div><Image src={user.avatar ?? '/avatar.png'} alt="Avatar" width={100} height={100} /></div>
-                    <Link href="/account" passHref><button title="Edit Account" onClick={toggleInfo} /></Link>
-                  </div>
-                  <button type="button" className={styles.address} title="Copy Wallet Address">
-                    0x{address.substring(2, 12)}...{address.slice(-10)}
-                    <svg width="24" height="24" stroke="#8b001a" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M9.788 16.757H8.394C8.02429 16.757 7.66972 16.6101 7.40829 16.3487C7.14687 16.0873 7 15.7327 7 15.363V8.394C7 8.02429 7.14687 7.66972 7.40829 7.40829C7.66972 7.14687 8.02429 7 8.394 7H15.363C15.7327 7 16.0873 7.14687 16.3487 7.40829C16.6101 7.66972 16.757 8.02429 16.757 8.394V9.788" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                      <path d="M10.558 9.78799H18.775C18.9792 9.78799 19.175 9.86912 19.3194 10.0135C19.4638 10.1579 19.545 10.3538 19.545 10.558V18.775C19.545 18.9792 19.4638 19.1751 19.3194 19.3195C19.175 19.4639 18.9792 19.545 18.775 19.545H10.558C10.3537 19.545 10.1579 19.4639 10.0135 19.3195C9.86909 19.1751 9.78796 18.9792 9.78796 18.775V10.558C9.78796 10.3538 9.86909 10.1579 10.0135 10.0135C10.1579 9.86912 10.3537 9.78799 10.558 9.78799V9.78799Z" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </button>
-                  <div className={cn(styles.balance, "flex flex-col gap-1")}>
-                    <div className="flex justify-between">
-                      <strong>Balance</strong>
-                      <span>{user.balanceETH ? parseFloat(formatFixed(user.balanceETH, 18)).toFixed(8) : 0} <strong>AVAX</strong></span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span />
-                      <span>{user.balanceToken ? formatFixed(user.balanceToken, 18) : 0} <strong>$PXT</strong></span>
-                    </div>
-                  </div>
-                  {user.isMember && <div className={cn(styles.balance, "flex flex-col gap-1")}>
-                    <div className="flex justify-between">
-                      <strong>Member Credits</strong>
-                      <span>{user.creditBalance ? formatFixed(user.creditBalance ?? 0, 18) : 0}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span />
-                      <i>Until <strong>{user.untilTime?.toDateString()}</strong></i>
-                    </div>
-                  </div>}
-                  <button type="button" className={styles.lock} onClick={lock}>Disconnect</button>
-                </div>
-              </OuterClick>}
-          </div>
-        </ul>
-      </div>
-      <div className={cn("z-20 bg-black block md:hidden absolute top-0 left-0 w-full h-auto", mobileMenuIsOpen ? `translate-x-0` : `translate-x-full`)}
-        style={{ transition: "transform 200ms linear" }}>
-        <div className="container p-8">
-          <span className="close_menu mt-10" onClick={() => setMobileMenuIsOpen(!mobileMenuIsOpen)}></span>
-          <ul
-            className="items-center justify-center text-sm w-full h-screen flex flex-col -mt-12"
-          >
-            {[
-              { title: "Home", route: "/" },
-              { title: "COMPETITIONS", route: "/competitions" },
-              { title: "HOW TO PLAY", route: "/howtoplay" },
-              { title: "ABOUT", route: "/about" },
-              { title: "WINNERS", route: "/winners" },
-              { title: "JOIN XCLUB", route: "/join" },
-
-            ].map(({ route, title }) => (
-              <li className="mt-5 font-bold" key={title}>
-                <Link href={route} passHref>
-                  <a className="block text-white uppercase">{title}</a>
-                </Link>
-              </li>
-            ))}
-            <div className={styles.header__actions}>
-              <button>Connect</button>
+    <header className="header">
+        <div className="header__top">
+          <div className="container">
+            <div className="row align-items-center">
+              <div className="col-sm-6">
+                <div className="left d-flex align-items-center"></div>
+              </div>
+              <div className="col-sm-6">
+                <div className="right"></div>
+              </div>
             </div>
-          </ul>
+          </div>
         </div>
-      </div>
-    </header>
 
+        <div className="header__bottom">
+          <div className="container">
+            <nav className="navbar navbar-expand-xl p-0 align-items-center">
+              <a className="site-logo site-title" href="/">
+                <img
+                  src="assets/images/logos/competitionx-logo-3-letters-onblack.png"
+                  alt="site-logo"
+                />
+                <span className="logo-icon">
+                  <i className="flaticon-fire"></i>
+                </span>
+              </a>
+              <button
+                className="navbar-toggler ml-auto"
+                type="button"
+                data-toggle="collapse"
+                data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+              >
+                <span className="menu-toggle"></span>
+              </button>
+              <div
+                className="collapse navbar-collapse"
+                id="navbarSupportedContent"
+              >
+                <ul className="navbar-nav main-menu ml-auto">
+                  <li>
+                    <a
+                      href="https://app.bogged.finance/avax/swap?tokenIn=AVAX&tokenOut=0x9e20Af05AB5FED467dFDd5bb5752F7d5410C832e"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      Buy $PXT
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#draws">Competitions</a>
+                  </li>
+                  <li>
+                    <a
+                      href="https://projectx.financial"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      ProjectX
+                    </a>
+                  </li>
+                  <li>
+                    <a href="">Winners</a>
+                  </li>
+                  <li>
+                    <a
+                      href="https://twitter.com/ProjectXNodes"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <i className="fab fa-twitter"></i>
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="https://discord.com/invite/projectx"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <i className="fab fa-discord"></i>
+                    </a>
+                  </li>
+                </ul>
+                <div className="nav-right">
+                  <a href="" className="cmn-btn style--three btn--sm">
+                    Connect Wallet
+                  </a>
+                </div>
+              </div>
+            </nav>
+          </div>
+        </div>
+      </header>
   )
 }
