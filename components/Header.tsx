@@ -57,9 +57,6 @@ export default function Header() {
                   src="assets/images/logos/competitionx-logo-3-letters-onblack.png"
                   alt="site-logo"
                 />
-                <span className="logo-icon">
-                  <i className="flaticon-fire"></i>
-                </span>
               </a>
               <button
                 className="navbar-toggler ml-auto"
@@ -77,6 +74,13 @@ export default function Header() {
                 id="navbarSupportedContent"
               >
                 <ul className="navbar-nav main-menu ml-auto">
+                  
+                  <li>
+                    <a href="/#draws">Competitions</a>
+                  </li>
+                  <li>
+                    <a href="/my">MY</a>
+                  </li>
                   <li>
                     <a
                       href="https://app.bogged.finance/avax/swap?tokenIn=AVAX&tokenOut=0x9e20Af05AB5FED467dFDd5bb5752F7d5410C832e"
@@ -87,9 +91,6 @@ export default function Header() {
                     </a>
                   </li>
                   <li>
-                    <a href="/#draws">Competitions</a>
-                  </li>
-                  <li>
                     <a
                       href="https://projectx.financial"
                       target="_blank"
@@ -97,9 +98,6 @@ export default function Header() {
                     >
                       ProjectX
                     </a>
-                  </li>
-                  <li>
-                    <a href="">Winners</a>
                   </li>
                   <li>
                     <a href="/list">Admin</a>

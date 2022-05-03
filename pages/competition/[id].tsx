@@ -88,7 +88,7 @@ export default function Competition() {
   useEffect(() => {
     // competition.images?.reduce((arr, el) => ([...arr, { original: el }]), [])
     const items: any[] = []
-    competition.images?.map(item => {
+    competition.images?.map((item:any) => {
       items.push({
         original: item
       })

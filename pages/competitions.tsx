@@ -37,8 +37,7 @@ export default function Competitions() {
   }, [competitions])
   return (
 	<>
-      <Hero>
-      </Hero>
+      <Hero />
       <Howtoplay />
       <section className="position-relative pt-120 pb-120" id="draws">
         <div className="bg-el">
@@ -119,10 +118,10 @@ export default function Competitions() {
                     ))}
                   </div> */}
                   <div className="row mb-none-30">
-                    {!dataLoading && competitions?.filter((item) => {
+                    {!dataLoading && competitions?.filter((item:any) => {
                       return item.status === 1 
                       && item.timeEnd != undefined && item.timeEnd > new Date()
-                    }).map((item) => (
+                    }).map((item:any) => (
 				            <div className="col-xl-4 col-md-6 mb-30" key={item.id}>
 					              <CompetitionItem
 					                href={`/competition/${item.id}`}
