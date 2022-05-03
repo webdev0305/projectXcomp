@@ -1,3 +1,4 @@
+import "styles/global.scss"; // Global styles
 import Head from "next/head";
 import StateProvider from "state"; // Global state provider
 import type { AppProps } from "next/app"; // Types

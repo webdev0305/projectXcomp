@@ -121,7 +121,7 @@ export default function Competitions() {
                   <div className="row mb-none-30">
                     {!dataLoading && competitions?.filter((item) => {
                       return item.status === 1 
-                      // && item.timeEnd != undefined && item.timeEnd > new Date()
+                      && item.timeEnd != undefined && item.timeEnd > new Date()
                     }).map((item) => (
 				            <div className="col-xl-4 col-md-6 mb-30" key={item.id}>
 					              <CompetitionItem

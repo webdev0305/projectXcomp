@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import ImageGallery from 'react-image-gallery'
+import cn from 'classnames'
 import Progress from 'components/Progress'
 import Counter from 'components/Counter'
 import styles from "styles/pages/Buy.module.scss" // Page styles
@@ -135,7 +136,7 @@ export default function Competition() {
                   <div className={styles.contest_cart_right}>
                     <h3 className={styles.contest_name}>{competition.title}</h3>
                     <div className={styles.contest_num}>Competition: <span>{competition.id}</span></div>
-                    <h4>Tickets sold</h4>
+                    <h4>{competition.countSold ?? 0} Tickets sold</h4>
                     <div className={styles.ticket_amount}>
                       <Progress
                         maxAmount={competition.countTotal ?? 0}
@@ -147,7 +148,12 @@ export default function Competition() {
                       <span className={styles.amount}>{user.isMember ? competition.priceForMember : competition.priceForGuest} $PXT</span>
                       <small>Per ticket</small>
                     </div>
-                    <div className={styles.column1}>
+                    <div className={cn(styles.column1,"flex")}>
+                      <div className={cn(styles.input, "mr-[20px]")}>
+                        <button onClick={removeTicket}>-</button>
+                        <input type="text" name="tickets_num" value={tickets} onChange={e => setTicket(Number(e.target.value))} />
+                        <button onClick={addTicket}>+</button>
+                      </div>
                       <div className={styles.column2}><a href="#0" onClick={buy} className={styles.style_three}>{buying ? (user.approved ? "Buying..." : "Approving...") : "Buy ticket"}</a></div>
                     </div>
                     <ul className={styles.social_links}>

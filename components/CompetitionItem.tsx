@@ -130,16 +130,28 @@ export default function CompetitionItem({ href, className, item, showStatus }: P
         }
     }, 1000)
     const endTime = item.timeEnd?item.timeEnd.getTime():0;
-    const startTime = item.timeStart?item.timeStart.getTime():0;
+    // const startTime = item.timeStart?item.timeStart.getTime():0;
+    const startTime = new Date().getTime();
     const diff = Math.abs(endTime - startTime);
-    const diffDays = Math.ceil(diff / (1000 * 3600*24));
-    const diffHours = Math.ceil(diff / (1000 * 3600));
+    const diffDays = !timeout?Math.ceil(diff / (1000 * 3600*24)):0;
+    const diffHours = !timeout?Math.ceil(diff / (1000 * 3600)):0;
+    const diffMins = !timeout?Math.ceil(diff / (1000 * 60)):0;
+    console.log(endTime - startTime, diff / (1000 * 60), Math.ceil(diff / (1000 * 60)))
+
     return (
         <div className="contest-card">
+            {showStatus &&
+                <span className={classNames(styles.status, styles['status' + item.status])}>
+                    {item.status == 0 && "Ready"}
+                    {item.status == 1 && (timeout ? "Timeout" : "Pending")}
+                    {item.status == 2 && "Drawn"}
+                    {item.status == 3 && "Complete"}
+                </span>
+            }
             <div className="contest-card__thumb">
-                {item.status === 2 && item.winnerImage &&
+                {item.status === 2 && item.logoImage &&
                     <Link href={href} passHref>
-                        <img src={item.winnerImage} alt={item.title} width="100%" height="auto" className="rounded-md" />
+                        <img src={item.logoImage} alt={item.title} width="100%" height="auto" className="rounded-md" />
                     </Link>}
                 {item.status !== 2 && item.logoImage &&
                     <Link href={href} passHref>
@@ -169,10 +181,13 @@ export default function CompetitionItem({ href, className, item, showStatus }: P
                 <ul className="contest-card__meta">
                     <li>
                     <i className="las la-clock"></i>
-                        {diffDays >= 1?
+                        {diffDays > 1?
                             <span>{diffDays} d</span>
                         :
-                            <span>{diffHours} hrs</span>
+                         diffHours > 1? 
+                           <span>{diffHours} hrs</span>
+                        :
+                            <span>{diffMins} mins</span>
                         }
                         
                     </li>
@@ -183,6 +198,35 @@ export default function CompetitionItem({ href, className, item, showStatus }: P
                     </li>
                 </ul>
             </div>
+            {item.status == 1 && timeout && showStatus &&
+                (user.isOwner ?
+                    <div className="flex gap-1 mt-2">
+                        <button className="flex-grow py-2 font-bold text-white bg-orange-500 rounded-md hover:bg-orange-700" onClick={draw}>Draw</button>
+                    </div> 
+                    :
+                    <div className="flex-grow text-center py-2 font-bold text-white bg-red-300 rounded-md">Timed out</div>
+                )}
+            {item.status == 0 &&
+                <div className="flex gap-1 mt-2">
+                    <Link href={`/edit/${item.id}`} passHref>
+                        <button className="flex-grow py-2 font-bold text-white bg-blue-500 rounded-md hover:bg-blue-700">Modify</button>
+                    </Link>
+                    <button className="flex-grow py-2 font-bold text-white bg-orange-500 rounded-md hover:bg-orange-700" onClick={() => showPublishPanel(true)}>Publish</button>
+                </div>}
+            {
+                item.status == 0 &&
+                showPublish &&
+                <div className={styles.publish}>
+                    <div className="p-1">
+                        <label className="mb-2">Competition will be drawn at:</label>
+                        <input type="datetime-local" ref={dateEnd} className="border-2 rounded-md p-1 w-full" defaultValue={formatDate(item.timeEnd, 'CA') + 'T08:00'} />
+                    </div>
+                    <div className="flex gap-1 mt-2">
+                        <button className="flex-grow py-2 font-bold text-white bg-red-500 rounded-md hover:bg-red-700" onClick={publish}>{loading ? 'Publishing...' : 'Publish'}</button>
+                        <button className="flex-grow py-2 font-bold text-gray bg-gray-200 rounded-md hover:bg-gray-300" onClick={() => showPublishPanel(false)}>Cancel</button>
+                    </div>
+                </div>
+            }
             {user.isOwner && item.status == 2 &&
                 <div className={classNames(styles.winner, "mt-2")}>
                     <label>Winner</label>

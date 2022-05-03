@@ -87,7 +87,7 @@ export default function Header() {
                     </a>
                   </li>
                   <li>
-                    <a href="#draws">Competitions</a>
+                    <a href="/#draws">Competitions</a>
                   </li>
                   <li>
                     <a
@@ -100,6 +100,9 @@ export default function Header() {
                   </li>
                   <li>
                     <a href="">Winners</a>
+                  </li>
+                  <li>
+                    <a href="/list">Admin</a>
                   </li>
                   <li>
                     <a
