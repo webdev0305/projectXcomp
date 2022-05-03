@@ -18,6 +18,7 @@ export interface ICompetition {
   countSold?: number
   countTotal?: number
   maxPerPerson?: number
+  purchased?: number
   path?: string
   forGuest?: boolean
   forMember?: boolean
@@ -298,10 +299,12 @@ function useToken() {
     if(!contractCompetition)
       getContract()
     const rows = await getCompetitions()
+    
     const res = await axios.get('/api/competition')
     competitions.splice(0)
     for(const row of rows) {
       const id = row.id.toNumber()
+      const purchasedTickets = address?await contractCompetition.getPurchasedTickets(address,id):0
       if(!res.data.data[id]) continue
       const rowData = res.data.data[id]
       competitions.push({
@@ -322,6 +325,7 @@ function useToken() {
         countTotal: row.countTotal,
         countSold: row.countSold,
         maxPerPerson: row.maxPerPerson,
+        purchased: purchasedTickets,
         winner: row.winner?{
           id: row.winner,
           firstName: rowData.winner_first_name,
@@ -335,8 +339,8 @@ function useToken() {
       } as ICompetition)
     }
     competitions.sort((c1: ICompetition, c2:ICompetition)=>{
-      if(c1.timeUpdated && c2.timeUpdated)
-        return c1.timeUpdated > c2.timeUpdated? -1: 1
+      // if(c1.timeUpdated && c2.timeUpdated)
+      //   return c1.timeUpdated > c2.timeUpdated? -1: 1
       return 0
     })
     setLastIndex(rows.length)

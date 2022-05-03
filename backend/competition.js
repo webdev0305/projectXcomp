@@ -11,7 +11,8 @@ app.get('/', (req, res) => {
     SELECT a.*,
       b.first_name winner_first_name,b.last_name winner_last_name,b.email winner_email,b.phone1 winner_phone1,b.phone2 winner_phone2,b.address winner_address 
     FROM competition a 
-      LEFT JOIN account b ON a.winner=b.id`).then(data => {
+    LEFT JOIN account b ON a.winner=b.id
+    ORDER BY a.id DESC`).then(data => {
 		res.json({
 			count: data.length,
 			data: data.reduce((arr, el) => ({ ...arr, [el.id]: el }),{})

@@ -130,7 +130,7 @@ export default function Header() {
                     <button className="cmn-btn style--three btn--sm" onClick={unlock}>Connect wallet</button>
                     :
                     <button className="cmn-btn style--three btn--sm" onClick={lock}>
-                      {user.nickName?.substring(0, 10)}
+                      {user.nickName?.substring(0, 13)}
                     </button> }
                 </div>
               </div>
