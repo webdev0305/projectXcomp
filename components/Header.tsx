@@ -121,9 +121,12 @@ export default function Header() {
                   </li>
                 </ul>
                 <div className="nav-right">
-                  <a href="" className="cmn-btn style--three btn--sm">
-                    Connect Wallet
-                  </a>
+                  {!address ?
+                    <button className="cmn-btn style--three btn--sm" onClick={unlock}>Connect wallet</button>
+                    :
+                    <button className="cmn-btn style--three btn--sm" onClick={lock}>
+                      {user.nickName?.substring(0, 10)}
+                    </button> }
                 </div>
               </div>
             </nav>

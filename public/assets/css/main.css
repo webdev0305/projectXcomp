@@ -11380,3 +11380,7 @@ span {
 /* overrides end */
 
 /*# sourceMappingURL=main.css.map */
+
+.bn-onboard-modal {
+  z-index: 9999;
+}
