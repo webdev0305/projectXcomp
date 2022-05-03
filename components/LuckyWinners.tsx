@@ -24,7 +24,7 @@ export default function LuckyWinners() {
                 <div className="testimonial-area">
                   <div className="testimonial-slider slick-initialized slick-slider slick-vertical">
                     <div className="slick-list draggable" style={{height: "277.781px"}}>
-                      <div className="slick-track" style={{opacity: 1, height: "1389px", transform: "translate3d(0px, -277px, 0px)"}}>
+                      <div className="slick-track" style={{opacity: 1, height: "1389px", transform: "translate3d(0px, 0px, 0px)"}}>
                         <div className="testimonial-single slick-slide slick-cloned md:w-[630px] w-[303px]" data-slick-index="-1" id="" aria-hidden="true" >
                           <div className="testimonial-single__thumb">
                             <img src="assets/images/winner/1.png" alt="image" />

@@ -97,6 +97,7 @@ function useToken() {
 
   const createNewCompetition = async (countTotal:number, priceForGuest:string, priceForMember:string, maxPerPerson:number): Promise<void> => {
     // If not authenticated throw
+    console.log(countTotal,priceForGuest,priceForMember,maxPerPerson)
     if (!address) {
       throw new Error("Not Authenticated")
     }
@@ -150,8 +151,10 @@ function useToken() {
     if (!address) {
       throw new Error("Not Authenticated")
     }
+    
     if(!contractCompetition)
       getContract()
+      
     if(!user.approved) {
       await getToken()
       const tx = await contractToken?.approve(contractCompetition.address, UINT256_MAX)
@@ -160,7 +163,9 @@ function useToken() {
         return {...user, approved:true}
       })
     }
+    console.log("comp", count)
     const tx = await contractCompetition.buy(comp.id, count)
+    console.log(tx)
     await tx.wait()
     getBalance()
     return await contractCompetition.competitions((comp.id??1)-1)

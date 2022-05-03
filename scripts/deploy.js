@@ -10,6 +10,7 @@ const main = async () => {
   let Token, Competition;
 
   [owner, addr1, addr2, ...addrs] = await ethers.getSigners()
+  console.log("Account balance:", (await owner.getBalance()).toString());
   Token = await deployContract("Token")
   Multicall = await deployContract("Multicall")
   Competition = await deployContract("Competition",Token.address)
@@ -17,7 +18,7 @@ const main = async () => {
   console.log("Token address:", Token.address)
   console.log("Multicall address:", Multicall.address)
   console.log("Competition address:", Competition.address)
-
+  console.log("Account balance:", (await owner.getBalance()).toString());
   saveFrontendFiles()
 }
 
