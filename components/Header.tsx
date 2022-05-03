@@ -17,6 +17,7 @@ export default function Header() {
   // Global state
   const { address, unlock, lock } = eth.useContainer()
   const { user } = token.useContainer()
+  console.log(user.isOwner)
   const [navbar, setNavbar] = useState(false)
   const [mobileMenuIsOpen, setMobileMenuIsOpen] = useState(false)
   const [pathname, setPathname] = useState('')
@@ -87,7 +88,7 @@ export default function Header() {
               <button onClick={unlock}>Connect wallet</button>
               :
               <button onClick={toggleInfo}>
-                {(user.nickName).substring(0, 10)}
+                {user.nickName?.substring(0, 10)}
               </button>}
             {address && showInfo &&
               <OuterClick onOuterClick={() => setShowInfo(false)}>

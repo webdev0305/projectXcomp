@@ -2,7 +2,7 @@
 pragma solidity ^0.8.0;
 
 import "./common/IERC20.sol";
-
+import "hardhat/console.sol";
 struct TicketInfo {
     address account;
     uint32 amount;
@@ -214,8 +214,8 @@ contract Competition {
             require(hasMembership, "Buy: Only Members can buy.");
         uint256 price = uint256(
             competition.priceForGuest > -1
-                ? competition.priceForMember
-                : competition.priceForGuest
+                ? competition.priceForGuest
+                : competition.priceForMember
         ) * count;
         if (count >= 10) price -= (price * discount10) / 10000;
         else if (count >= 5) price -= (price * discount5) / 10000;
