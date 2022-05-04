@@ -35,6 +35,7 @@ export default function Competitions() {
     }, {})
     if (comp) setCompetition(comp)
   }, [competitions])
+  console.log(competitions)
   return (
 	<>
       <Hero />
