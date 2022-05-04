@@ -1,5 +1,5 @@
 import Hero from "components/Hero"
-import Howtoplay from "components/Howtoplay"
+import Howtoplay from "components/HowToPlay"
 import Winanywhere from "components/Winanywhere"
 import Features from "components/Features"
 import Previouswinners from "components/Previouswinners"

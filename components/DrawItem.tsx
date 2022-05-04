@@ -47,7 +47,7 @@ export default function DrawItem({href,item}:Prop) {
             <div className="contest-card__footer">
                 <ul className="contest-card__meta">
                     <li>
-                        <i className="las la-clock"></i>
+                        <i className="las la-clock text-white"></i>
                         {diffDays > 1?
                             <span>{diffDays} d</span>
                         :
@@ -58,9 +58,9 @@ export default function DrawItem({href,item}:Prop) {
                         }
                     </li>
                     <li>
-                        <i className="las la-ticket-alt"></i>
+                        <i className="las la-ticket-alt text-white"></i>
                         <span>{Number(item.countTotal) - Number(item.countSold)}</span>
-                        <p className="my-0">Remaining</p>
+                        <p className="my-0 text-white">Remaining</p>
                     </li>
                 </ul>
             </div>

@@ -203,149 +203,189 @@ export default function EditCompetitionPage() {
         }
     }, [id, dataLoading])
     return (
-        <div className={cn(styles.container, submitting && styles.submitting)}>
-            <div className="container">
-                <form onSubmit={submitContact} className="basis-full">
-                    <input type="hidden" name="id" value={competition.id ?? 0} />
-                    <input
-                        className="hidden"
-                        type="file"
-                        ref={hiddenFileInput}
-                        accept="image/png, image/gif, image/jpeg"
-                        onChange={onFileChange}
-                    />
-                    <div className="flex flex-wrap">
-                        <label className='mt-2 font-bold md:w-1/4 md:flex md:justify-end pr-4'>Title</label>
-                        <input
-                            className="mb-4 border-2 rounded-xl p-2 w-full md:w-3/4"
-                            value={competition.title ?? ''}
-                            name="title"
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-                    <div className="flex flex-wrap">
-                        <label className='mt-2 font-bold md:w-1/4 md:flex md:justify-end pr-4'>Description</label>
-                        <textarea
-                            className="mb-4 border-2 rounded-xl p-2 w-full md:w-3/4"
-                            value={competition.description ?? description}
-                            name="description"
-                            rows={5}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-                    <div className="flex flex-wrap">
-                        <label className='mt-2 font-bold md:w-1/4 md:flex md:justify-end pr-4'>Price of Ticket</label>
-                        <div className="md:w-3/4">
-                            <div className='flex flex-wrap'>
-                                <label className='w-full md:w-1/4'>
-                                    <input type="checkbox" className="mt-3 mr-2" name="forGuest" checked={competition.forGuest} onChange={handleChange} />
-                                    For Guest
-                                </label>
-                                <input
-                                    className={cn(styles.inputPrice, "mb-4 border-2 rounded-xl p-2")}
-                                    type="number"
-                                    step="any"
-                                    value={competition.priceForGuest ?? ''}
-                                    name="priceForGuest"
-                                    onChange={handleChange}
-                                    disabled={!competition.forGuest}
-                                    required={competition.forGuest}
-                                />
-                            </div>
-                            <div className='flex flex-wrap'>
-                                <label className='w-full md:w-1/4'>
-                                    <input type="checkbox" className="mt-3 mr-2" name="forMember" checked={competition.forMember} onChange={handleChange} />
-                                    For Members
-                                </label>
-                                <input
-                                    className={cn(styles.inputPrice, "mb-4 border-2 rounded-xl p-2")}
-                                    type="number"
-                                    step="any"
-                                    value={competition.priceForMember ?? ''}
-                                    name="priceForMember"
-                                    onChange={handleChange}
-                                    disabled={!competition.forMember}
-                                    required={competition.forMember}
-                                />
-                            </div>
-                        </div>
-                    </div>
-                    <div className="flex flex-wrap">
-                        <label className='mt-2 font-bold md:w-1/4 md:flex md:justify-end pr-4'>Number of Tickets</label>
-                        <input
-                            type="number"
-                            className="mb-4 border-2 rounded-xl p-2 w-full md:w-1/4"
-                            value={competition.countTotal ?? ''}
-                            name="countTotal"
-                            onChange={handleChange}
-                            required
-                        />
-                        <label className='mt-2 font-bold md:w-1/4 md:flex md:justify-end pr-4'>Max tickets per wallet</label>
-                        <input
-                            type="number"
-                            className="mb-4 border-2 rounded-xl p-2 w-full md:w-1/4"
-                            value={competition.maxPerPerson ?? ''}
-                            name="maxPerPerson"
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-                    <div className="flex flex-wrap">
-                        <label className='mt-2 font-bold md:w-1/4 md:flex md:justify-end pr-4'>Logo Image</label>
-                        <div className={cn(styles.imageBox, "cursor-pointer")} onClick={() => selectImage('logo')}>
-                            {competition.logoImage || logoImage ?
-                                <img src={logoImage ?? competition.logoImage} height={100} alt='Logo Image' /> :
-                                <span className={styles.emptyBox}>Logo Image</span>}
-                        </div>
-                    </div>
-                    <div className="flex flex-wrap mt-4">
-                        <label className='mt-2 font-bold md:w-1/4 md:flex md:justify-end pr-4'>Detail Images</label>
-                        <div className="md:w-3/4">
-                            <div className='flex flex-wrap justify-between'>
-                                <button type="button" className='py-2 px-4 rounded-xl border-2 cursor-pointer hover:bg-white hover:text-black' onClick={() => selectImage()}>Add Image</button>
-                                {((competition.images?.length ?? 0) > 0 || images?.length > 0) && (
-                                    <button type="button" className='py-2 px-4 rounded-xl border-2 cursor-pointer hover:bg-white hover:text-black' onClick={() => setShowImages(!showImages)}>{showImages ? 'Hide' : 'Show'} Images</button>
-                                )}
-                            </div>
-                            {showImages && ((competition.images?.length ?? 0) > 0 || images?.length > 0) ? (
-                                <div className='flex flex-wrap mt-4'>
-                                    {competition.images?.map((path:any, index:number) => (
-                                        <div key={index} className={styles.imageBox}>
-                                            <img src={path} height={100} alt='file' />
-                                            <span onClick={() => onImageRemove(index)} className={styles.btnDeleteImage}>&times;</span>
-                                        </div>
-                                    ))}
-                                    {images?.map((image, index) => (
-                                        <div key={index} className={styles.imageBox}>
-                                            <img src={image} width={200} height={200} alt='file' />
-                                            <span onClick={() => onImageCancel(index)} className={styles.btnDeleteImage}>&times;</span>
-                                        </div>
-                                    ))}
+        <div className="page-wrapper">
+            <div className="inner-hero-section style--five">
+                <div className="bg-shape">
+                    <img src="assets/images/elements/inner-hero-shape.png" alt="image" />
+                </div>
+            </div>
+            <div className="mt-minus-100 pb-120">
+                <div className="container">
+                    <div className="row">
+                        <form onSubmit={submitContact} className="basis-full">
+                            <input type="hidden" name="id" value={competition.id ?? 0} />
+                            <input
+                                className="hidden"
+                                type="file"
+                                ref={hiddenFileInput}
+                                accept="image/png, image/gif, image/jpeg"
+                                onChange={onFileChange}
+                            />
+                            <div className="flex flex-wrap my-3">
+                                <div className='col-lg-4 text-center'>
+                                    <label className='text-2xl'>Title</label>
                                 </div>
-                            ) : null}
-                        </div>
+                                <div className='col-lg-8'>
+                                    <input
+                                        className = "text-white p-3 "
+                                        value={competition.title ?? ''}
+                                        name="title"
+                                        onChange={handleChange}
+                                        required
+                                    />
+
+                                </div>
+                            </div>
+                            <div className="flex flex-wrap my-3">
+                                <div className='col-lg-4 text-center '>
+                                    <label className='text-2xl'>Description</label>
+                                </div>
+                                <div className='col-lg-8'>
+                                    <textarea
+                                        className = "text-white  p-3"
+                                        value={competition.description ?? description}
+                                        name="description"
+                                        rows={5}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                </div>
+                            </div>
+                            <div className="flex flex-wrap my-3">
+                                <div className='col-lg-4 text-center'>
+                                    <label className='text-2xl'>Price of Ticket</label>
+                                </div>
+                                <div className='col-lg-8'>
+                                    <div className="md:w-3/4">
+                                        <div className='flex flex-wrap'>
+                                            <label className='w-full md:w-1/4'>
+                                                <input type="checkbox" className="mt-3 mr-2 text-white w-6" name="forGuest" checked={competition.forGuest} onChange={handleChange} />
+                                                For Guest
+                                            </label>
+                                            <input
+                                                type="number"
+                                                className = "text-white"
+                                                step="any"
+                                                value={competition.priceForGuest ?? ''}
+                                                name="priceForGuest"
+                                                onChange={handleChange}
+                                                disabled={!competition.forGuest}
+                                                required={competition.forGuest}
+                                            />
+                                        </div>
+                                        <div className='flex flex-wrap'>
+                                            <label className='w-full md:w-1/4'>
+                                                <input type="checkbox" className="mt-3 mr-2" name="forMember" checked={competition.forMember} onChange={handleChange} />
+                                                For Members
+                                            </label>
+                                            <input
+                                                className = "text-white"
+                                                type="number"
+                                                step="any"
+                                                value={competition.priceForMember ?? ''}
+                                                name="priceForMember"
+                                                onChange={handleChange}
+                                                disabled={!competition.forMember}
+                                                required={competition.forMember}
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="flex flex-wrap my-3">
+                                <div className='col-lg-4 text-center'>
+                                    <label className='text-2xl'>Number of Tickets</label>
+                                </div>
+                                <div className='col-lg-8'>
+                                    <input
+                                        type="number"
+                                        className="text-white"
+                                        value={competition.countTotal ?? ''}
+                                        name="countTotal"
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                </div>
+                            </div>
+                            <div className="flex flex-wrap my-3">
+                                <div className='col-lg-4 text-center'>
+                                    <label className='text-2xl'>Max tickets per wallet</label>
+                                </div>
+                                <div className='col-lg-8'>
+                                    <input
+                                        type="number"
+                                        className="text-white"
+                                        value={competition.maxPerPerson ?? ''}
+                                        name="maxPerPerson"
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                </div>
+                            </div>
+                            <div className="flex flex-wrap my-3">
+                                <div className='col-lg-4 text-center'>
+                                    <label className='text-2xl'>Logo Image</label>
+                                </div>
+                                <div className='col-lg-8 max-w-sm'>
+                                    <div className={cn(styles.imageBox, "cursor-pointer")} onClick={() => selectImage('logo')}>
+                                        {competition.logoImage || logoImage ?
+                                            <img src={logoImage ?? competition.logoImage} height={100} alt='Logo Image' /> :
+                                            <span className={styles.emptyBox}>Logo Image</span>}
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="flex flex-wrap my-3">
+                                <div className='col-lg-4 text-center'>
+                                    <label className='text-2xl'>Detail Images</label>
+                                </div>
+                                <div className='col-lg-8 text-white'>
+                                    <div className="md:w-3/4">
+                                        <div className='flex flex-wrap justify-between'>
+                                            <button type="button" className='py-2 px-4 rounded-xl border-2 cursor-pointer hover:bg-white hover:text-black' onClick={() => selectImage()}>Add Image</button>
+                                            {((competition.images?.length ?? 0) > 0 || images?.length > 0) && (
+                                                <button type="button" className='py-2 px-4 rounded-xl border-2 cursor-pointer hover:bg-white hover:text-black' onClick={() => setShowImages(!showImages)}>{showImages ? 'Hide' : 'Show'} Images</button>
+                                            )}
+                                        </div>
+                                        {showImages && ((competition.images?.length ?? 0) > 0 || images?.length > 0) ? (
+                                            <div className='flex flex-wrap mt-4'>
+                                                {competition.images?.map((path: any, index: number) => (
+                                                    <div key={index} className={styles.imageBox}>
+                                                        <img src={path} height={100} alt='file' />
+                                                        <span onClick={() => onImageRemove(index)} className={styles.btnDeleteImage}>&times;</span>
+                                                    </div>
+                                                ))}
+                                                {images?.map((image, index) => (
+                                                    <div key={index} className={styles.imageBox}>
+                                                        <img src={image} width={200} height={200} alt='file' />
+                                                        <span onClick={() => onImageCancel(index)} className={styles.btnDeleteImage}>&times;</span>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        ) : null}
+                                    </div>
+                                </div>
+                            </div>
+                            <div className='text-center my-3'>
+                                <button
+                                    disabled={submitting}
+                                    type="submit"
+                                    className="px-4 py-2 my-4 font-bold text-white bg-blue-500 rounded-lg hover:bg-blue-700"
+                                >
+                                    {submitting ? 'Submitting...' : 'Submit'}
+                                </button>
+                                {' '}
+                                <Link href="/list" passHref>
+                                    <button
+                                        disabled={submitting}
+                                        className="px-4 py-2 my-4 font-bold text-white bg-gray-500 rounded-lg hover:bg-gray-700"
+                                    >
+                                        Back
+                                    </button>
+                                </Link>
+                            </div>
+                        </form>
                     </div>
-                    <div className='text-center'>
-                        <button
-                            disabled={submitting}
-                            type="submit"
-                            className="px-4 py-2 my-4 font-bold text-white bg-blue-500 rounded-lg hover:bg-blue-700"
-                        >
-                            {submitting ? 'Submitting...' : 'Submit'}
-                        </button>
-                        {' '}
-                        <Link href="/list" passHref>
-                            <button
-                                disabled={submitting}
-                                className="px-4 py-2 my-4 font-bold text-white bg-gray-500 rounded-lg hover:bg-gray-700"
-                            >
-                                Back
-                            </button>
-                        </Link>
-                    </div>
-                </form>
+                </div>
             </div>
         </div>
     );

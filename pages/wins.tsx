@@ -48,12 +48,12 @@ export default function Wins() {
                                 <ul className="user-action-list">
                                     <li>
                                         <Link href="/draws">
-                                            <a>My Draws</a>
+                                            <a className="text-white">My Draws</a>
                                         </Link>
                                     </li>
                                     <li>
                                         <Link href="/wins">
-                                            <a>My Wins</a>
+                                            <a className="text-white">My Wins</a>
                                         </Link>
                                     </li>
                                 </ul>
@@ -63,6 +63,7 @@ export default function Wins() {
                             <div className="row mt-0  mb-none-30">
                                 <div className="col-lg-12 mb-30">
                                     {competitions?.filter((item:any) => {
+                                        return true;
                                     return item.timeEnd != undefined && item.status == 2 && item.winner.id.toLowerCase() === String(address).toLowerCase()
                                     }).map((item:any) => (
                                         
@@ -73,7 +74,7 @@ export default function Wins() {
                                             <div className="winner-card__content">
                                                 <div className="content-top">
                                                     <div className="left">
-                                                        <h5 className="text-[20px]">{item.title}</h5>
+                                                        <h5 className="text-[22px]">{item.title}</h5>
                                                     </div>
                                                     <div className="right">
                                                         <span>Draw took place on</span>
@@ -82,8 +83,8 @@ export default function Wins() {
                                                 </div>
                                                 <div className="content-bottom">
                                                     <div className="number-list-wrapper">
-                                                        <p>You won!</p>
-                                                        <p>Claim instructions goes <a href="#">here</a></p>
+                                                        <p className="text-white text-[18px]">You won!</p>
+                                                        <p className="text-white text-[18px]">Claim instructions goes <a href="#">here</a></p>
                                                     </div>
                                                     <div className="right">
                                                         <p>Comp No:</p>

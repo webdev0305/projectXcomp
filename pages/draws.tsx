@@ -48,12 +48,12 @@ export default function Draws() {
                                 <ul className="user-action-list">
                                     <li>
                                         <Link href="/draws">
-                                            <a>My Draws</a>
+                                            <a className="text-white">My Draws</a>
                                         </Link>
                                     </li>
                                     <li>
                                         <Link href="/wins">
-                                            <a>My Wins</a>
+                                            <a  className="text-white">My Wins</a>
                                         </Link>
                                     </li>
                                 </ul>
@@ -62,6 +62,7 @@ export default function Draws() {
                         <div className="col-lg-8 mt-lg-0 mt-4">
                             <div className="row mt-0  mb-none-30">
                             {!dataLoading && competitions?.filter((e:any) => {
+                                return true;
                                 console.log(e)
                                 return e.purchased > 0 
                                 && e.timeEnd != undefined && e.status < 2
