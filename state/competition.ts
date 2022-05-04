@@ -325,7 +325,7 @@ function useToken() {
         countTotal: row.countTotal,
         countSold: row.countSold,
         maxPerPerson: row.maxPerPerson,
-        purchased: purchasedTickets,
+        purchased: address?purchasedTickets:0,
         winner: row.winner?{
           id: row.winner,
           firstName: rowData.winner_first_name,

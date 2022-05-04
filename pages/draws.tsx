@@ -21,23 +21,15 @@ export default function Draws() {
         document.querySelector("#competitions")?.scrollIntoView()
     })
     
-    // useEffect(() => {
-    //     const comp = competitions.filter((item:any) => {
-    //         return item.purchased > 0 
-    //         && item.timeEnd != undefined && item.status < 2
-    //         })
-    //     if (comp) setCompetition(comp)
-    //   }, [!dataLoading, competitions])
     useEffect(() => {
-        const comp = competitions.reduce((prev: any, cur: ICompetition) => {
-          if (cur.status != 1 || cur.timeEnd == undefined) return prev
-          if (prev.timeEnd == undefined || prev?.timeEnd > cur?.timeEnd)
-            return cur
-          return prev
-        }, {})
+        const comp = competitions.filter((item:any) => {
+            return item.purchased > 0 
+            && item.timeEnd != undefined && item.status < 2
+            })
         if (comp) setCompetition(comp)
-      }, [competitions])
-      console.log(competitions)
+      }, [!dataLoading, competitions])
+   
+
     return (
         <div className="page-wrapper">
             <div className="inner-hero-section style--five">
@@ -70,6 +62,7 @@ export default function Draws() {
                         <div className="col-lg-8 mt-lg-0 mt-4">
                             <div className="row mt-0  mb-none-30">
                             {!dataLoading && competitions?.filter((e:any) => {
+                                console.log(e)
                                 return e.purchased > 0 
                                 && e.timeEnd != undefined && e.status < 2
                                 }).map((item:any) =>

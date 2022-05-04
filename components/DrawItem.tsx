@@ -24,7 +24,6 @@ export default function DrawItem({href,item}:Prop) {
     const diffDays = !timeout?Math.ceil(diff / (1000 * 3600*24)):0;
     const diffHours = !timeout?Math.ceil(diff / (1000 * 3600)):0;
     const diffMins = !timeout?Math.ceil(diff / (1000 * 60)):0;
-console.log(item)
     return (
         <div className="contest-card">
             <div className="contest-card__thumb">

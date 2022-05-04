@@ -63,8 +63,7 @@ export default function Wins() {
                             <div className="row mt-0  mb-none-30">
                                 <div className="col-lg-12 mb-30">
                                     {competitions?.filter((item:any) => {
-                                    return item.purchased > 0 
-                                    && item.timeEnd != undefined && item.status == 2 && item.winner.id.toLowerCase() === String(address).toLowerCase()
+                                    return item.timeEnd != undefined && item.status == 2 && item.winner.id.toLowerCase() === String(address).toLowerCase()
                                     }).map((item:any) => (
                                         
                                         <div className="winner-card mb-30" key={item.id}>
