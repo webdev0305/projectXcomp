@@ -11,10 +11,12 @@ const main = async () => {
   let owner, addr1, addr2, addrs;
   let Token, Competition;
 
-  [owner, addr1, addr2, ...addrs] = await ethers.getSigners()
+  [owner, addr1] = await ethers.getSigners()
+  console.log(owner.address)
   Token = await deploy("Token")
   Multicall = await deploy("Multicall")
   Competition = await deployProxy("Competition",[Token.address])
+
 
   console.log("Token address:", Token.address)
   console.log("Multicall address:", Multicall.address)

@@ -30,18 +30,18 @@ export default function DrawItem({href,item}:Prop) {
                 <Link href={href} passHref>
                     <img src={item.logoImage} alt="image"/>
                 </Link>
-                    <div className="contest-num">
+                    <div className="contest-num flex flex-col items-center">
                         <span>Comp no:</span>
-                        <h4 className="number">{item.id}</h4>
+                        <h4 className="number text-[22px]">{item.id}</h4>
                     </div>
             </div>
             <div className="contest-card__content">
                 <div className="left">
-                    <h5 className="contest-card__name text-[20px]">{item.title}</h5>
+                    <h5 className="contest-card__name text-[20px] uppercase">{item.title}</h5>
                 </div>
                 <div className="right">
                     <span className="contest-card__price">{item.purchased}</span>
-                    <p>tickets</p>
+                    <p className="text-white text-[18px] capitalize my-0">tickets</p>
                 </div>
             </div>
             <div className="contest-card__footer">
@@ -60,7 +60,7 @@ export default function DrawItem({href,item}:Prop) {
                     <li>
                         <i className="las la-ticket-alt"></i>
                         <span>{Number(item.countTotal) - Number(item.countSold)}</span>
-                        <p>Remaining</p>
+                        <p className="my-0">Remaining</p>
                     </li>
                 </ul>
             </div>
