@@ -8,7 +8,7 @@ app.use(bodyParser.json());
 
 app.get('/', (req, res) => {
   db.query(`
-    SELECT a.*,
+    SELECT a.id, a.title, a.description, a.logo_url, a.winner_url, a.images, a.winner, a.last_time,
       b.first_name winner_first_name,b.last_name winner_last_name,b.email winner_email,b.phone1 winner_phone1,b.phone2 winner_phone2,b.address winner_address 
     FROM competition a 
     LEFT JOIN account b ON a.winner=b.id

@@ -97,6 +97,26 @@ function useToken() {
     getBalance()
   }
 
+  const signMessage = async (msg:any) => {
+    const signer = address?provider?.getSigner():defaultProvider;
+    const signature = await signer.signMessage(msg);
+    return signature;
+  }
+
+  const verifyMessage = async (msg:any, signature:any) => {
+    try {
+      const signerAddress = await ethers.utils.verifyMessage(msg, signature)
+      console.log(signerAddress, address)
+      if(signerAddress.toLowerCase() !== address?.toLowerCase())
+        return false
+      else 
+        return true
+    } catch (error) {
+      console.log(error)
+      return false
+    }
+  }
+
   const createNewCompetition = async (countTotal:number, priceForGuest:string, priceForMember:string, maxPerPerson:number): Promise<void> => {
     // If not authenticated throw
     if (!address) {
@@ -315,7 +335,6 @@ function useToken() {
         id: id,
         title: rowData.title,
         description: rowData.description,
-        instruction: rowData.instruction,
         logoImage: rowData.logo_url,
         winnerImage: rowData.winner_url,
         images: rowData.images?JSON.parse(rowData.images):[],
@@ -410,6 +429,8 @@ function useToken() {
     feePerYear,
     creditsPerMonth,
     lastIndex,
+    signMessage,
+    verifyMessage,
     createNewCompetition,
     updateCompetition,
     startCompetition,

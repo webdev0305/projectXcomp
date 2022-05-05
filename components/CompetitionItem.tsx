@@ -255,7 +255,6 @@ export default function CompetitionItem({ href, className, item, showStatus }: P
                 <div className={classNames(styles.winner, "mt-2 m-2")}>
                     <label>Winner</label>
                     <span className="flex flex-col gap-2">
-                        {/* <div>Name: {item.winner?.nickName}</div> */}
                         <div>Wallet: 0x{item.winner?.id?.substring(2, 12)}...{item.winner?.id?.slice(-10)}</div>
                         {/* {item.winner?.email && <div>Email: {item.winner?.email}</div>} */}
                         {/* {item.winner?.address && <div>Address: {item.winner?.address}</div>} */}
