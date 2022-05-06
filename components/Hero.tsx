@@ -1,11 +1,8 @@
 import classNames from "classnames";
 import Image from "next/image";
 
-interface Prop {
-    children: JSX.Element | JSX.Element[]
-}
 
-export default function Hero({ children }: Prop) {
+export default function Hero() {
     return (
         <section className="hero">
         <div className="hero__shape">
