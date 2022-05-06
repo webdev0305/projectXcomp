@@ -145,7 +145,7 @@ export default function EditCompetitionPage() {
                 await updateCompetition(
                     competition.id,
                     competition.countTotal ?? 0,
-                    competition.forGuest ? new BigNumber(competition.priceForGuest ?? 0).shiftedBy(18).toString() : '-1',
+                    new BigNumber(competition.priceForGuest ?? 0).shiftedBy(18).toString(),
                     competition.forMember ? new BigNumber(competition.priceForMember ?? 0).shiftedBy(18).toString() : '-1',
                     competition.maxPerPerson ?? 0
                 )
@@ -158,9 +158,10 @@ export default function EditCompetitionPage() {
                 }
                 msg = 'Updated successfully!'
             } else {
+                console.log(competition)
                 await createNewCompetition(
                     competition.countTotal ?? 0,
-                    competition.forGuest ? new BigNumber(competition.priceForGuest ?? 0).shiftedBy(18).toString() : '-1',
+                    new BigNumber(competition.priceForGuest ?? 0).shiftedBy(18).toString(),
                     competition.forMember ? new BigNumber(competition.priceForMember ?? 0).shiftedBy(18).toString() : '-1',
                     competition.maxPerPerson ?? 0
                 )
@@ -256,12 +257,12 @@ export default function EditCompetitionPage() {
                                     <label className='text-2xl'>Price of Ticket</label>
                                 </div>
                                 <div className='col-lg-8'>
-                                    <div className="md:w-3/4">
+                                    <div className="md:w-1/4">
                                         <div className='flex flex-wrap'>
-                                            <label className='w-full md:w-1/4'>
-                                                <input type="checkbox" className="mt-3 mr-2 text-white w-6" name="forGuest" checked={competition.forGuest} onChange={handleChange} />
+                                            {/* <label className='w-full md:w-1/4 hidden'>
+                                                <input type="input" className="mt-3 mr-2 text-white w-6" name="forGuest" checked={true} onChange={handleChange}/>
                                                 For Guest
-                                            </label>
+                                            </label> */}
                                             <input
                                                 type="number"
                                                 className = "text-white"
@@ -269,11 +270,10 @@ export default function EditCompetitionPage() {
                                                 value={competition.priceForGuest ?? ''}
                                                 name="priceForGuest"
                                                 onChange={handleChange}
-                                                disabled={!competition.forGuest}
-                                                required={competition.forGuest}
+                                                required={true}
                                             />
                                         </div>
-                                        <div className='flex flex-wrap'>
+                                        <div className='flex flex-wrap hidden'>
                                             <label className='w-full md:w-1/4'>
                                                 <input type="checkbox" className="mt-3 mr-2" name="forMember" checked={competition.forMember} onChange={handleChange} />
                                                 For Members
@@ -296,7 +296,7 @@ export default function EditCompetitionPage() {
                                 <div className='col-lg-4 text-center'>
                                     <label className='text-2xl'>Number of Tickets</label>
                                 </div>
-                                <div className='col-lg-8'>
+                                <div className='col-lg-8 '>
                                     <input
                                         type="number"
                                         className="text-white"

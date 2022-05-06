@@ -3,7 +3,12 @@ import { ICompetition, token } from "state/competition"
 import { useEffect, useState } from "react";
 import Router from "next/router";
 import Link from 'next/link';
+import axios from "axios"
+import Box from '@mui/material/Box';
+import Modal from '@mui/material/Modal';
+import { toast } from "react-toastify";
 import moment from "moment";
+import classNames from "classnames";
 
 export default function Wins() {
     const { provider,address, unlock, lock } = eth.useContainer()
@@ -14,7 +19,9 @@ export default function Wins() {
         signMessage,
         syncStatus
     } = token.useContainer()
-    const [competition, setCompetition] = useState<any>({})
+    const [loading, setLoading] = useState(false)
+    const [openPrizeView, setOpenPrizeView] = useState(false)
+    const [prizeInstruction, setPrizeInstruction] = useState('')
     useEffect(() => {
         syncStatus()
     }, [provider])
@@ -22,22 +29,21 @@ export default function Wins() {
         if (Router.asPath != '/')
         document.querySelector("#competitions")?.scrollIntoView()
     })
-    useEffect(() => {
-       {competitions?.filter((item:any) => {
-        return item.purchased > 0 
-        && item.timeEnd != undefined && item.status == 2 && item.winner.id.toLowerCase() === String(address).toLowerCase()
-        }).map((item:any) => 
-        console.log(moment.unix(item.timeEnd&&item.timeEnd.getTime()/1000).format(" Do MMM Y"))
-            )}
-      }, [competitions])
+   
 
-    const  handleSignMessage = async(id:any, winner:string) => {
-        const signature = await signMessage('CompetitionId:'+id)
-        const isValid = await verifyMessage('CompetitionId:'+id, signature)
-        console.log(isValid)
-        if(isValid)
-            alert("yes")
-
+    const handleSignMessage = async(id:any, winner:string) => {
+        const signature = await signMessage(`competition${id}`)
+        try {
+        axios.post(`/api/competition/instruction`,{id:id, signature:signature, msg:`competition${id}`}).then(res => {
+            setLoading(false), 
+            setOpenPrizeView(true)
+            setPrizeInstruction(res.data.data)
+            
+        }).finally()
+        } catch (ex: any) {
+            toast.error(`Error! ${ex}`)
+            setLoading(false)
+        }
     };
     
     return (
@@ -107,6 +113,29 @@ export default function Wins() {
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+            <div className={classNames(openPrizeView?"block":"hidden","modal")}>
+                <div className="modal-dialog">
+                    <div className="modal-content">
+
+                        <div className="modal-header border-0" style={{backgroundImage: "-webkit-linear-gradient(90deg, #e82a7a 0%, #360354 100%)"}}>
+                            <h4 className="modal-title">Prize Instruction</h4>
+                            <button type="button" className="close" data-dismiss="modal" onClick={()=>setOpenPrizeView(false)}>&times;</button>
+                        </div>
+
+                        <div className="modal-body" style={{backgroundImage: "-webkit-linear-gradient(90deg, #c165dd 0%, #5c27fe 100%)"}}>
+                            <div className="p-4">
+                                <h4>{prizeInstruction}</h4>
+                            </div>
+                            <div className="modal-footer border-t-[1px]">
+                                <button type="button" className="btn btn-danger" data-dismiss="modal" onClick={()=>setOpenPrizeView(false)}>Close</button>
+                            </div>
+                        </div>
+
+                        
+
                     </div>
                 </div>
             </div>
