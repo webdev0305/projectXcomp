@@ -52,7 +52,7 @@ export default function Header() {
         <div className="header__bottom">
           <div className="container">
             <nav className="navbar navbar-expand-xl p-0 align-items-center">
-              <Link href="/" >
+              <Link href="/" passHref>
                 <div className="site-logo site-title" >
                   <img
                     src="/assets/images/logos/competitionx-logo-3-letters-onblack.png"
