@@ -7,7 +7,7 @@ var pool = mysql.createPool({
     password: "rlarhkdcjf617",
     // host: "127.0.0.1",
     // user: "root",
-    // password: "password123!",
+    // password: "",
     database: "competition"
 })
 

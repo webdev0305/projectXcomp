@@ -10,6 +10,8 @@ export default function Wins() {
     const {
         dataLoading,
         competitions,
+        verifyMessage,
+        signMessage,
         syncStatus
     } = token.useContainer()
     const [competition, setCompetition] = useState<any>({})
@@ -20,7 +22,6 @@ export default function Wins() {
         if (Router.asPath != '/')
         document.querySelector("#competitions")?.scrollIntoView()
     })
-    console.log(competitions)
     useEffect(() => {
        {competitions?.filter((item:any) => {
         return item.purchased > 0 
@@ -29,6 +30,15 @@ export default function Wins() {
         console.log(moment.unix(item.timeEnd&&item.timeEnd.getTime()/1000).format(" Do MMM Y"))
             )}
       }, [competitions])
+
+    const  handleSignMessage = async(id:any, winner:string) => {
+        const signature = await signMessage('CompetitionId:'+id)
+        const isValid = await verifyMessage('CompetitionId:'+id, signature)
+        console.log(isValid)
+        if(isValid)
+            alert("yes")
+
+    };
     
     return (
         <div className="page-wrapper">
@@ -63,7 +73,7 @@ export default function Wins() {
                             <div className="row mt-0  mb-none-30">
                                 <div className="col-lg-12 mb-30">
                                     {competitions?.filter((item:any) => {
-                                        return true;
+                                        // return true;
                                     return item.timeEnd != undefined && item.status == 2 && item.winner.id.toLowerCase() === String(address).toLowerCase()
                                     }).map((item:any) => (
                                         
@@ -84,7 +94,7 @@ export default function Wins() {
                                                 <div className="content-bottom">
                                                     <div className="number-list-wrapper">
                                                         <p className="text-white text-[18px]">You won!</p>
-                                                        <p className="text-white text-[18px]">Claim instructions goes <a href="#">here</a></p>
+                                                        <p className="text-white text-[18px]">Claim instructions goes <a href="#" onClick={()=>handleSignMessage(item.id, item.winner.id)}>here</a></p>
                                                     </div>
                                                     <div className="right">
                                                         <p>Comp No:</p>

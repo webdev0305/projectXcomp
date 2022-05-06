@@ -87,6 +87,21 @@ export default function CompetitionItem({ href, className, item, showStatus }: P
     //         setLoading(false)
     //     }
     // }
+    useEffect(() => {
+        try {
+            axios.get(`/api/competition/instruction/${item.id}`).then(res => {
+                if (res.data.success)
+                    toast.success('Updated successfully!')
+            }).finally(() => setLoading(false))
+        } catch (ex: any) {
+            
+            if (typeof ex == 'object')
+                toast.error(`Error! ${(ex.data?.message ?? null) ? ex.data.message.replace('execution reverted: ', '') : ex.message}`)
+            else
+                toast.error(`Error! ${ex}`)
+            setLoading(false)
+        }
+    },[user.isOwner, item.status == 2])
     const handleChange = (e: any) => {
         const field = e.target.name
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
@@ -255,19 +270,9 @@ export default function CompetitionItem({ href, className, item, showStatus }: P
                 <div className={classNames(styles.winner, "mt-2 m-2")}>
                     <label>Winner</label>
                     <span className="flex flex-col gap-2">
-                        {/* <div>Name: {item.winner?.nickName}</div> */}
                         <div>Wallet: 0x{item.winner?.id?.substring(2, 12)}...{item.winner?.id?.slice(-10)}</div>
-                        {/* {item.winner?.email && <div>Email: {item.winner?.email}</div>} */}
-                        {/* {item.winner?.address && <div>Address: {item.winner?.address}</div>} */}
-                        {/* {(item.winner?.phone1 || item.winner?.phone2) && <div>Phone: {item.winner?.phone1} {item.winner?.phone2}</div>} */}
                     </span>
-                    {/* <input
-                        className="hidden"
-                        type="file"
-                        ref={hiddenFileInput}
-                        accept="image/png, image/gif, image/jpeg"
-                        onChange={handleUpload}
-                    /> */}
+                   
                     <textarea 
                         className="text-white p-2 mt-4" 
                         value={competition.instruction ?? ''}

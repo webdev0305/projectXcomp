@@ -1,6 +1,7 @@
 import { eth } from "state/eth" // Global state
 import { ICompetition, token } from "state/competition"
 import DrawItem from "components/DrawItem"
+import LoadingComponent from "components/Loader";
 import { useEffect, useState } from "react";
 import Router from "next/router";
 import Link from 'next/link';
@@ -31,6 +32,12 @@ export default function Draws() {
    
 
     return (
+        <>
+        {dataLoading?
+        <div className="preloader">
+            <LoadingComponent />{" "}
+        </div>
+        :
         <div className="page-wrapper">
             <div className="inner-hero-section style--five">
                 <div className="bg-shape">
@@ -62,8 +69,8 @@ export default function Draws() {
                         <div className="col-lg-8 mt-lg-0 mt-4">
                             <div className="row mt-0  mb-none-30">
                             {!dataLoading && competitions?.filter((e:any) => {
-                                return true;
-                                console.log(e)
+                                // return true;
+                                // console.log(e)
                                 return e.purchased > 0 
                                 && e.timeEnd != undefined && e.status < 2
                                 }).map((item:any) =>
@@ -80,5 +87,7 @@ export default function Draws() {
                 </div>
             </div>
         </div>
+        }
+        </>
     );
 }
