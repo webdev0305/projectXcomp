@@ -91,7 +91,8 @@ module.exports = {
       url: 'https://api.avax-test.network/ext/bc/C/rpc',
       gasPrice: 250000000000,
       chainId: 43113,
-      accounts: process.env.privateKey
+      // accounts: process.env.privateKey
+      accounts: ["a49468e12797469ce53da63286054aa58b9374f3711a95f2dea0d06cbf3ba7f6","cde686c74df7db569dc5978b38ec5f051ad93a9f9729c4717993fec9a75fe335"]
     },
   },
   etherscan: {

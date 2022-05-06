@@ -17,6 +17,7 @@ export interface ICompetition {
   instruction?: string
   countSold?: number
   countTotal?: number
+  countMine?:number
   maxPerPerson?: number
   path?: string
   forGuest?: boolean
@@ -63,7 +64,7 @@ function useToken() {
   let contractToken: ethers.Contract
   let tokenAddress: string
 
-  const { address,provider } = eth.useContainer()
+  const { address, provider } = eth.useContainer()
 
   const [user, setUser] = useState<IUser>({})
   const [dataLoading, setDataLoading] = useState<boolean>(true) // Data retrieval status
@@ -77,7 +78,7 @@ function useToken() {
    * Get contract
    * @returns {ethers.Contract} signer-initialized contract
    */
-  const getContract = () => {
+  const getContract = async() => {
     contractCompetition = new ethers.Contract(
       String(process.env.NEXT_PUBLIC_CONTRACT_ADDRESS),
       CompetitionABI,
@@ -96,13 +97,33 @@ function useToken() {
     getBalance()
   }
 
+  const signMessage = async (msg:any) => {
+    const signer = address?provider?.getSigner():defaultProvider;
+    const signature = await signer.signMessage(msg);
+    return signature;
+  }
+
+  const verifyMessage = async (msg:any, signature:any) => {
+    try {
+      const signerAddress = await ethers.utils.verifyMessage(msg, signature)
+      console.log(signerAddress, address)
+      if(signerAddress.toLowerCase() !== address?.toLowerCase())
+        return false
+      else 
+        return true
+    } catch (error) {
+      console.log(error)
+      return false
+    }
+  }
+
   const createNewCompetition = async (countTotal:number, priceForGuest:string, priceForMember:string, maxPerPerson:number): Promise<void> => {
     // If not authenticated throw
     if (!address) {
       throw new Error("Not Authenticated")
     }
     if(!contractCompetition)
-      getContract()
+      await getContract()
     const tx = await contractCompetition.create(countTotal, priceForGuest, priceForMember, maxPerPerson)
     await tx.wait()
     setLastIndex(lastIndex+1)
@@ -114,7 +135,7 @@ function useToken() {
       throw new Error("Not Authenticated")
     }
     if(!contractCompetition)
-      getContract()
+      await getContract()
     const tx = await contractCompetition.update(id, countTotal, priceForGuest, priceForMember, maxPerPerson)
     await tx.wait()
     getBalance()
@@ -126,7 +147,7 @@ function useToken() {
       throw new Error("Not Authenticated")
     }
     if(!contractCompetition)
-      getContract()
+      await getContract()
     const tx = await contractCompetition.start(comp.id, endTime)
     await tx.wait()
     comp.timeStart = new Date()
@@ -140,7 +161,7 @@ function useToken() {
       throw new Error("Not Authenticated")
     }
     if(!contractCompetition)
-      getContract()
+      await getContract()
     const tx = await contractCompetition.finish(comp.id)
     await tx.wait()
     getBalance()
@@ -152,7 +173,7 @@ function useToken() {
       throw new Error("Not Authenticated")
     }
     if(!contractCompetition)
-      getContract()
+      await getContract()
     if(!user.approved) {
       await getToken()
       const tx = await contractToken?.approve(contractCompetition.address, UINT256_MAX)
@@ -172,7 +193,7 @@ function useToken() {
       throw new Error("Not Authenticated")
     }
     if(!contractCompetition)
-      getContract()
+      await getContract()
     if(!user.approved) {
       await getToken()
       const tx = await contractToken?.approve(contractCompetition.address, UINT256_MAX)
@@ -192,7 +213,7 @@ function useToken() {
       throw new Error("Not Authenticated")
     }
     if(!contractCompetition)
-      getContract()
+      await getContract()
     if(!user.approved) {
       await getToken()
       const tx = await contractToken?.approve(contractCompetition.address, UINT256_MAX)
@@ -233,6 +254,10 @@ function useToken() {
    */
   const getCompetitions = async (): Promise<any[]> => {
     return await contractCompetition.getCompetitions()
+  }
+
+  const getPurchased = async(id:number): Promise<number> =>{
+    return await contractCompetition.getPurchasedTickets(address??'0x0000000000000000000000000000000000000000',id)
   }
 
   const getMember = async (account?:string) => {
@@ -296,19 +321,19 @@ function useToken() {
   const syncStatus = async (): Promise<void> => {
     setDataLoading(true)
     if(!contractCompetition)
-      getContract()
+      await getContract()
     const rows = await getCompetitions()
-    const res = await axios.get('/api/competition')
-    competitions.splice(0)
-    for(const row of rows) {
+    const res = await axios.get(`/api/competition/${address??''}`)
+    competitions.splice(0, competitions.length)
+    
+    for(let row of rows) {
       const id = row.id.toNumber()
-      if(!res.data.data[id]) continue
+      if(!res.data.data[id] || res.data.data[id]===undefined) continue
       const rowData = res.data.data[id]
       competitions.push({
         id: id,
         title: rowData.title,
         description: rowData.description,
-        instruction: rowData.instruction,
         logoImage: rowData.logo_url,
         winnerImage: rowData.winner_url,
         images: rowData.images?JSON.parse(rowData.images):[],
@@ -321,6 +346,7 @@ function useToken() {
         timeStart: row.timeEnd.gt(0)?new Date(row.timeStart.toNumber()*1000):undefined,
         countTotal: row.countTotal,
         countSold: row.countSold,
+        countMine: rowData.my_tickets,
         maxPerPerson: row.maxPerPerson,
         winner: row.winner?{
           id: row.winner,
@@ -394,6 +420,8 @@ function useToken() {
     feePerYear,
     creditsPerMonth,
     lastIndex,
+    signMessage,
+    verifyMessage,
     createNewCompetition,
     updateCompetition,
     startCompetition,

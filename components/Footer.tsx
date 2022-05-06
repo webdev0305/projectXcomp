@@ -15,7 +15,7 @@ export default function Footer() {
                   >
                     <img
                       alt="Powered by Avalanche"
-                      src="assets/images/projectx/footer/poweredbyavalanche.svg"
+                      src="/assets/images/projectx/footer/poweredbyavalanche.svg"
                       height="38"
                       width="113"
                       className="poweredbyavalanche"
@@ -29,7 +29,7 @@ export default function Footer() {
                     rel="noreferrer"
                   >
                     <img
-                      src="assets/images/projectx/footer/Assure_TransBG_White_crop.png"
+                      src="/assets/images/projectx/footer/Assure_TransBG_White_crop.png"
                       height="38"
                       width="113"
                       alt="KYC by Assure DeFi"

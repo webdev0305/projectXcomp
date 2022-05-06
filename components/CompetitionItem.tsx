@@ -17,12 +17,14 @@ interface Prop extends LinkProps {
 }
 
 export default function CompetitionItem({ href, className, item, showStatus }: Prop) {
-    const { user, startCompetition, finishCompetition } = token.useContainer()
+    const { user, startCompetition, finishCompetition,signMessage } = token.useContainer()
     const [loading, setLoading] = useState(false)
     const [timeout, setTimedout] = useState(false)
     const [showPublish, setShowPublish] = useState(false)
     const dateEnd = useRef<HTMLInputElement>(null)
     const [competition, setCompetition] = useState<ICompetition>(item)
+    const [prizeInstruction, setPrizeInstruction] = useState('')
+    const [openPrizeEdit, setOpenPrizeEdit] = useState(false)
     const hiddenFileInput = useRef<HTMLInputElement>(null)
     const formatDate = (date: Date | undefined, lang: string) => {
         if (lang == 'CA') {
@@ -45,63 +47,34 @@ export default function CompetitionItem({ href, className, item, showStatus }: P
         if (show && dateEnd && dateEnd.current)
             dateEnd.current.focus()
     }
-    // const handleUpload = async (e: any) => {
-    //     const file = e?.target?.files[0]
-    //     try {
-    //         setLoading(true)
-    //         new Promise(resolve => {
-    //             let reader = new FileReader()
-    //             reader.readAsDataURL(file)
-    //             reader.onload = () => {
-    //                 const baseURL = reader.result
-    //                 resolve(baseURL);
-    //             }
-    //         }).then(async result => {
-    //             const config = {
-    //                 headers: {
-    //                     'content-type': 'application/json',
-    //                     'accept': 'application/json',
-    //                     'X-API-Key': 'cbRh4B5ZJE8gjPoIEKkK58IAfdxuysg1sVSOMtrso1mi7tJypTt3rr7m9M9vBAhG'
-    //                 },
-    //                 onUploadProgress: (event: any) => {
-    //                     console.log(`Current progress:`, Math.round((event.loaded * 100) / event.total));
-    //                 },
-    //             };
-    //             const res = await axios.post('https://deep-index.moralis.io/api/v2/ipfs/uploadFolder', [{
-    //                 path: 'competition/winner', content: result
-    //             }], config)
-    //             const path = res.data[0].path
-    //             axios.post('/api/competition/update', {
-    //                 id: item.id, winner_url: path
-    //             }).then(res => {
-    //                 if (res.data.success) {
-    //                     item.winnerImage = path
-    //                     toast.success('Uploaded successfully!')
-    //                 }
-    //             }).finally(() => {
-    //                 setLoading(false)
-    //             })
-    //         })
-    //     } catch (error) {
-    //         toast.error('Error uploading file')
-    //         setLoading(false)
-    //     }
-    // }
+
     const handleChange = (e: any) => {
-        const field = e.target.name
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
-        setCompetition({
-            ...competition, [field]: value
-        })
+        setPrizeInstruction(value)
+    }
+    const openPrizeEditBox = async()=>{
+        const signature = await signMessage(`competition${item.id}`)
+        setLoading(true)
+        try {
+            axios.post(`/api/competition/instruction`,{id:item.id, signature:signature, msg:`competition${item.id}`}).then(res => {
+                setLoading(false), 
+                setOpenPrizeEdit(true)
+                setPrizeInstruction(res.data.data)
+            }).finally()
+            } catch (ex: any) {
+                toast.error(`Error! ${ex}`)
+                setLoading(true)
+            }
+
     }
     const handleUploadInstruction = () => {
         
         setLoading(true)
         try {
-            axios.post(`/api/competition/update`, { instruction: competition.instruction, id: item.id }).then(res => {
+            axios.post(`/api/competition/update`, { instruction: prizeInstruction, id: item.id }).then(res => {
                 if (res.data.success)
                     toast.success('Updated successfully!')
-            }).finally(() => setLoading(false))
+            }).finally(() => {setLoading(false), setOpenPrizeEdit(false)})
         } catch (ex: any) {
             
             if (typeof ex == 'object')
@@ -153,7 +126,7 @@ export default function CompetitionItem({ href, className, item, showStatus }: P
             setTimedout(true)
             clearInterval(timer)
         }
-    }, 60000)
+    }, 1000)
     const endTime = item.timeEnd?item.timeEnd.getTime():0;
     // const startTime = item.timeStart?item.timeStart.getTime():0;
     const startTime = new Date().getTime();
@@ -255,30 +228,21 @@ export default function CompetitionItem({ href, className, item, showStatus }: P
                 <div className={classNames(styles.winner, "mt-2 m-2")}>
                     <label>Winner</label>
                     <span className="flex flex-col gap-2">
-                        {/* <div>Name: {item.winner?.nickName}</div> */}
                         <div>Wallet: 0x{item.winner?.id?.substring(2, 12)}...{item.winner?.id?.slice(-10)}</div>
-                        {/* {item.winner?.email && <div>Email: {item.winner?.email}</div>} */}
-                        {/* {item.winner?.address && <div>Address: {item.winner?.address}</div>} */}
-                        {/* {(item.winner?.phone1 || item.winner?.phone2) && <div>Phone: {item.winner?.phone1} {item.winner?.phone2}</div>} */}
                     </span>
-                    {/* <input
-                        className="hidden"
-                        type="file"
-                        ref={hiddenFileInput}
-                        accept="image/png, image/gif, image/jpeg"
-                        onChange={handleUpload}
-                    /> */}
+                   
                     <textarea 
                         className="text-white p-2 mt-4" 
-                        value={competition.instruction ?? ''}
+                        value={prizeInstruction}
                         name="instruction"
+                        hidden={!openPrizeEdit}
                         rows={5}
                         onChange={handleChange}
                         required
                     />
                     {/* <button type="button" className='mt-2 py-2 font-bold rounded-md w-full cursor-pointer text-white bg-blue-500 hover:bg-blue-600' onClick={() => hiddenFileInput?.current?.click()}>{loading ? 'Uploading...' : 'Upload Winner Image'}</button> */}
-                    <button type="button" className='my-2 py-2 font-bold rounded-md w-full cursor-pointer text-white bg-blue-500 hover:bg-blue-600' onClick={handleUploadInstruction}>{loading?'Updating...':'Update Prize Instruction'}</button>
-                    
+                    {openPrizeEdit && <button type="button" className='my-2 py-2 font-bold rounded-md w-full cursor-pointer text-white bg-blue-500 hover:bg-blue-600' onClick={handleUploadInstruction}>{loading?'Updating...':'Update Prize Instruction'}</button>}
+                    {!openPrizeEdit && <button type="button" className='my-2 py-2 font-bold rounded-md w-full cursor-pointer text-white bg-blue-500 hover:bg-blue-600' onClick={openPrizeEditBox}>{loading?'Checking...':'Edit Prize Instruction'}</button>}
                 </div>}
         </div >
     );
