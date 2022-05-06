@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "nodemon server.js -p 80 -dev",
     "build": "next build",
-    "start": "cross-env NODE_ENV=production node server.js -p $PORT",
+    "start": "node server.js -p 80",
     "lint": "next lint"
   },
   "dependencies": {
