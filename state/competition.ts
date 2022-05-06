@@ -17,8 +17,8 @@ export interface ICompetition {
   instruction?: string
   countSold?: number
   countTotal?: number
+  countMine?:number
   maxPerPerson?: number
-  purchased?: number
   path?: string
   forGuest?: boolean
   forMember?: boolean
@@ -257,7 +257,6 @@ function useToken() {
   }
 
   const getPurchased = async(id:number): Promise<number> =>{
-    console.log(address)
     return await contractCompetition.getPurchasedTickets(address??'0x0000000000000000000000000000000000000000',id)
   }
 
@@ -324,12 +323,12 @@ function useToken() {
     if(!contractCompetition)
       await getContract()
     const rows = await getCompetitions()
-    const res = await axios.get('/api/competition')
-    competitions.splice(0)
-    for(const row of rows) {
+    const res = await axios.get(`/api/competition/${address??''}`)
+    competitions.splice(0, competitions.length)
+    
+    for(let row of rows) {
       const id = row.id.toNumber()
-      const purchasedTickets = await getPurchased(id)
-      if(!res.data.data[id]) continue
+      if(!res.data.data[id] || res.data.data[id]===undefined) continue
       const rowData = res.data.data[id]
       competitions.push({
         id: id,
@@ -347,8 +346,8 @@ function useToken() {
         timeStart: row.timeEnd.gt(0)?new Date(row.timeStart.toNumber()*1000):undefined,
         countTotal: row.countTotal,
         countSold: row.countSold,
+        countMine: rowData.my_tickets,
         maxPerPerson: row.maxPerPerson,
-        purchased: purchasedTickets,
         winner: row.winner?{
           id: row.winner,
           firstName: rowData.winner_first_name,
@@ -362,8 +361,8 @@ function useToken() {
       } as ICompetition)
     }
     competitions.sort((c1: ICompetition, c2:ICompetition)=>{
-      // if(c1.timeUpdated && c2.timeUpdated)
-      //   return c1.timeUpdated > c2.timeUpdated? -1: 1
+      if(c1.timeUpdated && c2.timeUpdated)
+        return c1.timeUpdated > c2.timeUpdated? -1: 1
       return 0
     })
     setLastIndex(rows.length)
@@ -412,14 +411,6 @@ function useToken() {
     }
     syncStatus()
   }, [provider, address])
-
-  // useEffect(() => {
-  //   let timer : NodeJS.Timer
-  //   getContract().then(() => {
-  //     timer = setInterval(()=>syncStatus(), 3000)
-  //   })
-  //   return ()=>clearInterval(timer)
-  // })
 
   return {
     dataLoading,

@@ -71,8 +71,7 @@ export default function Draws() {
                             {!dataLoading && competitions?.filter((e:any) => {
                                 // return true;
                                 // console.log(e)
-                                return e.purchased > 0 
-                                && e.timeEnd != undefined && e.status < 2
+                                return e.countMine > 0
                                 }).map((item:any) =>
                                 <div className="col-xl-6 col-lg-12 col-md-6 mb-30" key={item.id}>
                                     <DrawItem 
