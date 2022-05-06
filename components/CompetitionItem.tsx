@@ -54,6 +54,7 @@ export default function CompetitionItem({ href, className, item, showStatus }: P
     }
     const openPrizeEditBox = async()=>{
         const signature = await signMessage(`competition${item.id}`)
+        console.log(item.id,signature,`competition${item.id}`)
         setLoading(true)
         try {
             axios.post(`/api/competition/instruction`,{id:item.id, signature:signature, msg:`competition${item.id}`}).then(res => {
@@ -61,10 +62,10 @@ export default function CompetitionItem({ href, className, item, showStatus }: P
                 setOpenPrizeEdit(true)
                 setPrizeInstruction(res.data.data)
             }).finally()
-            } catch (ex: any) {
-                toast.error(`Error! ${ex}`)
-                setLoading(true)
-            }
+        } catch (ex: any) {
+            toast.error(`Error! ${ex}`)
+            setLoading(false)
+        }
 
     }
     const handleUploadInstruction = () => {
@@ -109,6 +110,7 @@ export default function CompetitionItem({ href, className, item, showStatus }: P
                 avatar: res.data?.avatar_url?.startsWith('https://') ? res.data.avatar_url : '/avatar.png'
             }
             item.status = comp.status
+            
             axios.post(`/api/competition/update`, { winner: comp.winner, id: item.id }).then(res => {
                 if (res.data.success)
                     toast.success('Drawn successfully!')
@@ -134,7 +136,7 @@ export default function CompetitionItem({ href, className, item, showStatus }: P
     const diffDays = !timeout?Math.ceil(diff / (1000 * 3600*24)):0;
     const diffHours = !timeout?Math.ceil(diff / (1000 * 3600)):0;
     const diffMins = !timeout?Math.ceil(diff / (1000 * 60)):0;
-
+    console.log(item.status)
     return (
         <div className="contest-card">
             {showStatus &&
