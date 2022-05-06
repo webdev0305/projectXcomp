@@ -1,7 +1,7 @@
 import React from "react";
+// import styled from "styled-components";
 
-import styled from "styled-components";
-const Wrapper = styled.div``;
+// const Wrapper = styled.div``;
 const Testimonial = () => {
   const data = [
     {
@@ -18,7 +18,7 @@ const Testimonial = () => {
     },
   ];
   return (
-    <Wrapper>
+    <div>
       {" "}
       <section className="has-bg--shape pt-120 pb-120">
         <div className="bg-shape">
@@ -36,7 +36,7 @@ const Testimonial = () => {
               <div className="section-header text-center">
                 <h2 className="section-title">Previous Lucky Winners</h2>
                 <p>
-                  Here's what some of our previous winners have to say about
+                  Here&#39;s what some of our previous winners have to say about
                   CompetitionX
                   <br />
                 </p>
@@ -73,7 +73,7 @@ const Testimonial = () => {
           </div>
         </div>
       </section>
-    </Wrapper>
+    </div>
   );
 };
 export default Testimonial;

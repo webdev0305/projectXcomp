@@ -16,7 +16,7 @@ export default function Draws() {
     const [competition, setCompetition] = useState<any>({})
     useEffect(() => {
         syncStatus()
-    }, [provider])
+    }, [provider, syncStatus])
     useEffect(() => {
         if (Router.asPath != '/')
         document.querySelector("#competitions")?.scrollIntoView()

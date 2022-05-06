@@ -43,9 +43,9 @@ export default function Hero() {
                   data-wow-duration="0.5s"
                   data-wow-delay="0.7s"
                 >
-                  Now's your chance to use $PXT to win great prizes!
+                  Now&#39;s your chance to use $PXT to win great prizes!
                   <br />
-                  Check out what's in our latest prize draws. <br />
+                  Check out what&#39;s in our latest prize draws. <br />
                   Will you be our next lucky winner?
                 </p>
                 <div

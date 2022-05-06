@@ -52,7 +52,7 @@ export default function ListCompetitionPage() {
                 <button className="px-2 font-bold text-white bg-orange-500 rounded-lg hover:bg-orange-700">Create New</button>
               </Link>
             </div>
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid md:grid-cols-3 gap-4">
               {!dataLoading && competitions?.filter((item: any) => {
                 if (filter) {
                   if (filter.status === '0') return item.status === 0
@@ -63,7 +63,7 @@ export default function ListCompetitionPage() {
                 }
                 return true
               }).map((item: any, index: number) => (
-                <div className={cn(admin.item, "flex-shrink mb-12 md:px-4")} key={index}>
+                <div className={cn(admin.item, "mb-12 md:px-4")} key={index}>
                 {/* <div key={index}> */}
                   <CompetitionItem
                     href={itemHref(item)}

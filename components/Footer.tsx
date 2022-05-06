@@ -1,5 +1,5 @@
 import Image from "next/image"; // Images
-
+import Link from "next/link" // Dynamic routing
 export default function Footer() {
   return (
     <footer className="footer-section">
@@ -41,16 +41,16 @@ export default function Footer() {
             <div className="col-lg-8">
               <ul className="short-links justify-content-lg-end justify-content-center">
                 <li>
-                  <a href="">About</a>
+                  <Link href="">About</Link>
                 </li>
                 <li>
-                  <a href="/faq">FAQs</a>
+                  <Link href="/faq">FAQs</Link>
                 </li>
                 <li>
-                  <a href="">Terms &amp; conditions</a>
+                  <Link href="">Terms &amp; conditions</Link>
                 </li>
                 <li>
-                  <a href="">Privacy</a>
+                  <Link href="">Privacy</Link>
                 </li>
               </ul>
             </div>
