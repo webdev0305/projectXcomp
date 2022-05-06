@@ -1,6 +1,9 @@
-import Image from "next/image"; // Images
+import React from "react";
 
-const data = [
+import styled from "styled-components";
+const Wrapper = styled.div``;
+const Testimonial = () => {
+  const data = [
     {
       img: "assets/images/winner/2.png",
       name: "Joe Bloggs",
@@ -14,10 +17,10 @@ const data = [
       star: 5,
     },
   ];
-  
-export default function Previouswinners() {
   return (
-    <section className="has-bg--shape pt-120 pb-120">
+    <Wrapper>
+      {" "}
+      <section className="has-bg--shape pt-120 pb-120">
         <div className="bg-shape">
           <div className="round-shape d-sm-block d-none">
             <img src="assets/images/elements/round-shape.png" alt="image" />
@@ -70,5 +73,7 @@ export default function Previouswinners() {
           </div>
         </div>
       </section>
+    </Wrapper>
   );
-}
+};
+export default Testimonial;
