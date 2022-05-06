@@ -39,7 +39,7 @@ app.post('/instruction', async (req, res) => {
     CompetitionABI,
     defaultProvider
   )
-  const competitions = await contractCompetition.competitions(id)
+  const competitions = await contractCompetition.competitions(id-1)
   const ownerAddress = await contractCompetition.owner()
   const signerAddress = ethers.utils.verifyMessage(msg, signature)
   if(competitions.winner == signerAddress || ownerAddress == signerAddress){
