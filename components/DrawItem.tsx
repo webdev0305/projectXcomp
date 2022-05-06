@@ -40,7 +40,7 @@ export default function DrawItem({href,item}:Prop) {
                     <h5 className="contest-card__name text-[20px] uppercase">{item.title}</h5>
                 </div>
                 <div className="right">
-                    <span className="contest-card__price">{item.purchased}</span>
+                    <span className="contest-card__price">{item.countMine}</span>
                     <p className="text-white text-[18px] capitalize my-0">tickets</p>
                 </div>
             </div>

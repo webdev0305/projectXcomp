@@ -5,11 +5,12 @@ import Progress from 'components/Progress'
 import Counter from 'components/Counter'
 import styles from "styles/pages/Buy.module.scss" // Page styles
 import { useRouter } from 'next/router'
-import { ICompetition, token } from 'state/competition'
+import axios from "axios"
 import { toast } from 'react-toastify'
 import classNames from 'classnames'
 import Hero from 'components/Hero'
 import Image from 'next/image'
+import { ICompetition, token } from '../../state/competition'
 
 export default function Competition() {
   const [dDisplay, setDDisplay] = useState<string>()
@@ -20,6 +21,7 @@ export default function Competition() {
   const [buying, setBuying] = useState(false)
   const [items, setItems] = useState<any[]>([])
   const [timeout, setTimedout] = useState(false)
+  const [loading, setLoading] = useState(false)
   const router = useRouter()
   const { id } = router.query
   const {
@@ -66,8 +68,13 @@ export default function Competition() {
     setBuying(true)
     try {
       const item = await buyTicket(competition, tickets)
-      competition.countSold = item.countSold
-      toast.success(`Bought ${tickets} tickets successfully!`)
+      axios.post(`/api/competition/buyticket`, { comp_id: competition.id, address: user.id, count: tickets }).then(res => {
+        if (res.data.success)
+        {
+          competition.countSold = item.countSold
+          toast.success(`Bought ${tickets} tickets successfully!`)
+        }
+      }).finally(() => setLoading(false))
     } catch (ex: any) {
       if (typeof ex == 'object')
         toast.error(`Error! ${(ex.data?.message ?? null) ? ex.data.message.replace('execution reverted: ', '') : ex.message}`)
@@ -106,7 +113,7 @@ export default function Competition() {
     <div className={classNames(styles.competition, buying && styles.loading)}>
       <div className="page-wrapper">
         <div className="inner-hero-section">
-          <div className="bg-shape"><img src="assets/images/elements/inner-hero-shape.png" alt="image"/></div>
+          <div className="bg-shape"><img src="/assets/images/elements/inner-hero-shape.png" alt="image"/></div>
         </div>
         <section className="pb-120 mt-minus-300">
           <div className="container">

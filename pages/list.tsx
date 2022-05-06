@@ -17,7 +17,6 @@ export default function ListCompetitionPage() {
   const [filter, setFilter] = useState({
     status: '-1'
   })
-  
   const itemHref = (item: ICompetition) => {
     if (item.status == 0)
       return `/edit/${item.id}`

@@ -4,11 +4,11 @@ import { eth } from "state/eth" // Global state
 import { useEffect, useState } from "react" // State management
 // import { useRouter } from "next/router" // Routing
 import cn from "classnames"
-import { token } from "state/competition"
 import { OuterClick } from "react-outer-click"
 // import { formatEther } from "ethers/lib/utils"
 import { formatFixed } from "@ethersproject/bignumber"
 import Router from "next/router"
+import { token } from "../state/competition"
 
 export default function Header() {
   // Global state
@@ -16,7 +16,7 @@ export default function Header() {
   const { user } = token.useContainer()
   const [navbar, setNavbar] = useState(false)
   const [mobileMenuIsOpen, setMobileMenuIsOpen] = useState(false)
-  const [pathname, setPathname] = useState('')
+  // const [pathname, setPathname] = useState('')
   const [showInfo, setShowInfo] = useState(false)
   if (typeof window !== "undefined") {
     const changeBackground = () => {
@@ -31,9 +31,9 @@ export default function Header() {
   const toggleInfo = () => {
     setShowInfo(!showInfo)
   }
-  useEffect(() => {
-    setPathname(Router.asPath)
-  })
+  // useEffect(() => {
+  //   setPathname(Router.asPath)
+  // })
   return (
     <header className="header">
         <div className="header__top">
@@ -54,7 +54,7 @@ export default function Header() {
             <nav className="navbar navbar-expand-xl p-0 align-items-center">
               <a className="site-logo site-title" href="/">
                 <img
-                  src="assets/images/logos/competitionx-logo-3-letters-onblack.png"
+                  src="/assets/images/logos/competitionx-logo-3-letters-onblack.png"
                   alt="site-logo"
                 />
               </a>
