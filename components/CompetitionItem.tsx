@@ -1,14 +1,10 @@
-import Counter from "components/Counter"
 import styles from "../styles/components/CompetitionItems.module.scss"; // Page styles
-import Progress from "components/Progress"
 import Link, { LinkProps } from "next/link"
 import { ICompetition, token } from "state/competition";
 import classNames from "classnames";
-import { useEffect, useRef, useState } from "react";
+import {useRef, useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios"
-import { CircularProgressbarWithChildren } from 'react-circular-progressbar'
-import 'react-circular-progressbar/dist/styles.css'
 
 interface Prop extends LinkProps {
     showStatus: boolean
@@ -131,23 +127,22 @@ export default function CompetitionItem({ href, className, item, showStatus }: P
     }, 1000)
     const endTime = item.timeEnd?item.timeEnd.getTime():0;
     // const startTime = item.timeStart?item.timeStart.getTime():0;
-    const startTime = new Date().getTime();
+    const startTime = item.timeStart?new Date().getTime():0;
     const diff = Math.abs(endTime - startTime);
     const diffDays = !timeout?Math.ceil(diff / (1000 * 3600*24)):0;
     const diffHours = !timeout?Math.ceil(diff / (1000 * 3600)):0;
     const diffMins = !timeout?Math.ceil(diff / (1000 * 60)):0;
-    console.log(item.status)
     return (
         <div className="contest-card">
             {showStatus &&
-                <span className={classNames(styles.status, styles['status' + item.status])}>
+                <span className={classNames(styles.status, styles['status' + item.status],"absolute bg-[red] text-white px-[10px] w-auto z-10 right-0")} style={{borderRadius: "0 10px"}}>
                     {item.status == 0 && "Ready"}
                     {item.status == 1 && (timeout ? "Timeout" : "Pending")}
                     {item.status == 2 && "Drawn"}
                     {item.status == 3 && "Complete"}
                 </span>
             }
-            <div className="contest-card__thumb">
+            <div className="contest-card__thumb h-[275px]">
                 {item.status === 2 && item.logoImage &&
                     <Link href={href} passHref>
                         <img src={item.logoImage} alt={item.title} width="100%" height="auto" className="rounded-md" />
@@ -156,10 +151,10 @@ export default function CompetitionItem({ href, className, item, showStatus }: P
                     <Link href={href} passHref>
                         <img src={item.logoImage} alt={item.title} width="100%" height="auto" className="rounded-md" />
                     </Link>}
-                <div className="contest-num">
-                    <h6>Comp no:</h6>
+                <div className="contest-num flex-col items-center">
+                    <h6>Comp no</h6>
                     {/* <h4 className="number">{item.title}</h4> */}
-                    <h4 className="number">{item.id}</h4>
+                    <h4 className="number text-[22px]">{item.id}</h4>
                 </div>
             </div>
             <div className={classNames(item.countTotal == item.countSold && styles.soldout, "mt-2")}>
@@ -205,7 +200,7 @@ export default function CompetitionItem({ href, className, item, showStatus }: P
                     :
                     <div className="flex-grow text-center py-2 font-bold text-white bg-red-300 rounded-md">Timed out</div>
                 )}
-            {item.status == 0 &&
+            {item.status == 0 && !showPublish &&
                 <div className="flex gap-1 mt-2">
                     <Link href={`/edit/${item.id}`} passHref>
                         <button className="flex-grow py-2 font-bold text-white bg-blue-500 rounded-md hover:bg-blue-700">Modify</button>

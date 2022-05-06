@@ -18,11 +18,7 @@ export default function Winners() {
     }
     return (
         <div>
-            <Hero>
-                <h1 className="text-white mt-0 mb-10 text-5xl font-black" style={{ fontSize: "calc(25px + 1.8vw)", lineHeight: "calc(25px + 1.8vw)" }}>
-                    WINNERS
-                </h1>
-            </Hero>
+            <Hero />
             <div className={styles.winners}>
                 <div className="container">
                     <div className="flex flex-wrap items-center relative">
