@@ -1,4 +1,4 @@
-import Collapse from "components/Collaps"
+import CollapsComponent from "components/CollapsComponent"
 
 
 export default function Faq() {
@@ -46,7 +46,7 @@ export default function Faq() {
                                         <div className="accordion cmn-accordion">
                                             {faq.map((item:any)=>
                                                 <div className="my-4" key={item.question}>
-                                                    <Collapse 
+                                                    <CollapsComponent 
                                                         question={item.question}
                                                         answer={item.answer}
                                                     />
