@@ -6,6 +6,7 @@ import Document, {
   Main,
   NextScript,
 } from "next/document";
+// import Script from 'next/script'
 // Custom document class
 export default class MyDocument extends Document {
 
@@ -21,11 +22,12 @@ export default class MyDocument extends Document {
       <Html lang="en">
         {/* Preload head */}
         <Head >
-          
+       
         </Head>
         <body>
           <Main />
           <NextScript />
+          
         </body>
       </Html>
     );

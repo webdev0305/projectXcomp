@@ -17,7 +17,7 @@ export default function Meta() {
 	  <link rel="stylesheet" href="/assets/css/vendor/slick.css" />
 	  <link rel="stylesheet" href="/assets/css/vendor/jquery-ui.min.css" />
 	  <link rel="stylesheet" href="/assets/css/main.css" />
-	  
+    
 	  
 
       {/* Primary Meta */}

@@ -41,16 +41,16 @@ export default function Footer() {
             <div className="col-lg-8">
               <ul className="short-links justify-content-lg-end justify-content-center">
                 <li>
-                  <Link href="">About</Link>
+                  <Link href="/">About</Link>
                 </li>
                 <li>
                   <Link href="/faq">FAQs</Link>
                 </li>
                 <li>
-                  <Link href="">Terms &amp; conditions</Link>
+                  <Link href="/">Terms &amp; conditions</Link>
                 </li>
                 <li>
-                  <Link href="">Privacy</Link>
+                  <Link href="/">Privacy</Link>
                 </li>
               </ul>
             </div>
