@@ -1,4 +1,4 @@
-import Collapse from "components/Collaps"
+import Collapse from "../components/Collaps"
 
 const faq = [
     {
