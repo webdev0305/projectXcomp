@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : localhost
+ Source Server         : mysql
  Source Server Type    : MySQL
- Source Server Version : 100138
+ Source Server Version : 100421
  Source Host           : localhost:3306
  Source Schema         : competition
 
  Target Server Type    : MySQL
- Target Server Version : 100138
+ Target Server Version : 100421
  File Encoding         : 65001
 
- Date: 08/04/2022 04:21:24
+ Date: 08/05/2022 06:17:26
 */
 
 SET NAMES utf8mb4;
@@ -46,7 +46,23 @@ CREATE TABLE `competition`  (
   `images` text CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL,
   `winner` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   `last_time` timestamp(0) NULL DEFAULT NULL,
+  `instruction` blob NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for tickets
+-- ----------------------------
+DROP TABLE IF EXISTS `tickets`;
+CREATE TABLE `tickets`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `comp_id` int(11) NULL DEFAULT NULL,
+  `address` varchar(42) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `count` int(11) NULL DEFAULT NULL,
+  `tx_hash` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `address`(`address`) USING BTREE,
+  INDEX `comp_id`(`comp_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 22 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;
