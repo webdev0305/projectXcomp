@@ -202,7 +202,7 @@ export default function EditCompetitionPage() {
                 break
             }
         }
-    }, [id, dataLoading])
+    }, [id, dataLoading, competitions])
     return (
         <div className="page-wrapper">
             <div className="inner-hero-section style--five">

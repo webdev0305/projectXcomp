@@ -17,12 +17,8 @@ export default function Meta() {
 	  <link rel="stylesheet" href="/assets/css/vendor/slick.css" />
 	  <link rel="stylesheet" href="/assets/css/vendor/jquery-ui.min.css" />
 	  <link rel="stylesheet" href="/assets/css/main.css" />
+    
 	  
-	  <script src="/assets/js/vendor/jquery-3.5.1.min.js"></script>
-	  <script src="/assets/js/vendor/bootstrap.bundle.min.js"></script>
-	  <script src="/assets/js/vendor/wow.min.js"></script>
-	  <script src="/assets/js/vendor/slick.min.js"></script>
-	  <script src="/assets/js/app.js"></script>
 
       {/* Primary Meta */}
       <title>{tokenName}</title>

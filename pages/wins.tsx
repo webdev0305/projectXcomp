@@ -24,7 +24,7 @@ export default function Wins() {
     const [prizeInstruction, setPrizeInstruction] = useState('')
     useEffect(() => {
         syncStatus()
-    }, [provider])
+    }, [provider, syncStatus])
     useEffect(() => {
         if (Router.asPath != '/')
         document.querySelector("#competitions")?.scrollIntoView()

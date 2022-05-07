@@ -113,7 +113,7 @@ export default function Competition() {
     <div className={classNames(styles.competition, buying && styles.loading)}>
       <div className="page-wrapper">
         <div className="inner-hero-section">
-          <div className="bg-shape"><img src="/assets/images/elements/inner-hero-shape.png" alt="image"/></div>
+          <div className="bg-shape"><Image src="/assets/images/elements/inner-hero-shape.png" alt="image" layout='fill'/></div>
         </div>
         <section className="pb-120 mt-minus-300">
           <div className="container">
@@ -130,9 +130,9 @@ export default function Competition() {
                 <div className="contest-cart">
                   <div className="contest-cart__left">
                     <div className="contest-cart__slider-area">
-                      <div className="contest-cart__thumb-slider">
+                      <div className="contest-cart__thumb-slider relative">
                         <div className="single-slide">
-                          <img src={competition.logoImage} alt={competition.title}  style = {{ width: "80%", margin: "auto"}} />
+                          <img src={competition.logoImage??'/assets/images/elements/inner-hero-shape.png'} alt={competition.title??"alt"} />
                         </div>
                       </div>
                     </div>

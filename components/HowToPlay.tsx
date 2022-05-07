@@ -57,7 +57,7 @@ export default function Howtoplay() {
                   </div>
                   <div className="play-card__content">
                     <h3 className="play-card__title">Win</h3>
-                    <p>Start dreaming, you're almost there</p>
+                    <p>Start dreaming, you&#39;re almost there</p>
                   </div>
                 </div>
               </div>

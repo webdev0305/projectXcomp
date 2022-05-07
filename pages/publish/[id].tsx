@@ -155,7 +155,7 @@ export default function PublishCompetitionPage() {
                 break
             }
         }
-    }, [id, dataLoading])
+    }, [id, dataLoading, competitions])
     return (
         <div className={cn(styles.container, styles.publish, submitting && styles.submitting)}>
             <div className="container">

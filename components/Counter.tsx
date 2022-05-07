@@ -44,7 +44,7 @@ export default function Clock({ className, theme, endTime, drawDate, onDone }: P
       }
     }, 1000)
     return () => clearInterval(timer)
-  }, [endTime])
+  }, [endTime, onDone])
   return (
       <div>
         {dDisplay} days {hDisplay?.slice(0, 1)}{hDisplay?.slice(-1)} hours {mDisplay?.slice(0, 1)}{mDisplay?.slice(-1)} min {sDisplay?.slice(0, 1)}{sDisplay?.slice(-1)} seconds

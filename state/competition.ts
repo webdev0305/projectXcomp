@@ -98,7 +98,7 @@ function useToken() {
   }
 
   const signMessage = async (msg:any) => {
-    const signer = address?provider?.getSigner():defaultProvider;
+    const signer = address?provider?.getSigner()??defaultProvider.getSigner():defaultProvider.getSigner();
     const signature = await signer.signMessage(msg);
     return signature;
   }

@@ -19,8 +19,8 @@
     }
 }
 
-.item {
-    background-color: white;
+.item { 
+    background-color: #930059;
     border-radius: 1em;
     padding: 20px 10px;
     margin-bottom: 1px;
@@ -42,7 +42,7 @@
         }
     }
     &:hover {
-        background-color: #fefefe;
+        background-color: #930059;
     }
     img:hover {
         opacity: 0.65;

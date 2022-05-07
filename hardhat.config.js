@@ -2,7 +2,7 @@
 
 require("@nomiclabs/hardhat-waffle");
 require('@openzeppelin/hardhat-upgrades');
-
+require("@nomiclabs/hardhat-etherscan");
 module.exports = {
   solidity: {
     compilers: [

@@ -52,12 +52,14 @@ export default function Header() {
         <div className="header__bottom">
           <div className="container">
             <nav className="navbar navbar-expand-xl p-0 align-items-center">
-              <a className="site-logo site-title" href="/">
-                <img
-                  src="/assets/images/logos/competitionx-logo-3-letters-onblack.png"
-                  alt="site-logo"
-                />
-              </a>
+              <Link href="/" passHref>
+                <div className="site-logo site-title" >
+                  <img
+                    src="/assets/images/logos/competitionx-logo-3-letters-onblack.png"
+                    alt="site-logo"
+                  />
+                </div>
+              </Link>
               <button
                 className="navbar-toggler ml-auto"
                 type="button"
@@ -76,11 +78,11 @@ export default function Header() {
                 <ul className="navbar-nav main-menu ml-auto">
                   
                   <li>
-                    <a href="/#draws">Competitions</a>
+                    <Link href="/#draws">Competitions</Link>
                   </li>
                   {address?
                   <li>
-                    <a href="/wins">MY</a>
+                    <Link href="/wins">MY</Link>
                   </li>
                   :''}
                   <li>
@@ -103,7 +105,7 @@ export default function Header() {
                   </li>
                   {user.isOwner?
                   <li>
-                    <a href="/list">Admin</a>
+                    <Link href="/list">Admin</Link>
                   </li>
                   :''
                   }

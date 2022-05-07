@@ -14,12 +14,12 @@ const main = async () => {
   [owner, addr1] = await ethers.getSigners()
   console.log(owner.address)
   Token = await deploy("Token")
-  Multicall = await deploy("Multicall")
+  // Multicall = await deploy("Multicall")
   Competition = await deployProxy("Competition",[Token.address])
 
 
   console.log("Token address:", Token.address)
-  console.log("Multicall address:", Multicall.address)
+  // console.log("Multicall address:", Multicall.address)
   console.log("Competition address:", Competition.address)
 
   saveFrontendFiles()

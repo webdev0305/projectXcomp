@@ -1,11 +1,8 @@
 import classNames from "classnames";
 import Image from "next/image";
 
-interface Prop {
-    children: JSX.Element | JSX.Element[]
-}
 
-export default function Hero({ children }: Prop) {
+export default function Hero() {
     return (
         <section className="hero">
         <div className="hero__shape">
@@ -46,9 +43,9 @@ export default function Hero({ children }: Prop) {
                   data-wow-duration="0.5s"
                   data-wow-delay="0.7s"
                 >
-                  Now's your chance to use $PXT to win great prizes!
+                  Now&#39;s your chance to use $PXT to win great prizes!
                   <br />
-                  Check out what's in our latest prize draws. <br />
+                  Check out what&#39;s in our latest prize draws. <br />
                   Will you be our next lucky winner?
                 </p>
                 <div
