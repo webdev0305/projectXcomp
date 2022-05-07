@@ -24,7 +24,7 @@ export default function Wins() {
     const [prizeInstruction, setPrizeInstruction] = useState('')
     useEffect(() => {
         syncStatus()
-    }, [provider, syncStatus])
+    }, [provider])
     useEffect(() => {
         if (Router.asPath != '/')
         document.querySelector("#competitions")?.scrollIntoView()
@@ -46,6 +46,7 @@ export default function Wins() {
         }
     };
     
+    console.log(dataLoading)
     return (
         <div className="page-wrapper">
             <div className="inner-hero-section style--five">

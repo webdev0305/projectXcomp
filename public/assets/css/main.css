@@ -3483,7 +3483,7 @@ span.is-active:after {
 /* hero css end */
 /* inner-hero-section css start */
 .inner-hero-section {
-  padding-top: 230px;
+  padding-top: 130px;
   padding-bottom: 375px;
   background-image: -moz-linear-gradient(90deg, #e82a7a 0%, #360354 100%);
   background-image: -webkit-linear-gradient(90deg, #e82a7a 0%, #360354 100%);

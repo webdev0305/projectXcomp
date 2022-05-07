@@ -16,7 +16,8 @@ export default function Draws() {
     const [competition, setCompetition] = useState<any>({})
     useEffect(() => {
         syncStatus()
-    }, [provider, syncStatus])
+    }, [provider])
+
     useEffect(() => {
         if (Router.asPath != '/')
         document.querySelector("#competitions")?.scrollIntoView()
@@ -29,7 +30,7 @@ export default function Draws() {
             })
         if (comp) setCompetition(comp)
       }, [!dataLoading, competitions])
-   
+   console.log(dataLoading)
 
     return (
         <>

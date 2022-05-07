@@ -1,6 +1,6 @@
 import React from "react";
 // import styled from "styled-components";
-
+import Slider from 'react-slick';
 // const Wrapper = styled.div``;
 const Testimonial = () => {
   const data = [
@@ -48,7 +48,16 @@ const Testimonial = () => {
               <div className="testimonial-area">
                 <div className="testimonial-slider">
                   {/* <!-- testimonial-single end --> */}
+                  <Slider 
+                      autoplay={true}
+                      speed={700}
+                      arrows={false}
+                      dots={false}
+                      vertical={true}
+                      verticalSwiping={true}
+                    >
                   {data.map((el, i) => (
+                    
                     <div className="testimonial-single" key={i}>
                       <div className="testimonial-single__thumb">
                         <img src={el.img} alt="image" />
@@ -58,12 +67,14 @@ const Testimonial = () => {
                         <p>{el.text}</p>
                         <div className="ratings">
                           {Array.from({ length: el.star }).map((el, i) => (
-                            <i className="fas fa-star" key={i}></i>
+                            <i className="fas fa-star !text-[red]" key={i}></i>
                           ))}
                         </div>
                       </div>
                     </div>
+                    
                   ))}
+                  </Slider>
                   {/* <!-- testimonial-single end --> */}
                 </div>
                 {/* <!-- testimonial-slider end --> */}

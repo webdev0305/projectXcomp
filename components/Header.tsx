@@ -28,6 +28,10 @@ export default function Header() {
     }
     window.addEventListener('scroll', changeBackground)
   }
+  const toggleMenu = () => {
+    setMobileMenuIsOpen(!mobileMenuIsOpen)
+    console.log(mobileMenuIsOpen)
+  }
   const toggleInfo = () => {
     setShowInfo(!showInfo)
   }
@@ -35,7 +39,7 @@ export default function Header() {
   //   setPathname(Router.asPath)
   // })
   return (
-    <header className="header">
+    <header className={cn(navbar?"animated fadeInDown menu-fixed":"","header")}>
         <div className="header__top">
           <div className="container">
             <div className="row align-items-center">
@@ -63,16 +67,17 @@ export default function Header() {
               <button
                 className="navbar-toggler ml-auto"
                 type="button"
-                data-toggle="collapse"
-                data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent"
-                aria-expanded="false"
-                aria-label="Toggle navigation"
+                // data-toggle="collapse"
+                // data-target="#navbarSupportedContent"
+                // aria-controls="navbarSupportedContent"
+                // aria-expanded="false"
+                // aria-label="Toggle navigation"
+                onClick={toggleMenu}
               >
-                <span className="menu-toggle"></span>
+                <span className="menu-toggle"  onClick={toggleMenu}></span>
               </button>
               <div
-                className="collapse navbar-collapse"
+                className={cn(mobileMenuIsOpen?"show":"","collapse navbar-collapse")}
                 id="navbarSupportedContent"
               >
                 <ul className="navbar-nav main-menu ml-auto">

@@ -8,6 +8,7 @@ import { ICompetition, token } from "state/competition"
 import { useEffect, useState } from "react";
 import { eth } from "state/eth";
 import Counter from "components/Counter";
+
 import Router from "next/router";
 import Link from 'next/link';
 
