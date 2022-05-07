@@ -1,4 +1,33 @@
+import Collapse from "components/Collaps"
+
+const faq = [
+    {
+        question: 'Question one',
+        answer: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra  maecenas accumsan lacus vel facilisis.'
+    },
+    {
+        question: 'Question two',
+        answer: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra  maecenas accumsan lacus vel facilisis.'
+    },
+    {
+        question: 'Question three',
+        answer: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra  maecenas accumsan lacus vel facilisis.'
+    },
+    {
+        question: 'Question four',
+        answer: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra  maecenas accumsan lacus vel facilisis.'
+    },
+    {
+        question: 'Question five',
+        answer: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra  maecenas accumsan lacus vel facilisis.'
+    },
+    {
+        question: 'Question six',
+        answer: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra  maecenas accumsan lacus vel facilisis.'
+    }
+]
 export default function Faq() {
+
     return (
         <div className="page-wrapper">
             <div className="inner-hero-section style--five">
@@ -14,19 +43,15 @@ export default function Faq() {
                             <div className="faq-body-wrapper">
                                 <div className="tab-content" id="myTabContent">
                                     <div className="tab-pane fade show active" role="tabpanel">
-                                        <div className="accordion cmn-accordion" id="faqAcc-one">
-                                            <div className="card">
-                                                <div className="card-header" id="h-1">
-                                                    <button className="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapse1" aria-expanded="true" aria-controls="collapse1">
-                                                        Question one
-                                                    </button>
-                                                </div>
-                                                <div id="collapse1" className="collapse show" aria-labelledby="h-1" data-parent="#faqAcc-one">
-                                                    <div className="card-body">
-                                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra  maecenas accumsan lacus vel facilisis. </p>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                        <div className="accordion cmn-accordion">
+                                            {faq.map((item:any)=>
+                                                <Collapse 
+                                                    question={item.question}
+                                                    answer={item.answer}
+                                                />
+                                                
+                                            )}
+                                            
 
                                             <div className="card">
                                                 <div className="card-header" id="h-2">
