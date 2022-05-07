@@ -1,6 +1,6 @@
 const express = require('express')
-var http = require('http')
-const https = require('https')
+// var http = require('http')
+// const https = require('https')
 const next = require('next')
 const app = express()
 const fs = require('fs')
@@ -27,8 +27,8 @@ server.prepare().then(() => {
 	app.all('*', (req, res) => {
     return handle(req, res)
   })
-	var httpServer = http.createServer(app);
-	var httpsServer = https.createServer(options, app)
+	// var httpServer = http.createServer(app);
+	// var httpsServer = https.createServer(options, app)
 	// if(port==80 || port==443) {
 	// 	httpServer.listen(80, (err) => {
 	// 		if (err) throw err
@@ -39,7 +39,7 @@ server.prepare().then(() => {
 	// 		console.log(`> Ready on https://localhost`)
 	// 	})
 	// } else {
-	httpsServer.listen(port, (err) => {
+	app.listen(port, (err) => {
 		if (err) throw err
 		console.log(`> Ready on https://localhost:${port}`)
 	})
