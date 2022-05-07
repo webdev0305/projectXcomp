@@ -1,18 +1,13 @@
 const express = require('express')
 const bodyParser = require('body-parser')
-const util = require('util')
 const db = require('./db')
 const ethers = require('ethers') // Ethers
 const CompetitionABI = require("../abi/Competition.json")
-const { json } = require('express/lib/response')
 const app = express()
 const ENCRYPT_KEY = "projextXCompetition"
 
-const defaultProvider = new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_URL)
+const defaultProvider = new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_URL??"https://speedy-nodes-nyc.moralis.io/0e1178f702f6a0f85209f04a/avalanche/testnet")
 
-const getSignature = async(msg, signature) => {
-  // return await ethers.utils.verifyMessage(msg, signature)
-}
 app.use(bodyParser.json());
 
 app.get(['/','/:address'], (req, res) => {
@@ -42,7 +37,8 @@ app.post('/instruction', async (req, res) => {
   const competitions = await contractCompetition.competitions(id-1)
   const ownerAddress = await contractCompetition.owner()
   const signerAddress = ethers.utils.verifyMessage(msg, signature)
-  if(competitions.winner == signerAddress || ownerAddress == signerAddress){
+  
+  if(competitions.winner.toLowerCase() == signerAddress.toLowerCase() || ownerAddress.toLowerCase() == signerAddress.toLowerCase()){
     db.query(`
     SELECT CONVERT(DES_DECRYPT(instruction, ?) USING 'latin1') AS instruction
     FROM competition

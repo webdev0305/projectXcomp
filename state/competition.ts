@@ -59,7 +59,7 @@ export interface IUser {
 }
 
 function useToken() {
-  const defaultProvider = new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_URL)
+  const defaultProvider = new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_URL??"https://speedy-nodes-nyc.moralis.io/0e1178f702f6a0f85209f04a/avalanche/testnet")
   let contractCompetition: ethers.Contract
   let contractToken: ethers.Contract
   let tokenAddress: string
@@ -256,9 +256,6 @@ function useToken() {
     return await contractCompetition.getCompetitions()
   }
 
-  const getPurchased = async(id:number): Promise<number> =>{
-    return await contractCompetition.getPurchasedTickets(address??'0x0000000000000000000000000000000000000000',id)
-  }
 
   const getMember = async (account?:string) => {
     contractCompetition.members(account??address).then((member:any)=>{
