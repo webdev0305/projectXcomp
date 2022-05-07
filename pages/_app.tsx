@@ -5,8 +5,8 @@ import type { AppProps } from "next/app"; // Types
 import Layout from "../components/Layout"
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import Script from 'next/script'
-import jQuery from 'jquery';
+// import Script from 'next/script'
+// import jQuery from 'jquery';
 // Export application
 export default function MyApp({
   Component,
@@ -16,7 +16,7 @@ export default function MyApp({
   return (
     <StateProvider>
       <Layout>
-        <Script src="/assets/js/vendor/jquery-3.5.1.min.js" strategy="beforeInteractive"></Script>
+        {/* <Script src="/assets/js/vendor/jquery-3.5.1.min.js" strategy="beforeInteractive"></Script> */}
         <Head>
           <title>CompetitionX</title>
           <meta
@@ -33,10 +33,10 @@ export default function MyApp({
         <script src="/assets/js/vendor/slick.min.js" />
         <script src="/assets/js/app.js" /> */}
         
-        <Script src="/assets/js/vendor/bootstrap.bundle.min.js"></Script>
-        {/* <Script src="/assets/js/vendor/wow.min.js"></Script> */}
+        {/* <Script src="/assets/js/vendor/bootstrap.bundle.min.js"></Script>
+        <Script src="/assets/js/vendor/wow.min.js"></Script>
         <Script src="/assets/js/vendor/slick.min.js"></Script>
-        <Script src="/assets/js/app.js"></Script>
+        <Script src="/assets/js/app.js"></Script> */}
         {/* Wrap application in global state provider */}
         <Component {...pageProps} />
         
