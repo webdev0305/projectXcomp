@@ -223,10 +223,10 @@ export default function CompetitionItem({ href, className, item, showStatus }: P
             }
             {user.isOwner && item.status == 2 &&
                 <div className={classNames(styles.winner, "mt-2 m-2")}>
-                    <label>Winner</label>
+                    {/* <label>Winner</label>
                     <span className="flex flex-col gap-2">
                         <div>Wallet: 0x{item.winner?.id?.substring(2, 12)}...{item.winner?.id?.slice(-10)}</div>
-                    </span>
+                    </span> */}
                    
                     <textarea 
                         className="text-white p-2 mt-4" 

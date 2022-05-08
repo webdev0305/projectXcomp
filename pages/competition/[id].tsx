@@ -65,6 +65,10 @@ export default function Competition() {
     ac.abort()
   }
   const buy = async () => {
+    console.log(competition.winner?.id!=="0x0000000000000000000000000000000000000000")
+    if(competition.winner?.id!=="0x0000000000000000000000000000000000000000"){
+      return toast.error(`This competition has already been drawn`)
+    }
     setBuying(true)
     try {
       const item = await buyTicket(competition, tickets)
