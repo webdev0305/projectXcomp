@@ -2071,6 +2071,10 @@ textarea:active {
   padding: 30px 15px 30px 0;
 }
 
+.main-menu li a {
+  text-decoration: none!important;
+}
+
 @media (max-width: 1199px) {
   .header.menu-fixed .header__bottom .main-menu li a {
     padding: 10px 0;
@@ -3534,6 +3538,10 @@ span.is-active:after {
 
 .inner-hero-section .inner-page-content p {
   color: #e4e3fc;
+}
+
+.inner-hero-section.style--one {
+  padding-bottom: 100px;
 }
 
 .inner-hero-section.style--two {
@@ -5072,14 +5080,15 @@ span.is-active:after {
 .winner-card__thumb {
   padding: 30px 10px;
   width: 30%;
-  background-image: -moz-linear-gradient(90deg, #e82a7a 0%, #360354 100%);
+  /*background-image: -moz-linear-gradient(90deg, #e82a7a 0%, #360354 100%);
   background-image: -webkit-linear-gradient(90deg, #e82a7a 0%, #360354 100%);
-  background-image: -ms-linear-gradient(90deg, #e82a7a 0%, #360354 100%);
+  background-image: -ms-linear-gradient(90deg, #e82a7a 0%, #360354 100%);*/
   display: -ms-flexbox;
   display: flex;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
   align-items: center;
+  background-color: #fff;
 }
 
 @media (max-width: 767px) {
@@ -5841,6 +5850,11 @@ span.is-active:after {
 
 .feature-card__icon {
   margin-bottom: 25px;
+}
+
+/*salad fix*/
+.feature-card__icon img {
+  display: inline;
 }
 
 .feature-card__content p {
@@ -11272,18 +11286,20 @@ body {
   background-image: -moz-linear-gradient(7deg, #a90267 0%, #6c0092 100%);
   background-image: -webkit-linear-gradient(7deg, #a90267 0%, #6c0092 100%);
   background-image: -ms-linear-gradient(7deg, #a90267 0%, #6c0092 100%);
+  text-decoration: none!important;
 }
 
 .cmn-btn {
   background-image: -moz-linear-gradient(80deg, #0197de 0%, #6c0092 100%);
   background-image: -webkit-linear-gradient(80deg, #0197de 0%, #6c0092 100%);
   background-image: -ms-linear-gradient(80deg, #0197de 0%, #6c0092 100%);
+  text-decoration: none!important;
 }
 
 .cmn-btn:hover {
   background-color: #fff !important;
   background-image: none;
-  color: #000;
+  color: #000!important;
 }
 
 .hero {
@@ -11383,4 +11399,9 @@ span {
 
 .bn-onboard-modal {
   z-index: 9999;
+}
+
+a {
+	color: #fff!important;
+	text-decoration: underline!important;
 }

@@ -48,7 +48,7 @@ export default function Wins() {
     
     return (
         <div className="page-wrapper">
-            <div className="inner-hero-section style--five">
+            <div className="inner-hero-section style--one">
                 <div className="bg-shape">
                     <img src="assets/images/elements/inner-hero-shape.png" alt="image"/>
                 </div>
@@ -93,8 +93,7 @@ export default function Wins() {
                                                         <h5 className="text-[22px]">{item.title}</h5>
                                                     </div>
                                                     <div className="right">
-                                                        <span>Draw took place on</span>
-                                                        <p className="text-white">{moment.unix(item.timeEnd&&item.timeEnd.getTime()/1000).format(" Do MMM Y")}</p>
+                                                        <span className="text-white">Draw took place on<br/>{moment.unix(item.timeEnd&&item.timeEnd.getTime()/1000).format(" Do MMM Y")}</span>
                                                     </div>
                                                 </div>
                                                 <div className="content-bottom">

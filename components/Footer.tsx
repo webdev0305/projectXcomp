@@ -41,17 +41,11 @@ export default function Footer() {
             <div className="col-lg-8">
               <ul className="short-links justify-content-lg-end justify-content-center">
                 <li>
-                  <Link href="/">About</Link>
-                </li>
-                <li>
                   <Link href="/faq">FAQs</Link>
                 </li>
-                <li>
+                {/*<li>
                   <Link href="/">Terms &amp; conditions</Link>
-                </li>
-                <li>
-                  <Link href="/">Privacy</Link>
-                </li>
+                </li>*/}
               </ul>
             </div>
           </div>
@@ -66,7 +60,7 @@ export default function Footer() {
               <ul className="social-links justify-content-lg-end justify-content-center">
                 <li>
                   <a
-                    href="https://twitter.com/ProjectXNodes"
+                    href="https://twitter.com/projectxfinance"
                     target="_blank"
                     rel="noreferrer"
                   >
@@ -75,7 +69,7 @@ export default function Footer() {
                 </li>
                 <li>
                   <a
-                    href="https://discord.com/invite/projectx"
+                    href="https://discord.com/invite/projectxfinance"
                     target="_blank"
                     rel="noreferrer"
                   >

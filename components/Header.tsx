@@ -87,7 +87,7 @@ export default function Header() {
                   :''}
                   <li>
                     <a
-                      href="https://app.bogged.finance/avax/swap?tokenIn=AVAX&tokenOut=0x9e20Af05AB5FED467dFDd5bb5752F7d5410C832e"
+                      href="https://app.bogged.finance/avax/swap?tokenIn=AVAX&tokenOut=0x9ADCbba4b79eE5285E891512b44706F41F14CAFd"
                       target="_blank"
                       rel="noreferrer"
                     >
@@ -112,7 +112,7 @@ export default function Header() {
                   
                   <li>
                     <a
-                      href="https://twitter.com/ProjectXNodes"
+                      href="https://twitter.com/projectxfinance"
                       target="_blank"
                       rel="noreferrer"
                     >
@@ -121,7 +121,7 @@ export default function Header() {
                   </li>
                   <li>
                     <a
-                      href="https://discord.com/invite/projectx"
+                      href="https://discord.com/invite/projectxfinance"
                       target="_blank"
                       rel="noreferrer"
                     >

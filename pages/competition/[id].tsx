@@ -112,7 +112,7 @@ export default function Competition() {
   return competition && (
     <div className={classNames(styles.competition, buying && styles.loading)}>
       <div className="page-wrapper">
-        <div className="inner-hero-section">
+        <div className="inner-hero-section style--four">
           <div className="bg-shape"><Image src="/assets/images/elements/inner-hero-shape.png" alt="image" layout='fill'/></div>
         </div>
         <section className="pb-120 mt-minus-300">
@@ -162,9 +162,9 @@ export default function Competition() {
                     </div>
                     <ul className="social-links align-items-center">
                       <li>Share :</li>
-                      <li><a href="#0"><i className="fab fa-facebook-f"></i></a></li>
-                      <li><a href="#0"><i className="fab fa-twitter"></i></a></li>
-                      <li><a href="#0"><i className="fab fa-linkedin-in"></i></a></li>
+                      {/*<li><a href="#0"><i className="fab fa-facebook-f"></i></a></li>*/}
+                      <li><a className="twitter-share-button"
+  href="https://twitter.com/intent/tweet?text={competition.title}"><i className="fab fa-twitter"></i></a></li>
                     </ul>
                   </div>
                 </div>
