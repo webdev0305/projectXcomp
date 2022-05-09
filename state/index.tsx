@@ -1,5 +1,5 @@
 import { eth } from "state/eth"; // Eth state provider
-import { token } from "state/token"; // Token state provider
+import { token } from "state/competition"; // Competition state provider
 import type { ReactElement } from "react"; // Types
 
 /**

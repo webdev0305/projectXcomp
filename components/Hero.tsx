@@ -1,28 +1,66 @@
-import styles from "styles/components/Hero.module.scss"
+import classNames from "classnames";
+import Image from "next/image";
 
-interface Prop {
-    children: JSX.Element|JSX.Element[];
-    heroImage: string;
-    isOverlay?: boolean;
-}
 
-export default function Hero({ children, heroImage, isOverlay=false}:Prop){
-    
-  return (
-    <div className="flex flex-col items-center justify-center space-y-12">
-        <div className="bg-cover bg-center relative w-full h-400 md:h-600" style={{backgroundImage: heroImage}}>
-            <div className="container mx-auto min-h-400 md:min-h-600 flex items-center flex-col justify-around">
-                <div className="pt-8 -mx-4 md:mx-0 z-10">
-                    <div className="text-center md:px-4 relative w-full">
-                        {children}
-                    </div>
-                </div>
-            </div>
-            {isOverlay?<div className={styles.overlay} style={{backgroundColor:"rgba(19,18,18,0.619)"}}></div>:""
-        }
+export default function Hero() {
+    return (
+        <section className="hero">
+        <div className="hero__shape">
+          <img src="assets/images/elements/hero-shape.jpg.png" alt="image" />
         </div>
-        
-        
-    </div>
-  );
+        <div className="hero__element">
+          <img src="assets/images/elements/hero-building.png" alt="image" />
+        </div>
+        <div
+          className="hero__car wow bounceIn"
+          data-wow-duration="0.5s"
+          data-wow-delay="1s"
+        >
+          <img
+            src="assets/images/elements/car-ray.png"
+            alt="image"
+            className="car-ray"
+          />
+          <img
+            src="assets/images/projectx/hero.png"
+            alt="image"
+            className="hero-car"
+          />
+        </div>
+        <div className="container">
+          <div className="row justify-content-center justify-content-lg-start">
+            <div className="col-lg-6 col-md-8">
+              <div className="hero__content">
+                <h2
+                  className="hero__title wow fadeInUp"
+                  data-wow-duration="0.5s"
+                  data-wow-delay="0.5s"
+                >
+                  WIN BIG
+                </h2>
+                <p
+                  className="wow fadeInUp"
+                  data-wow-duration="0.5s"
+                  data-wow-delay="0.7s"
+                >
+                  Now&#39;s your chance to use $PXT to win great prizes!
+                  <br />
+                  Check out what&#39;s in our latest prize draws. <br />
+                  Will you be our next lucky winner?
+                </p>
+                <div
+                  className="hero__btn wow fadeInUp"
+                  data-wow-duration="0.5s"
+                  data-wow-delay="0.9s"
+                >
+                  <a href="#draws" className="cmn-btn">
+                    View competitions
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
 }

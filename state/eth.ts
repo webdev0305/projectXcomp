@@ -12,12 +12,7 @@ import type {
 import type { Web3Provider } from "@ethersproject/providers";
 
 // Network
-const networkId = process.env.NEXT_PUBLIC_RPC_NETWORK
-  ? // Use network
-    Number(process.env.NEXT_PUBLIC_RPC_NETWORK)
-  : // Else, default to Rinkeby
-    4;
-
+const networkId = Number(process.env.NEXT_PUBLIC_RPC_NETWORK ?? 43113)
 // Onboard.js wallet providers
 const wallets: (WalletModule | WalletInitOptions)[] = [
   { walletName: "metamask" },
@@ -25,7 +20,7 @@ const wallets: (WalletModule | WalletInitOptions)[] = [
     walletName: "walletConnect",
     networkId,
     rpc: {
-      [networkId]: process.env.NEXT_PUBLIC_RPC_URL ?? "",
+      [networkId]: process.env.NEXT_PUBLIC_RPC_URL ?? "https://api.avax-test.network/ext/bc/C/rpc",
     },
   },
 ];
@@ -55,6 +50,16 @@ function useEth() {
       }
     }
   };
+  /**
+   * lock wallet, store ethers provider and address
+   */
+   const lock = async () => {
+    setAddress(null)
+    setProvider(null)
+    window.localStorage.removeItem("selectedWallet");
+    // onboard?.walletSelect(undefined)
+    window.location.reload();
+  };
 
   /**
    * Initialize onboard instance and store
@@ -65,10 +70,11 @@ function useEth() {
       networkId,
       // Hide Blocknative branding
       hideBranding: true,
+      darkMode: true,
       // Setup custom wallets for selection
       walletSelect: {
-        heading: `Connect to ${tokenName}`,
-        description: `Please select a wallet to authenticate with ${tokenName}.`,
+        heading: `Connect to ProjectX competition`,
+        description: `Please select a wallet to authenticate with $PXT.`,
         wallets: wallets,
       },
       // Track subscriptions
@@ -120,7 +126,7 @@ function useEth() {
     }
   }, [onboard]);
 
-  return { address, provider, unlock };
+  return { address, provider, unlock, lock };
 }
 
 // Create unstated-next container

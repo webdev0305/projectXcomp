@@ -6,9 +6,10 @@ import Document, {
   Main,
   NextScript,
 } from "next/document";
-
+// import Script from 'next/script'
 // Custom document class
 export default class MyDocument extends Document {
+
   // Collect and return props
   static async getInitialProps(ctx: DocumentContext) {
     const initialProps = await Document.getInitialProps(ctx);
@@ -20,10 +21,13 @@ export default class MyDocument extends Document {
       // Wrap in html with custom lang param
       <Html lang="en">
         {/* Preload head */}
-        <Head />
+        <Head >
+       
+        </Head>
         <body>
           <Main />
           <NextScript />
+          
         </body>
       </Html>
     );

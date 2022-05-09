@@ -8,18 +8,17 @@ const description: string =
 
 export default function Meta() {
   return (
-    <Head>
+	<Head>
       {/* Fonts: Inter */}
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link
-        rel="preconnect"
-        href="https://fonts.gstatic.com"
-        crossOrigin="true"
-      />
-      <link
-        href={`https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap`}
-        rel="stylesheet"
-      />
+	  <link rel="stylesheet" href="/assets/css/vendor/bootstrap.min.css" />
+	  <link rel="stylesheet" href="/assets/css/all.min.css" />
+	  <link rel="stylesheet" href="/assets/css/line-awesome.min.css" />
+	  <link rel="stylesheet" href="/assets/css/vendor/animate.min.css" />
+	  <link rel="stylesheet" href="/assets/css/vendor/slick.css" />
+	  <link rel="stylesheet" href="/assets/css/vendor/jquery-ui.min.css" />
+	  <link rel="stylesheet" href="/assets/css/main.css" />
+    
+	  
 
       {/* Primary Meta */}
       <title>{tokenName}</title>
