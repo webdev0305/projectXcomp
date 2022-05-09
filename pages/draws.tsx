@@ -30,15 +30,8 @@ export default function Draws() {
             })
         if (comp) setCompetition(comp)
       }, [!dataLoading, competitions])
-   console.log(dataLoading)
 
     return (
-        <>
-        {dataLoading?
-        <div className="preloader">
-            <LoadingComponent />{" "}
-        </div>
-        :
         <div className="page-wrapper">
             <div className="inner-hero-section style--five">
                 <div className="bg-shape">
@@ -72,7 +65,7 @@ export default function Draws() {
                             {!dataLoading && competitions?.filter((e:any) => {
                                 // return true;
                                 // console.log(e)
-                                return e.countMine > 0
+                                return e.countMine > 0 && e.status < 2
                                 }).map((item:any) =>
                                 <div className="col-xl-6 col-lg-12 col-md-6 mb-30" key={item.id}>
                                     <DrawItem 
@@ -87,7 +80,5 @@ export default function Draws() {
                 </div>
             </div>
         </div>
-        }
-        </>
     );
 }

@@ -62,7 +62,7 @@ export default function ListCompetitionPage() {
                   else if (filter.status === '2') return item.status === 2
                 }
                 return true
-              }).map((item: any, index: number) => (
+              }).reverse().map((item: any, index: number) => (
                 <div className={cn(admin.item, "mb-12 md:px-4")} key={index}>
                 {/* <div key={index}> */}
                   <CompetitionItem
