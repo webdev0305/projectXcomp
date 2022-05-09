@@ -3879,6 +3879,16 @@ span.is-active:after {
   transition: all 0.3s;
 }
 
+.play-card-one {
+	background-image: url('../../assets/images/elements/card-bg-1.jpg')!important;
+}
+.play-card-two {
+	background-image: url('../../assets/images/elements/card-bg-2.jpg')!important;
+}
+.play-card-three {
+	background-image: url('../../assets/images/elements/card-bg-3.jpg')!important;
+}
+
 .play-card:hover {
   -webkit-transform: scale(1.05, 1.05);
   -ms-transform: scale(1.05, 1.05);
