@@ -1,10 +1,9 @@
 import Head from "next/head"; // HTML Head
 
 // Setup project details
-const url: string = process.env.NEXT_PUBLIC_URL ?? "https://token.com/";
-const tokenName: string = process.env.NEXT_PUBLIC_TOKEN_NAME ?? "Token Name";
-const description: string =
-  process.env.NEXT_PUBLIC_DESCRIPTION ?? "Some description";
+const url: string = process.env.NEXT_PUBLIC_URL ?? "https://projectx.financial";
+const tokenName: string = process.env.NEXT_PUBLIC_TOKEN_NAME ?? "CompetitionX";
+const description: string = process.env.NEXT_PUBLIC_DESCRIPTION ?? "Win prizes with $PXT";
 
 export default function Meta() {
   return (
@@ -30,14 +29,14 @@ export default function Meta() {
       <meta property="og:url" content={url} />
       <meta property="og:title" content={tokenName} />
       <meta property="og:description" content={description} />
-      <meta property="og:image" content={`${url}meta.png`} />
+      <meta property="og:image" content={`${url}logo.png`} />
 
       {/* Twitter */}
       <meta property="twitter:card" content="summary_large_image" />
       <meta property="twitter:url" content={url} />
       <meta property="twitter:title" content={tokenName} />
       <meta property="twitter:description" content={description} />
-      <meta property="twitter:image" content={`${url}meta.png`} />
+      <meta property="twitter:image" content={`${url}logo.png`} />
 
       {/* Favicon */}
       <link rel="shortcut icon" href="/favicon.ico" />
