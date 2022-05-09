@@ -142,7 +142,7 @@ export default function Competitions() {
       </section>
       <Winanywhere />
       <Features />
-      <Previouswinners/>
+      {/*<Previouswinners/>*/}
       
     </>
   );

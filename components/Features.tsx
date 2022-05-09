@@ -24,7 +24,7 @@ export default function Features() {
                         <div className="feature-card__content">
                           <h3 className="feature-title">Anonymity</h3>
                           <p>
-                            No need to register, just connect your wallet and play
+                            No need to register, just connect your wallet and play!
                           </p>
                         </div>
                       </div>
@@ -44,9 +44,9 @@ export default function Features() {
                           />
                         </div>
                         <div className="feature-card__content">
-                          <h3 className="feature-title">True Random</h3>
+                          <h3 className="feature-title">Open-source Random</h3>
                           <p>
-                            Utilising <a href="">ChainLink</a> VRF service for ultimate fairness
+                          	Published random code for full transparency
                           </p>
                         </div>
                       </div>
@@ -72,7 +72,7 @@ export default function Features() {
                         <div className="feature-card__content">
                           <h3 className="feature-title">Security</h3>
                           <p>
-                            Ultimate transparency from the Avalanche blockchain
+                            Ultimate auditing from the Avalanche blockchain
                           </p>
                         </div>
                       </div>
@@ -91,9 +91,7 @@ export default function Features() {
               <div className="section-header">
                 <h2 className="section-title">Our features</h2>
                 <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. In
-                  pretium, elit quis vehicula interdum, sem metus iaculis
-                  sapien, sed bibendum lectus augue eu metus.
+                  We have strived to make competitionX revolutionary in the competition space by utilising the latest in blockchain technology.
                 </p>
               </div>
             </div>

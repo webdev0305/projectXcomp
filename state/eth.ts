@@ -73,7 +73,7 @@ function useEth() {
       darkMode: true,
       // Setup custom wallets for selection
       walletSelect: {
-        heading: `Connect to ProjectX competition`,
+        heading: `Connect your wallet securely`,
         description: `Please select a wallet to authenticate with $PXT.`,
         wallets: wallets,
       },
