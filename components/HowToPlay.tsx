@@ -26,7 +26,7 @@ export default function Howtoplay() {
           </div>
           <div className="row mb-none-30 justify-content-xl-start justify-content-center">
               <div className="col-xl-3 col-lg-4 col-sm-6 mb-30">
-                <div className="play-card bg_img" data-background="assets/images/elements/card-bg-1.jpg">
+                <div className="play-card bg_img play-card-one">
                   <div className="play-card__icon">
                     <img src="assets/images/projectx/icon/play/1.png" alt="image-icon" className="inline"/>
                     <span className="play-card__number">1</span>
@@ -45,7 +45,7 @@ export default function Howtoplay() {
                 </div>
               </div>
               <div className="col-xl-3 col-lg-4 col-sm-6 mb-30">
-                <div className="play-card bg_img" data-background="assets/images/elements/card-bg-2.jpg">
+                <div className="play-card bg_img play-card-two">
                   <div className="play-card__icon">
                     <img src="assets/images/icon/play/1.png" alt="image-icon" className="inline"/>
                     <span className="play-card__number">2</span>
@@ -57,7 +57,7 @@ export default function Howtoplay() {
                 </div>
               </div>
               <div className="col-xl-3 col-lg-4 col-sm-6 mb-30">
-                <div className="play-card bg_img" data-background="assets/images/elements/card-bg-3.jpg">
+                <div className="play-card bg_img play-card-three">
                   <div className="play-card__icon">
                     <img src="assets/images/icon/play/3.png" alt="image-icon" className="inline"/>
                     <span className="play-card__number">3</span>
