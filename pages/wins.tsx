@@ -100,7 +100,7 @@ export default function Wins() {
                                                 <div className="content-bottom">
                                                     <div className="number-list-wrapper">
                                                         <p className="text-white text-[18px]">You won!</p>
-                                                        <p className="text-white text-[18px]">Claim instructions goes <a href="#" onClick={()=>handleSignMessage(item.id, item.winner.id)}>here</a></p>
+                                                        <p className="text-white text-[18px]">Click <a href="#" onClick={()=>handleSignMessage(item.id, item.winner.id)}>here</a> to reveal your prize details</p>
                                                     </div>
                                                     <div className="right">
                                                         <p>Comp No:</p>
