@@ -1,9 +1,9 @@
 import Head from "next/head"; // HTML Head
 
 // Setup project details
-const url: string = process.env.NEXT_PUBLIC_URL ?? "https://projectx.financial";
-const tokenName: string = process.env.NEXT_PUBLIC_TOKEN_NAME ?? "CompetitionX";
-const description: string = process.env.NEXT_PUBLIC_DESCRIPTION ?? "Win prizes with $PXT";
+const url: string = process.env.NEXT_PUBLIC_URL ?? "";
+const tokenName: string = process.env.NEXT_PUBLIC_TOKEN_NAME ?? "";
+const description: string = process.env.NEXT_PUBLIC_DESCRIPTION ?? "";
 
 export default function Meta() {
   return (
@@ -17,8 +17,6 @@ export default function Meta() {
 	  <link rel="stylesheet" href="/assets/css/vendor/jquery-ui.min.css" />
 	  <link rel="stylesheet" href="/assets/css/main.css" />
     
-	  
-
       {/* Primary Meta */}
       <title>{tokenName}</title>
       <meta name="title" content={tokenName} />
