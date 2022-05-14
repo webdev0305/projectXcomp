@@ -49,7 +49,7 @@ export default function Wins() {
     console.log(dataLoading)
     return (
         <div className="page-wrapper">
-            <div className="inner-hero-section style--one">
+            <div className="inner-hero-section style--two">
                 <div className="bg-shape">
                     <img src="assets/images/elements/inner-hero-shape.png" alt="image"/>
                 </div>

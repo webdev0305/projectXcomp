@@ -116,7 +116,7 @@ export default function Competition() {
   return competition && (
     <div className={classNames(styles.competition, buying && styles.loading)}>
       <div className="page-wrapper">
-        <div className="inner-hero-section style--four">
+        <div className="inner-hero-section style-two">
           <div className="bg-shape"><Image src="/assets/images/elements/inner-hero-shape.png" alt="image" layout='fill'/></div>
         </div>
         <section className="pb-120 mt-minus-300">

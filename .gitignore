@@ -38,3 +38,6 @@ yarn.lock
 
 # vercel
 .vercel
+
+#db
+/backend/db.js
