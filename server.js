@@ -4,7 +4,7 @@ const app = express()
 const account = require('./backend/account')
 const competition = require('./backend/competition')
 
-const port = process.argv[3] ?? 3000;
+const port = 3000;
 const server = next({ dev:process.argv[4] && process.argv[4]==='-dev', port })
 const handle = server.getRequestHandler()
 
