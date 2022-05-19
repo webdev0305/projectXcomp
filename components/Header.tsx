@@ -87,7 +87,7 @@ export default function Header() {
                   </li>
                   {address?
                   <li>
-                    <Link href="/wins">MY</Link>
+                    <Link href="/draws">MY DRAWS</Link>
                   </li>
                   :''}
                   <li>
