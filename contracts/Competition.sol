@@ -3,6 +3,8 @@ pragma solidity ^0.8.0;
 
 import "./common/IERC20.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol";
+import "@chainlink/contracts/src/v0.8/interfaces/VRFCoordinatorV2Interface.sol";
+import "@chainlink/contracts/src/v0.8/VRFConsumerBaseV2.sol";
 
 struct TicketInfo {
     address account;
@@ -37,7 +39,7 @@ struct CompInfo {
     uint8 status; // 0-Created, 1-Started, 2-SaleEnd, 3-Past
 }
 
-contract Competition is ERC20Upgradeable{
+contract Competition is ERC20Upgradeable {
     address private _owner;
     CompInfo[] public competitions;
     mapping(address => bool) public sponsers;
@@ -53,6 +55,12 @@ contract Competition is ERC20Upgradeable{
     uint256 public feePerYear;
     uint256 public creditsPerMonth;
 
+    VRFCoordinatorV2Interface COORDINATOR;
+    uint64 private subscriptionId;
+    bytes32 private keyHash;
+    mapping(uint256 => uint256) private drawRequests;
+    event Drawn(uint256 indexed, address);
+
     function initialize(address tokenAddress) public initializer {
         _owner = msg.sender;
         sponsers[msg.sender] = true;
@@ -63,6 +71,21 @@ contract Competition is ERC20Upgradeable{
         feePerMonth = 1e18;
         feePerYear = 10e18;
         creditsPerMonth = 5e17;
+        COORDINATOR = VRFCoordinatorV2Interface(0xd5D517aBE5cF79B7e95eC98dB0f0277788aFF634); // Avax Mainnet
+        subscriptionId = 6;
+        keyHash = 0x89630569c9567e43c4fe7b1633258df9f2531b62f2352fa721cf3162ee4ecb46;
+    }
+
+    function updateConsumer() public {
+        COORDINATOR = VRFCoordinatorV2Interface(0xd5D517aBE5cF79B7e95eC98dB0f0277788aFF634); // Avax Mainnet
+        subscriptionId = 6;
+        keyHash = 0x89630569c9567e43c4fe7b1633258df9f2531b62f2352fa721cf3162ee4ecb46;
+    }
+
+    function rawFulfillRandomWords(uint256 requestId, uint256[] memory randomWords) external {
+        if (msg.sender == address(COORDINATOR)) {
+            fulfillRandomWords(requestId, randomWords);
+        }
     }
     
     modifier forOwner() {
@@ -168,7 +191,7 @@ contract Competition is ERC20Upgradeable{
         competition.status = 1;
     }
 
-    function finish(uint256 id) public forSponser returns (address) {
+    function canDraw(uint256 id) public view returns (bool) {
         require(id > 0 && id <= competitions.length, "Finish: Invalid id.");
         CompInfo storage competition = competitions[id - 1];
         require(competition.status == 1, "Finish: CompInfo was not started.");
@@ -177,34 +200,72 @@ contract Competition is ERC20Upgradeable{
             "Finish: CompInfo is not ready to finish."
         );
         require(competition.countSold > 0, "Finish: No ticket was sold.");
-        TicketInfo[] storage tickets = ticketSold[id - 1];
-        require(tickets.length > 0, "Finish: No ticket was sold.");
-        uint256 seed = uint256(
-            keccak256(
-                abi.encodePacked(
-                    (block.timestamp - competition.timeStart) +
-                        block.difficulty +
-                        ((
-                            uint256(keccak256(abi.encodePacked(block.coinbase)))
-                        ) / (block.timestamp)) +
-                        block.gaslimit +
-                        ((uint256(keccak256(abi.encodePacked(id)))) /
-                            (block.timestamp)) +
-                        block.number
-                )
-            )
-        ) % competition.countSold;
-        uint256 sum = 0;
-        uint256 i = 0;
-        for (i = 0; i < tickets.length; i++) {
-            if (tickets[i].amount == 0) continue;
-            sum = sum + tickets[i].amount;
-            if (sum > seed) {
-                competition.winner = tickets[i].account;
-                competition.status = 2;
-                return competition.winner;
+        require(ticketSold[id - 1].length > 0, "Finish: No ticket was sold.");
+        return true;
+    }
+
+    function fulfillRandomWords(
+        uint256 requestId,
+        uint256[] memory randomWords
+    ) internal {
+        uint256 id = drawRequests[requestId];
+        if(canDraw(id)) {
+            CompInfo storage competition = competitions[id - 1];
+            TicketInfo[] storage tickets = ticketSold[id - 1];
+            uint256 seed = randomWords[0] % competition.countSold;
+            uint256 sum = 0;
+            uint256 i = 0;
+            for (i = 0; i < tickets.length; i++) {
+                if (tickets[i].amount == 0) continue;
+                sum = sum + tickets[i].amount;
+                if (sum > seed) {
+                    competition.winner = tickets[i].account;
+                    competition.status = 2;
+                    emit Drawn(id, competition.winner);
+                    break;
+                }
             }
         }
+
+    }
+
+    function finish(uint256 id) public forSponser returns (address) {
+        if(canDraw(id)) {
+            uint256 requestId = COORDINATOR.requestRandomWords(
+                keyHash,
+                subscriptionId,
+                3,
+                100000,
+                1
+            );
+            drawRequests[requestId] = id;
+        }
+        // uint256 seed = uint256(
+        //     keccak256(
+        //         abi.encodePacked(
+        //             (block.timestamp - competition.timeStart) +
+        //                 block.difficulty +
+        //                 ((
+        //                     uint256(keccak256(abi.encodePacked(block.coinbase)))
+        //                 ) / (block.timestamp)) +
+        //                 block.gaslimit +
+        //                 ((uint256(keccak256(abi.encodePacked(id)))) /
+        //                     (block.timestamp)) +
+        //                 block.number
+        //         )
+        //     )
+        // ) % competition.countSold;
+        // uint256 sum = 0;
+        // uint256 i = 0;
+        // for (i = 0; i < tickets.length; i++) {
+        //     if (tickets[i].amount == 0) continue;
+        //     sum = sum + tickets[i].amount;
+        //     if (sum > seed) {
+        //         competition.winner = tickets[i].account;
+        //         competition.status = 2;
+        //         return competition.winner;
+        //     }
+        // }
         return address(0);
     }
 
