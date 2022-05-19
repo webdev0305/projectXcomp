@@ -40,9 +40,8 @@ export default function EditCompetitionPage() {
     const timeDraws = new Date(Math.floor(timeEnds.getTime() / 3600000) * 3600000 + 3600000)
     const description = "\n" +
         "* This is a guaranteed draw regardless of ticket sales.\n" +
-        "The full prize will be given away regardless.\n" +
-        `The draw will go ahead on the ${formatDate(timeDraws)}. The competition ends ${formatDate(timeEnds)}.\n` +
-        "For free entry see T&C's."
+        "If not all tickets are sold the prize value will be proportionate to the amount of tickets sold as percentage.\n" +
+        "Example: Competition is for 0.1BTC, 100 tickets available, 50 sold by draw time, prize will be 0.05BTC."
 
     const readFile = (file: File) => {
         return new Promise(resolve => {
