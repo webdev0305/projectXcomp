@@ -144,7 +144,7 @@ export default function Competition() {
                   <div className="contest-cart__right">
                     <h3 className="contest-name">{competition.title}</h3>
                     <div className="contest-num">Comp ID: <span>{competition.id}</span></div>
-                    <h4>{competition.countSold ?? 0} Tickets sold</h4>
+                    <h4>{competition.countSold ?? 0} Tickets sold (You have {competition.countMine??0})</h4>
                     <div className="ticket-amount">
                       <Progress
                         maxAmount={competition.countTotal ?? 0}
