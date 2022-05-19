@@ -125,7 +125,7 @@ export default function Competition() {
               <div className="col-lg-6">
                 <div className="clock-wrapper">
                   <div className="mb-2" style ={{color: "white", fontSize: "18px"}}>
-                    This competition ends in <Counter className="mt-4" endTime={competition.timeEnd ?? new Date()} drawDate={formatDate(competition.timeEnd)} />
+                    <Counter className="mt-4" endTime={competition.timeEnd ?? new Date()} drawDate={formatDate(competition.timeEnd)} />
                   </div>
                   <div className="clock" data-clock="2020/12/10"></div>
                 </div>
