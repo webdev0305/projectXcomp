@@ -164,8 +164,16 @@ function useToken() {
       await getContract()
     const tx = await contractCompetition.finish(comp.id)
     await tx.wait()
-    getBalance()
-    return await contractCompetition.competitions((comp.id??1)-1)
+    return await (new Promise((resolve, reject) => {
+      contractCompetition.provider.once({
+        address: contractCompetition.address,
+        topics: [ ethers.utils.id("Drawn(uint256,address)"),ethers.utils.hexZeroPad(`0x${Number(comp.id).toString(16)}`,32) ]
+      }, async (log) => {
+        getBalance()
+        const comp1 = await contractCompetition.competitions((comp.id??1)-1)
+        resolve(comp1)
+      })
+    }))    
   }
 
   const buyTicket = async (comp: ICompetition, count: number): Promise<ICompetition> => {
