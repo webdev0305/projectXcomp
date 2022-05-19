@@ -14,6 +14,7 @@ export default function Clock({ className, theme, endTime, drawDate, onDone }: P
   const [hDisplay, setHDisplay] = useState<string>()
   const [mDisplay, setMDisplay] = useState<string>()
   const [sDisplay, setSDisplay] = useState<string>()
+  const [Ended, setEnded] = useState(false)
   function secondsToHms(t: number) {
     const ac = new AbortController()
     if (t <= 0) {
@@ -21,6 +22,7 @@ export default function Clock({ className, theme, endTime, drawDate, onDone }: P
       setHDisplay('00')
       setMDisplay('00')
       setSDisplay('00')
+      setEnded(true)
     } else {
       const d = Math.floor(t / 86400);
       const h = Math.floor(t % 86400 / 3600);
@@ -45,9 +47,17 @@ export default function Clock({ className, theme, endTime, drawDate, onDone }: P
     }, 1000)
     return () => clearInterval(timer)
   }, [endTime, onDone])
-  return (
-      <div>
-        {dDisplay} days {hDisplay?.slice(0, 1)}{hDisplay?.slice(-1)} hours {mDisplay?.slice(0, 1)}{mDisplay?.slice(-1)} min {sDisplay?.slice(0, 1)}{sDisplay?.slice(-1)} seconds
-      </div>
-  )
+  if(!Ended)
+    return (
+      <>
+        This competition ends in
+        <div>
+          {dDisplay} days {hDisplay?.slice(0, 1)}{hDisplay?.slice(-1)} hours {mDisplay?.slice(0, 1)}{mDisplay?.slice(-1)} min {sDisplay?.slice(0, 1)}{sDisplay?.slice(-1)} seconds
+        </div>
+      </>
+    )
+    else
+    return (
+      <>This competition has ended</>
+    )
 }

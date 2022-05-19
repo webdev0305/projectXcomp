@@ -6,7 +6,7 @@ const CompetitionABI = require("../abi/Competition.json")
 const app = express()
 const ENCRYPT_KEY = "projextXCompetition"
 
-const defaultProvider = new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_URL??"https://speedy-nodes-nyc.moralis.io/0e1178f702f6a0f85209f04a/avalanche/testnet")
+const defaultProvider = new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_URL??"https://api.avax.network/ext/bc/C/rpc")
 
 app.use(bodyParser.json());
 

@@ -311,6 +311,7 @@ contract Competition is ERC20Upgradeable {
         }
         ticketPerson[msg.sender][id] += count;
         competition.countSold += count;
+        require(competition.countSold <= competition.countTotal, "Buy: There is no enough ticket");
         require(
             ticketPerson[msg.sender][id] <= competition.maxPerPerson,
             "Buy: You cannot buy more than MaxPerPerson."
