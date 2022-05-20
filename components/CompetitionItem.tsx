@@ -167,7 +167,7 @@ export default function CompetitionItem({ href, className, item, showStatus }: P
                 </div>
                 <div className="right">
                     <span className="contest-card__price">
-                        {item.priceForGuest}
+                        {item.priceForGuest} PXT
                     </span>
                 </div>
             </div>
@@ -187,8 +187,10 @@ export default function CompetitionItem({ href, className, item, showStatus }: P
                     </li>
                     <li>
                     <i className="las la-ticket-alt"></i>
-                        <span>{(item.countTotal ?? 0) - (item.countSold ?? 0)}</span>
-                    <p>Remaining</p>
+                        {/*<span>{(item.countTotal ?? 0) - (item.countSold ?? 0)} of {item.countTotal}</span>*/}
+                        <span>{item.countSold} of {item.countTotal}</span>
+                    {/*<p>Remain</p>*/}
+                    <p>Sold</p>
                     </li>
                 </ul>
             </div>
