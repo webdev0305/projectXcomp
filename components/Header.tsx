@@ -89,9 +89,6 @@ export default function Header() {
                   <li>
                     <Link href="/draws">MY DRAWS</Link>
                   </li>
-                  <li>
-                    <Link href="/faq">FAQ</Link>
-                  </li>
                   :''}
                   <li>
                     <a
@@ -117,7 +114,9 @@ export default function Header() {
                   </li>
                   :''
                   }
-                  
+                  <li>
+                    <Link href="/faq">FAQ</Link>
+                  </li>
                   <li>
                     <a
                       href="https://twitter.com/projectxfinance"
