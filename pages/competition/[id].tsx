@@ -177,7 +177,7 @@ export default function Competition() {
                 <div className="contest-description">
                   <div className="content-block">
                     <h3 className="title">Prize details</h3>
-                    <p>{competition.description}</p>
+                    <p style={{whiteSpace: 'pre-wrap'}}>{competition.description}</p>
                   </div>
                 </div>
               </div>
