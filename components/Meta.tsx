@@ -27,14 +27,14 @@ export default function Meta() {
       <meta property="og:url" content={url} />
       <meta property="og:title" content="CompetitionX" />
       <meta property="og:description" content="Use PXT to win great prizes, from NFTs to Crypto and luxurious Holidays!  All on the Avalanche blockchain, with 100% anonymity." />
-      <meta property="og:image" content="https://competitionx.app/opengraph.png" />
+      <meta property="og:image" content="https://competitionx.app/opengraph.jpg" />
 
       {/* Twitter */}
       <meta property="twitter:card" content="summary_large_image" />
       <meta property="twitter:url" content={url} />
       <meta property="twitter:title" content="CompetitionX" />
       <meta property="twitter:description" content="Use PXT to win great prizes, from NFTs to Crypto and luxurious Holidays!  All on the Avalanche blockchain, with 100% anonymity." />
-      <meta property="twitter:image" content="https://competitionx.app/opengraph.png" />
+      <meta property="twitter:image" content="https://competitionx.app/opengraph.jpg" />
 
       {/* Favicon */}
       <link rel="shortcut icon" href="/favicon.ico" />
