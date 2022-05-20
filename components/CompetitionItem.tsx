@@ -133,7 +133,6 @@ export default function CompetitionItem({ href, className, item, showStatus }: P
     const diffHours = !timeout?Math.ceil(diff / (1000 * 3600)):0;
     const diffMins = !timeout?Math.ceil(diff / (1000 * 60)):0;
     return (
-	    <Link href={href} passHref>
         <div className="contest-card">
             {showStatus &&
                 <span className={classNames(styles.status, styles['status' + item.status],"absolute bg-[red] text-white px-[10px] w-auto z-10 right-0")} style={{borderRadius: "0 10px"}}>
@@ -243,6 +242,5 @@ export default function CompetitionItem({ href, className, item, showStatus }: P
                     {!openPrizeEdit && <button type="button" className='my-2 py-2 font-bold rounded-md w-full cursor-pointer text-white bg-blue-500 hover:bg-blue-600' onClick={openPrizeEditBox}>{loading?'Checking...':'Edit Prize Instruction'}</button>}
                 </div>}
         </div>
-        </Link>
     );
 }
