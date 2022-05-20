@@ -225,7 +225,7 @@ export default function CompetitionItem({ href, className, item, showStatus }: P
                 <div className={classNames(styles.winner, "mt-2 m-2")}>
                     <label>Winner</label>
                     <span className="flex flex-col gap-2">
-                        <div>Wallet: 0x{item.winner?.id}</div>
+                        <div>Wallet: {item.winner?.id}</div>
                     </span>
                    
                     <textarea 
