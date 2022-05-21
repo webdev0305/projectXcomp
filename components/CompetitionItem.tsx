@@ -142,6 +142,10 @@ export default function CompetitionItem({ href, className, item, showStatus }: P
                     {item.status == 3 && "Complete"}
                 </span>
             }
+            {item.countTotal == item.countSold &&
+                <span className={classNames(styles.status, styles['status0'],"absolute bg-[red] text-white px-[10px] w-auto z-10 right-0")} style={{borderRadius: "0 10px"}}>Sold out
+                </span>
+            }
 	            <div className="contest-card__thumb h-[275px]">
 	                {item.status === 2 && item.logoImage &&
 	                    <Link href={href} passHref>
