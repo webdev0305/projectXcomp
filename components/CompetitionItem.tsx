@@ -142,7 +142,6 @@ export default function CompetitionItem({ href, className, item, showStatus }: P
                     {item.status == 3 && "Complete"}
                 </span>
             }
-            <Link href={href} passHref>
 	            <div className="contest-card__thumb h-[275px]">
 	                {item.status === 2 && item.logoImage &&
 	                    <Link href={href} passHref>
@@ -197,7 +196,6 @@ export default function CompetitionItem({ href, className, item, showStatus }: P
 	                    </li>
 	                </ul>
 	            </div>
-	        </Link>
             {item.status == 1 && timeout && showStatus &&
                 (user.isOwner ?
                     <div className="flex gap-1 mt-2">
