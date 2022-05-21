@@ -33,7 +33,7 @@ export default function Howtoplay() {
                   </div>
                   <div className="play-card__content">
                     <h3 className="play-card__title">Buy $PXT</h3>
-                    <p>Purchase PXT token from
+                    <p>Purchase PXT token from 
                     <a
                       href="https://app.bogged.finance/avax/swap?tokenIn=AVAX&tokenOut=0x9ADCbba4b79eE5285E891512b44706F41F14CAFd"
                       target="_blank"
