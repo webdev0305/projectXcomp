@@ -156,6 +156,8 @@ export default function Competition() {
                       <span className="amount">{user.isMember ? competition.priceForMember : competition.priceForGuest} $PXT</span>
                       <small>Per ticket</small>
                     </div>
+                    {(competition.countSold??0) < (competition.countTotal??0) &&
+                    <>
                     <div className="d-flex flex-wrap align-items-center mb-30">
                       <div className={cn(styles.input, "mr-[20px]")}>
                         <button onClick={removeTicket}>-</button>
@@ -164,6 +166,8 @@ export default function Competition() {
                       </div>
                       <div className="mt-sm-0 mt-3"><a href="#0" onClick={buy} className="cmn-btn style--three">{buying ? (user.approved ? "Buying..." : "Approving...") : "Buy ticket"}</a></div>
                     </div>
+                    </>
+                    }
                     <ul className="social-links align-items-center">
                       <li>Share :</li>
                       {/*<li><a href="#0"><i className="fab fa-facebook-f"></i></a></li>*/}

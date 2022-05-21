@@ -142,58 +142,62 @@ export default function CompetitionItem({ href, className, item, showStatus }: P
                     {item.status == 3 && "Complete"}
                 </span>
             }
-            <div className="contest-card__thumb h-[275px]">
-                {item.status === 2 && item.logoImage &&
-                    <Link href={href} passHref>
-                        <img src={item.logoImage} alt={item.title} width="100%" height="auto" className="rounded-md" />
-                    </Link>}
-                {item.status !== 2 && item.logoImage &&
-                    <Link href={href} passHref>
-                        <img src={item.logoImage} alt={item.title} width="100%" height="auto" className="rounded-md" />
-                    </Link>}
-                <div className="contest-num flex-col items-center">
-                    <h6>Comp no</h6>
-                    {/* <h4 className="number">{item.title}</h4> */}
-                    <h4 className="number text-[22px]">{item.id}</h4>
-                </div>
-            </div>
-            <div className={classNames(item.countTotal == item.countSold && styles.soldout, "mt-2")}>
-            </div>
-            <div className="contest-card__content">
-                <div className="left">
-                    <h5 className="contest-card__name">
-                        {item.title}
-                    </h5>
-                </div>
-                <div className="right">
-                    <span className="contest-card__price">
-                        {item.priceForGuest} PXT
-                    </span>
-                </div>
-            </div>
-            <div className="contest-card__footer">
-                <ul className="contest-card__meta">
-                    <li>
-                    <i className="las la-clock"></i>
-                        {diffDays > 1?
-                            <span>{diffDays} d</span>
-                        :
-                         diffHours > 1? 
-                           <span>{diffHours} hrs</span>
-                        :
-                            <span>{diffMins} mins</span>
-                        }
-                        
-                    </li>
-                    <li>
-                    <i className="las la-ticket-alt"></i>
-                        {/*<span>{(item.countTotal ?? 0) - (item.countSold ?? 0)} of {item.countTotal}</span>*/}
-                        <span>{item.countSold} of {item.countTotal}</span>
-                    {/*<p>Remain</p>*/}
-                    <p>Sold</p>
-                    </li>
-                </ul>
-            </div>
+            <Link href={href} passHref>
+	            <div className="contest-card__thumb h-[275px]">
+	                {item.status === 2 && item.logoImage &&
+	                    <Link href={href} passHref>
+	                        <img src={item.logoImage} alt={item.title} width="100%" height="auto" className="rounded-md" />
+	                    </Link>}
+	                {item.status !== 2 && item.logoImage &&
+	                    <Link href={href} passHref>
+	                        <img src={item.logoImage} alt={item.title} width="100%" height="auto" className="rounded-md" />
+	                    </Link>}
+	                <Link href={href} passHref>
+	                <div className="contest-num flex-col items-center">
+	                    <h6>Comp no</h6>
+	                    {/* <h4 className="number">{item.title}</h4> */}
+	                    <h4 className="number text-[22px]">{item.id}</h4>
+	                </div>
+	                </Link>
+	            </div>
+	            <div className={classNames(item.countTotal == item.countSold && styles.soldout, "mt-2")}>
+	            </div>
+	            <div className="contest-card__content">
+	                <div className="left">
+	                    <h5 className="contest-card__name">
+	                        {item.title}
+	                    </h5>
+	                </div>
+	                <div className="right">
+	                    <span className="contest-card__price">
+	                        {item.priceForGuest} PXT
+	                    </span>
+	                </div>
+	            </div>
+	            <div className="contest-card__footer">
+	                <ul className="contest-card__meta">
+	                    <li>
+	                    <i className="las la-clock"></i>
+	                        {diffDays > 1?
+	                            <span>{diffDays} d</span>
+	                        :
+	                         diffHours > 1? 
+	                           <span>{diffHours} hrs</span>
+	                        :
+	                            <span>{diffMins} mins</span>
+	                        }
+	                        
+	                    </li>
+	                    <li>
+	                    <i className="las la-ticket-alt"></i>
+	                        {/*<span>{(item.countTotal ?? 0) - (item.countSold ?? 0)} of {item.countTotal}</span>*/}
+	                        <span>{item.countSold} of {item.countTotal}</span>
+	                    {/*<p>Remain</p>*/}
+	                    <p>Sold</p>
+	                    </li>
+	                </ul>
+	            </div>
+	        </Link>
             {item.status == 1 && timeout && showStatus &&
                 (user.isOwner ?
                     <div className="flex gap-1 mt-2">

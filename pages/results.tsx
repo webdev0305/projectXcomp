@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 import moment from "moment";
 import classNames from "classnames";
 
-export default function Wins() {
+export default function Results() {
     const { provider,address, unlock, lock } = eth.useContainer()
     const {
         dataLoading,
@@ -25,22 +25,6 @@ export default function Wins() {
     useEffect(() => {
         syncStatus()
     }, [provider])
-   
-
-    const handleSignMessage = async(id:any, winner:string) => {
-        const signature = await signMessage(`competition${id}`)
-        try {
-        axios.post(`/api/competition/instruction`,{id:id, signature:signature, msg:`competition${id}`}).then(res => {
-            setLoading(false), 
-            setOpenPrizeView(true)
-            setPrizeInstruction(res.data.data)
-            
-        }).finally()
-        } catch (ex: any) {
-            toast.error(`Error! ${ex}`)
-            setLoading(false)
-        }
-    };
     
     //console.log(dataLoading)
     return (
@@ -55,7 +39,7 @@ export default function Wins() {
                     <div className="row">
                         <div className="col-lg-4">
                             <div className="user-card">
-                                <h3 className="user-card__name">{address?.slice(0,8)}...{address?.slice(-6)}</h3>
+                                <h3 className="user-card__name">{address?.slice(0,5)}...{address?.slice(-4)}</h3>
                             </div>
                             <div className="user-action-card">
                                 <ul className="user-action-list">
@@ -77,7 +61,7 @@ export default function Wins() {
                                 <div className="col-lg-12 mb-30">
                                     {competitions?.filter((item:any) => {
                                         // return true;
-                                    return item.timeEnd != undefined && item.status == 2 && item.winner.id.toLowerCase() === String(address).toLowerCase()
+                                    return item.timeEnd != undefined && item.status == 2
                                     }).map((item:any) => (
                                         
                                         <div className="winner-card mb-30" key={item.id}>
@@ -95,8 +79,7 @@ export default function Wins() {
                                                 </div>
                                                 <div className="content-bottom">
                                                     <div className="number-list-wrapper">
-                                                        <p className="text-white text-[18px]">You won!</p>
-                                                        <p className="text-white text-[18px]">Click <a href="#" onClick={()=>handleSignMessage(item.id, item.winner.id)}>here</a> to reveal your prize details</p>
+                                                        <p className="text-white text-[18px]">Won by 0x...{item.winner.id?.slice(-6)}</p>
                                                     </div>
                                                     <div className="right">
                                                         <p>Comp No:</p>
@@ -112,27 +95,7 @@ export default function Wins() {
                     </div>
                 </div>
             </div>
-            <div className={classNames(openPrizeView?"block":"hidden","modal")}>
-                <div className="modal-dialog">
-                    <div className="modal-content">
-
-                        <div className="modal-header border-0" style={{backgroundImage: "-webkit-linear-gradient(90deg, #e82a7a 0%, #360354 100%)"}}>
-                            <h4 className="modal-title">Prize Instruction</h4>
-                            <button type="button" className="close" data-dismiss="modal" onClick={()=>setOpenPrizeView(false)}>&times;</button>
-                        </div>
-
-                        <div className="modal-body" style={{backgroundImage: "-webkit-linear-gradient(90deg, #c165dd 0%, #5c27fe 100%)"}}>
-                            <div className="p-4">
-                                <h4>{prizeInstruction}</h4>
-                            </div>
-                            <div className="modal-footer border-t-[1px]">
-                                <button type="button" className="btn btn-danger" data-dismiss="modal" onClick={()=>setOpenPrizeView(false)}>Close</button>
-                            </div>
-                        </div>
-                        
-                    </div>
-                </div>
-            </div>
+            
         </div>
     );
 }
