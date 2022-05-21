@@ -65,7 +65,7 @@ export default function Competition() {
     ac.abort()
   }
   const buy = async () => {
-    console.log(competition.winner?.id!=="0x0000000000000000000000000000000000000000")
+    //console.log(competition.winner?.id!=="0x0000000000000000000000000000000000000000")
     if(competition.winner?.id!=="0x0000000000000000000000000000000000000000"){
       return toast.error(`This competition has already been drawn`)
     }
@@ -156,7 +156,7 @@ export default function Competition() {
                       <span className="amount">{user.isMember ? competition.priceForMember : competition.priceForGuest} $PXT</span>
                       <small>Per ticket</small>
                     </div>
-                    {(competition.countSold??0) < (competition.countTotal??0) &&
+                    {(competition.countSold??0) < (competition.countTotal??0) && new Date() < (competition.timeEnd??new Date()) &&
                     <>
                     <div className="d-flex flex-wrap align-items-center mb-30">
                       <div className={cn(styles.input, "mr-[20px]")}>
