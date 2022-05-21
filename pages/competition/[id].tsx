@@ -171,7 +171,7 @@ export default function Competition() {
                     <ul className="social-links align-items-center">
                       <li>Share :</li>
                       {/*<li><a href="#0"><i className="fab fa-facebook-f"></i></a></li>*/}
-                      <li><a className="twitter-share-button" href={"https://twitter.com/intent/tweet?text="+competition.title}><i className="fab fa-twitter"></i></a></li>
+                      <li><a className="twitter-share-button" href={"https://twitter.com/intent/tweet?text=Connect and play to win  "+competition.title+" and more at https://competitionx.app"}><i className="fab fa-twitter"></i></a></li>
                     </ul>
                   </div>
                 </div>
