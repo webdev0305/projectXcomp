@@ -17,11 +17,6 @@ export default function Draws() {
     useEffect(() => {
         syncStatus()
     }, [provider])
-
-    useEffect(() => {
-        if (Router.asPath != '/')
-        document.querySelector("#competitions")?.scrollIntoView()
-    })
     
     useEffect(() => {
         const comp = competitions.filter((item:any) => {
@@ -43,7 +38,7 @@ export default function Draws() {
                     <div className="row">
                         <div className="col-lg-4">
                             <div className="user-card">
-                                <h3 className="user-card__name">{address?.slice(0,8)}...{address?.slice(-6)}</h3>
+                                <h3 className="user-card__name">{address?.slice(0,5)}...{address?.slice(-4)}</h3>
                             </div>
                             <div className="user-action-card">
                                 <ul className="user-action-list">
