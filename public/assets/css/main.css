@@ -3994,7 +3994,10 @@ span.is-active:after {
   background-color: #4939c1;
   position: relative;
   z-index: 1;
-  cursor: pointer!important;
+}
+
+.contest-card__thumb {
+	cursor: pointer!important;
 }
 
 .contest-card:hover .contest-card__thumb img {
@@ -4094,6 +4097,7 @@ span.is-active:after {
   flex-wrap: wrap;
   justify-content: center;
   align-content: center;
+  cursor: pointer!important;
 }
 
 .contest-card__thumb .contest-num span {
