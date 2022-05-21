@@ -43,6 +43,11 @@ export default function Results() {
                             </div>
                             <div className="user-action-card">
                                 <ul className="user-action-list">
+                                	<li>
+                                        <Link href="/results">
+                                            <a className="text-white">Results</a>
+                                        </Link>
+                                    </li>
                                     <li>
                                         <Link href="/draws">
                                             <a className="text-white">My Draws</a>
@@ -61,8 +66,8 @@ export default function Results() {
                                 <div className="col-lg-12 mb-30">
                                     {competitions?.filter((item:any) => {
                                         // return true;
-                                    return item.timeEnd != undefined && item.status == 2
-                                    }).map((item:any) => (
+                                    return item.timeEnd != undefined && item.status == 2 && item.id > 7
+                                    }).reverse().map((item:any) => (
                                         
                                         <div className="winner-card mb-30" key={item.id}>
                                             <div className="winner-card__thumb">
@@ -82,8 +87,7 @@ export default function Results() {
                                                         <p className="text-white text-[18px]">Won by 0x...{item.winner.id?.slice(-6)}</p>
                                                     </div>
                                                     <div className="right">
-                                                        <p>Comp No:</p>
-                                                        <span className="contest-num">{item.id}</span>
+                                                        <p>Comp No: {item.id}</p>
                                                     </div>
                                                 </div>
                                             </div>

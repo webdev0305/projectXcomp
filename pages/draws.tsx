@@ -42,6 +42,11 @@ export default function Draws() {
                             </div>
                             <div className="user-action-card">
                                 <ul className="user-action-list">
+                                	<li>
+                                        <Link href="/results">
+                                            <a className="text-white">Results</a>
+                                        </Link>
+                                    </li>
                                     <li>
                                         <Link href="/draws">
                                             <a className="text-white">My Draws</a>
