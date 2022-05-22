@@ -169,6 +169,7 @@ function useToken() {
         address: contractCompetition.address,
         topics: [ ethers.utils.id("Drawn(uint256,uint256)"),ethers.utils.hexZeroPad(`0x${Number(comp.id).toString(16)}`,32) ]
       }, async (log) => {
+        console.log(log)
         getBalance()
         const comp1 = await contractCompetition.competitions((comp.id??1)-1)
         resolve(comp1)
