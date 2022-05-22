@@ -13,7 +13,7 @@ interface Prop extends LinkProps {
 }
 
 export default function CompetitionItem({ href, className, item, showStatus }: Prop) {
-    const { user, startCompetition, finishCompetition,signMessage } = token.useContainer()
+    const { user, startCompetition, finishCompetition, drawWinner,signMessage } = token.useContainer()
     const [loading, setLoading] = useState(false)
     const [timeout, setTimedout] = useState(false)
     const [showPublish, setShowPublish] = useState(false)
@@ -92,7 +92,7 @@ export default function CompetitionItem({ href, className, item, showStatus }: P
         }
         setLoading(false)
     }
-    const draw = async () => {
+    const finish = async () => {
         setLoading(true)
         try {
             const comp = await finishCompetition(item)
@@ -110,6 +110,24 @@ export default function CompetitionItem({ href, className, item, showStatus }: P
             axios.post(`/api/competition/update`, { winner: comp.winner, id: item.id }).then(res => {
                 if (res.data.success)
                     toast.success('Drawn successfully!')
+            }).finally(() => setLoading(false))
+        } catch (ex: any) {
+            if (typeof ex == 'object')
+                toast.error(`Error! ${(ex.data?.message ?? null) ? ex.data.message.replace('execution reverted: ', '') : ex.message}`)
+            else
+                toast.error(`Error! ${ex}`)
+            setLoading(false)
+        }
+    }
+
+    const draw = async () => {
+        setLoading(true)
+        try {
+            const comp = await drawWinner(item)
+            
+            axios.post(`/api/competition/update`, { winner: comp.winner, id: item.id }).then(res => {
+                if (res.data.success)
+                    toast.success('Draw Winner successfully!')
             }).finally(() => setLoading(false))
         } catch (ex: any) {
             if (typeof ex == 'object')
@@ -200,7 +218,15 @@ export default function CompetitionItem({ href, className, item, showStatus }: P
 	                    </li>
 	                </ul>
 	            </div>
-            {item.status == 1 && timeout && showStatus &&
+            {item.status == 1 && item.countSold == item.countTotal && showStatus &&
+                (user.isOwner ?
+                    <div className="flex gap-1 mt-2">
+                        <button className="flex-grow py-2 font-bold text-white bg-orange-500 rounded-md hover:bg-orange-700" onClick={finish}>Finish</button>
+                    </div> 
+                    :
+                    <div className="flex-grow text-center py-2 font-bold text-white bg-red-300 rounded-md">Timed out</div>
+                )}
+            {item.status == 2 && item.winner == "0x0000000000000000000000000000000000000000" && showStatus &&
                 (user.isOwner ?
                     <div className="flex gap-1 mt-2">
                         <button className="flex-grow py-2 font-bold text-white bg-orange-500 rounded-md hover:bg-orange-700" onClick={draw}>Draw</button>
