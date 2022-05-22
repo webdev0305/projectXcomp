@@ -39,7 +39,7 @@ struct CompInfo {
     uint8 status; // 0-Created, 1-Started, 2-SaleEnd, 3-Past
 }
 
-contract Competition is ERC20Upgradeable {
+contract CompetitionVt is ERC20Upgradeable {
     address private _owner;
     CompInfo[] public competitions;
     mapping(address => bool) public sponsers;
@@ -74,15 +74,15 @@ contract Competition is ERC20Upgradeable {
         feePerMonth = 1e18;
         feePerYear = 10e18;
         creditsPerMonth = 5e17;
-        COORDINATOR = VRFCoordinatorV2Interface(0xd5D517aBE5cF79B7e95eC98dB0f0277788aFF634); // Avax Mainnet
-        subscriptionId = 6;
-        keyHash = 0x06eb0e2ea7cca202fc7c8258397a36f33d88568d2522b37aaa3b14ff6ee1b696;
+        COORDINATOR = VRFCoordinatorV2Interface(0x2eD832Ba664535e5886b75D64C46EB9a228C2610); // Avax test net
+        subscriptionId = 72;
+        keyHash = 0x354d2f95da55398f44b7cff77da56283d9c6c829a4bdf1bbcaf2ad6a4d081f61;
     }
 
     function updateConsumer() public {
-        COORDINATOR = VRFCoordinatorV2Interface(0xd5D517aBE5cF79B7e95eC98dB0f0277788aFF634); // Avax Mainnet
-        subscriptionId = 6;
-        keyHash = 0x06eb0e2ea7cca202fc7c8258397a36f33d88568d2522b37aaa3b14ff6ee1b696;
+        COORDINATOR = VRFCoordinatorV2Interface(0x2eD832Ba664535e5886b75D64C46EB9a228C2610); // Avax Mainnet
+        subscriptionId = 78;
+        keyHash = 0x354d2f95da55398f44b7cff77da56283d9c6c829a4bdf1bbcaf2ad6a4d081f61;
     }
 
     function rawFulfillRandomWords(uint256 requestId, uint256[] memory randomWords) external {

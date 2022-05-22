@@ -172,7 +172,7 @@ export default function EditCompetitionPage() {
             axios.post('/api/competition/insert', {
                 id: competition.id,
                 title: competition.title,
-                description: competition.description,
+                description: competition.description??description,
                 logo_url: competition.logoImage,
                 images: JSON.stringify(competition.images)
             }).then(res2 => {

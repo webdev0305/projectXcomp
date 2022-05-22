@@ -13,7 +13,7 @@ interface Prop extends LinkProps {
 }
 
 export default function CompetitionItem({ href, className, item, showStatus }: Prop) {
-    const { user, startCompetition, finishCompetition,signMessage } = token.useContainer()
+    const { user, startCompetition, finishCompetition, drawWinner,signMessage } = token.useContainer()
     const [loading, setLoading] = useState(false)
     const [timeout, setTimedout] = useState(false)
     const [showPublish, setShowPublish] = useState(false)
@@ -92,7 +92,7 @@ export default function CompetitionItem({ href, className, item, showStatus }: P
         }
         setLoading(false)
     }
-    const draw = async () => {
+    const finish = async () => {
         setLoading(true)
         try {
             const comp = await finishCompetition(item)
@@ -105,11 +105,29 @@ export default function CompetitionItem({ href, className, item, showStatus }: P
                 email: res.data.email,
                 avatar: res.data?.avatar_url?.startsWith('https://') ? res.data.avatar_url : '/avatar.png'
             }
-            item.status = comp.status
+            competition.status = comp.status
             
             axios.post(`/api/competition/update`, { winner: comp.winner, id: item.id }).then(res => {
                 if (res.data.success)
                     toast.success('Drawn successfully!')
+            }).finally(() => setLoading(false))
+        } catch (ex: any) {
+            if (typeof ex == 'object')
+                toast.error(`Error! ${(ex.data?.message ?? null) ? ex.data.message.replace('execution reverted: ', '') : ex.message}`)
+            else
+                toast.error(`Error! ${ex}`)
+            setLoading(false)
+        }
+    }
+
+    const draw = async () => {
+        setLoading(true)
+        try {
+            const comp = await drawWinner(item)
+            
+            axios.post(`/api/competition/update`, { winner: comp.winner, id: item.id }).then(res => {
+                if (res.data.success)
+                    toast.success('Draw Winner successfully!')
             }).finally(() => setLoading(false))
         } catch (ex: any) {
             if (typeof ex == 'object')
@@ -135,11 +153,11 @@ export default function CompetitionItem({ href, className, item, showStatus }: P
     return (
         <div className="contest-card">
             {showStatus &&
-                <span className={classNames(styles.status, styles['status' + item.status],"absolute bg-[red] text-white px-[10px] w-auto z-10 right-0")} style={{borderRadius: "0 10px"}}>
-                    {item.status == 0 && "Ready"}
-                    {item.status == 1 && (timeout ? "Timeout" : "Pending")}
-                    {item.status == 2 && "Drawn"}
-                    {item.status == 3 && "Complete"}
+                <span className={classNames(styles.status, styles['status' + competition.status],"absolute bg-[red] text-white px-[10px] w-auto z-10 right-0")} style={{borderRadius: "0 10px"}}>
+                    {competition.status == 0 && "Ready"}
+                    {competition.status == 1 && (timeout ? "Timeout" : "Pending")}
+                    {competition.status == 2 && "Drawn"}
+                    {competition.status == 3 && "Complete"}
                 </span>
             }
             {item.countTotal == item.countSold &&
@@ -147,11 +165,11 @@ export default function CompetitionItem({ href, className, item, showStatus }: P
                 </span>
             }
 	            <div className="contest-card__thumb h-[275px]">
-	                {item.status === 2 && item.logoImage &&
+	                {competition.status === 2 && item.logoImage &&
 	                    <Link href={href} passHref>
 	                        <img src={item.logoImage} alt={item.title} width="100%" height="auto" className="rounded-md" />
 	                    </Link>}
-	                {item.status !== 2 && item.logoImage &&
+	                {competition.status !== 2 && item.logoImage &&
 	                    <Link href={href} passHref>
 	                        <img src={item.logoImage} alt={item.title} width="100%" height="auto" className="rounded-md" />
 	                    </Link>}
@@ -200,7 +218,15 @@ export default function CompetitionItem({ href, className, item, showStatus }: P
 	                    </li>
 	                </ul>
 	            </div>
-            {item.status == 1 && timeout && showStatus &&
+            {competition.status == 1 && (timeout || item.countSold == item.countTotal) && showStatus &&
+                (user.isOwner ?
+                    <div className="flex gap-1 mt-2">
+                        <button className="flex-grow py-2 font-bold text-white bg-orange-500 rounded-md hover:bg-orange-700" onClick={finish}>Finish</button>
+                    </div> 
+                    :
+                    <div className="flex-grow text-center py-2 font-bold text-white bg-red-300 rounded-md">Timed out</div>
+                )}
+            {competition.status == 2 && competition.winner == "0x0000000000000000000000000000000000000000" && showStatus &&
                 (user.isOwner ?
                     <div className="flex gap-1 mt-2">
                         <button className="flex-grow py-2 font-bold text-white bg-orange-500 rounded-md hover:bg-orange-700" onClick={draw}>Draw</button>
@@ -208,7 +234,7 @@ export default function CompetitionItem({ href, className, item, showStatus }: P
                     :
                     <div className="flex-grow text-center py-2 font-bold text-white bg-red-300 rounded-md">Timed out</div>
                 )}
-            {item.status == 0 && !showPublish &&
+            {competition.status == 0 && !showPublish &&
                 <div className="flex gap-1 mt-2">
                     <Link href={`/edit/${item.id}`} passHref>
                         <button className="flex-grow py-2 font-bold text-white bg-blue-500 rounded-md hover:bg-blue-700">Modify</button>
@@ -216,7 +242,7 @@ export default function CompetitionItem({ href, className, item, showStatus }: P
                     <button className="flex-grow py-2 font-bold text-white bg-orange-500 rounded-md hover:bg-orange-700" onClick={() => showPublishPanel(true)}>Publish</button>
                 </div>}
             {
-                item.status == 0 &&
+                competition.status == 0 &&
                 showPublish &&
                 <div className={styles.publish}>
                     <div className="p-1">
@@ -229,7 +255,7 @@ export default function CompetitionItem({ href, className, item, showStatus }: P
                     </div>
                 </div>
             }
-            {user.isOwner && item.status == 2 &&
+            {user.isOwner && competition.status == 2 && item.winner?.id != "0x0000000000000000000000000000000000000000" &&
                 <div className={classNames(styles.winner, "mt-2 m-2")}>
                     <label>Winner</label>
                     <span className="flex flex-col gap-2">

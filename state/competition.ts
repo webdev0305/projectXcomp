@@ -162,18 +162,30 @@ function useToken() {
     }
     if(!contractCompetition)
       await getContract()
-    const tx = await contractCompetition.finish(comp.id)
+    const tx = await contractCompetition.draw(comp.id)
     await tx.wait()
     return await (new Promise((resolve, reject) => {
       contractCompetition.provider.once({
         address: contractCompetition.address,
-        topics: [ ethers.utils.id("Drawn(uint256,address)"),ethers.utils.hexZeroPad(`0x${Number(comp.id).toString(16)}`,32) ]
+        topics: [ ethers.utils.id("Drawn(uint256,uint256)"),ethers.utils.hexZeroPad(`0x${Number(comp.id).toString(16)}`,32) ]
       }, async (log) => {
+        console.log(log)
         getBalance()
         const comp1 = await contractCompetition.competitions((comp.id??1)-1)
         resolve(comp1)
       })
     }))    
+  }
+
+  const drawWinner = async (comp: ICompetition): Promise<any> => {
+    if (!address) {
+      throw new Error("Not Authenticated")
+    }
+    if(!contractCompetition)
+      await getContract()
+    const tx = await contractCompetition.finish(comp.id)
+    await tx.wait()
+    return await contractCompetition.competitions((comp.id??1)-1)
   }
 
   const buyTicket = async (comp: ICompetition, count: number): Promise<ICompetition> => {
@@ -431,6 +443,7 @@ function useToken() {
     updateCompetition,
     startCompetition,
     finishCompetition,
+    drawWinner,
     buyTicket,
     setCompetitions,
     setUser,
