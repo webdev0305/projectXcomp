@@ -3,28 +3,37 @@ import FaqComponent from "components/FaqComponent"
 export default function Faq() {
     const faq = [
         {
-            question: 'Question one',
-            answer: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra  maecenas accumsan lacus vel facilisis.'
+            question: 'What happens if not all tickets are sold in the time period?',
+            answer: 'Draws are guaranteed draw regardless of ticket sales.  If not all tickets are sold the prize value will be proportionate to the amount of tickets sold as percentage. Example: Competition is for 0.1BTC, 100 tickets available, 50 sold by draw time, prize will be 0.05BTC.'
         },
         {
-            question: 'Question two',
-            answer: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra  maecenas accumsan lacus vel facilisis.'
+            question: 'How do we guarantee the draw is truly random?',
+            answer: 'Solidity (the language of smart contracts) is a ‘predictable’ language, this makes generating random number, well, not very random!  We utilise Chainlink VRF (Verifiable Random Function) for absolute true randomness. Find out more about this visit https://chain.link/chainlink-vrf'
         },
         {
-            question: 'Question three',
-            answer: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra  maecenas accumsan lacus vel facilisis.'
+            question: 'Upon purchase of ticket, how do we know that we are entered?',
+            answer: 'Please check the ‘My Draws’ section to see your active entries.'
         },
         {
-            question: 'Question four',
-            answer: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra  maecenas accumsan lacus vel facilisis.'
+            question: 'How will I be contacted if I win?',
+            answer: 'You will not be contacted as competitionX is completely KYC free, simply check back on the ‘My Draws -> My Wins’ section to see if you’ve been lucky!'
         },
         {
-            question: 'Question five',
-            answer: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra  maecenas accumsan lacus vel facilisis.'
+            question: 'If I win, how long will it take to receive my prize?',
+            answer: 'Prize delivery is manual after the draws close, we will aim to deliver prizes within 24hrs of win (usually much faster!)'
         },
         {
-            question: 'Question six',
-            answer: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra  maecenas accumsan lacus vel facilisis.'
+            question: 'How are my prizes delivered?',
+            answer: 'ERC20 Token prizes are delivered directly to your entry wallet, for other prizes, claim instructions are displayed on ‘My Wins’ section.'
+        },
+        {
+            question: 'Is KYC required?',
+            answer: 'None, zilch, nadda.'
+        }
+        ,
+        {
+            question: 'Do I need to be of legal age to enter?',
+            answer: 'Please refer to the laws in your local jurisdiction, If you enter you are self certifying your eligibility.'
         }
     ];
     return (

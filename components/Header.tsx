@@ -83,11 +83,11 @@ export default function Header() {
                 <ul className="navbar-nav main-menu ml-auto">
                   
                   <li>
-                    <Link href="/#draws">Competitions</Link>
+                    <Link href="/#draws">COMPS</Link>
                   </li>
                   {address?
                   <li>
-                    <Link href="/wins">MY</Link>
+                    <Link href="/results">RESULTS</Link>
                   </li>
                   :''}
                   <li>
@@ -110,11 +110,13 @@ export default function Header() {
                   </li>
                   {user.isOwner?
                   <li>
-                    <Link href="/list">Admin</Link>
+                    <Link href="/list">ADMIN</Link>
                   </li>
                   :''
                   }
-                  
+                  <li>
+                    <Link href="/faq">FAQ</Link>
+                  </li>
                   <li>
                     <a
                       href="https://twitter.com/projectxfinance"

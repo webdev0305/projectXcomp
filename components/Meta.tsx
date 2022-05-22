@@ -18,23 +18,23 @@ export default function Meta() {
 	  <link rel="stylesheet" href="/assets/css/main.css" />
     
       {/* Primary Meta */}
-      <title>{tokenName}</title>
-      <meta name="title" content={tokenName} />
-      <meta name="description" content={description} />
+      <title>CompetitionX</title>
+      <meta name="title" content="CompetitionX" />
+      <meta name="description" content="Use PXT to win great prizes, from NFTs to Crypto and luxurious Holidays!  All on the Avalanche blockchain, with 100% anonymity." />
 
       {/* Open Graph + Facebook */}
       <meta property="og:type" content="website" />
       <meta property="og:url" content={url} />
-      <meta property="og:title" content={tokenName} />
-      <meta property="og:description" content={description} />
-      <meta property="og:image" content={`${url}logo.png`} />
+      <meta property="og:title" content="CompetitionX" />
+      <meta property="og:description" content="Use PXT to win great prizes, from NFTs to Crypto and luxurious Holidays!  All on the Avalanche blockchain, with 100% anonymity." />
+      <meta property="og:image" content="https://competitionx.app/opengraph.jpg" />
 
       {/* Twitter */}
       <meta property="twitter:card" content="summary_large_image" />
       <meta property="twitter:url" content={url} />
-      <meta property="twitter:title" content={tokenName} />
-      <meta property="twitter:description" content={description} />
-      <meta property="twitter:image" content={`${url}logo.png`} />
+      <meta property="twitter:title" content="CompetitionX" />
+      <meta property="twitter:description" content="Use PXT to win great prizes, from NFTs to Crypto and luxurious Holidays!  All on the Avalanche blockchain, with 100% anonymity." />
+      <meta property="twitter:image" content="https://competitionx.app/opengraph.jpg" />
 
       {/* Favicon */}
       <link rel="shortcut icon" href="/favicon.ico" />

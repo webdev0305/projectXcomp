@@ -65,7 +65,7 @@ export default function Competition() {
     ac.abort()
   }
   const buy = async () => {
-    console.log(competition.winner?.id!=="0x0000000000000000000000000000000000000000")
+    //console.log(competition.winner?.id!=="0x0000000000000000000000000000000000000000")
     if(competition.winner?.id!=="0x0000000000000000000000000000000000000000"){
       return toast.error(`This competition has already been drawn`)
     }
@@ -156,6 +156,8 @@ export default function Competition() {
                       <span className="amount">{user.isMember ? competition.priceForMember : competition.priceForGuest} $PXT</span>
                       <small>Per ticket</small>
                     </div>
+                    {(competition.countSold??0) < (competition.countTotal??0) && new Date() < (competition.timeEnd??new Date()) &&
+                    <>
                     <div className="d-flex flex-wrap align-items-center mb-30">
                       <div className={cn(styles.input, "mr-[20px]")}>
                         <button onClick={removeTicket}>-</button>
@@ -164,11 +166,12 @@ export default function Competition() {
                       </div>
                       <div className="mt-sm-0 mt-3"><a href="#0" onClick={buy} className="cmn-btn style--three">{buying ? (user.approved ? "Buying..." : "Approving...") : "Buy ticket"}</a></div>
                     </div>
+                    </>
+                    }
                     <ul className="social-links align-items-center">
                       <li>Share :</li>
                       {/*<li><a href="#0"><i className="fab fa-facebook-f"></i></a></li>*/}
-                      <li><a className="twitter-share-button"
-  href="https://twitter.com/intent/tweet?text={competition.title}"><i className="fab fa-twitter"></i></a></li>
+                      <li><a className="twitter-share-button" href={"https://twitter.com/intent/tweet?text=Connect and play to win  "+competition.title+" and more at https://competitionx.app"}><i className="fab fa-twitter"></i></a></li>
                     </ul>
                   </div>
                 </div>

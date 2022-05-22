@@ -44,9 +44,9 @@ export default function Features() {
                           />
                         </div>
                         <div className="feature-card__content">
-                          <h3 className="feature-title">Open-source Random</h3>
+                          <h3 className="feature-title">True Random</h3>
                           <p>
-                          	Published random code for full transparency
+                          	Utilising Chainlink VRF service for ultimate fairness
                           </p>
                         </div>
                       </div>
