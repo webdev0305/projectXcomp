@@ -226,7 +226,7 @@ export default function CompetitionItem({ href, className, item, showStatus }: P
                     :
                     <div className="flex-grow text-center py-2 font-bold text-white bg-red-300 rounded-md">Timed out</div>
                 )}
-            {competition.status == 2 && competition.winner == "0x0000000000000000000000000000000000000000" && showStatus &&
+            {competition.status == 2 && competition.winner?.id == "0x0000000000000000000000000000000000000000" && showStatus &&
                 (user.isOwner ?
                     <div className="flex gap-1 mt-2">
                         <button className="flex-grow py-2 font-bold text-white bg-orange-500 rounded-md hover:bg-orange-700" onClick={draw}>Draw</button>
