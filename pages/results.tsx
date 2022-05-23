@@ -66,7 +66,7 @@ export default function Results() {
                                 <div className="col-lg-12 mb-30">
                                     {competitions?.filter((item:any) => {
                                         // return true;
-                                    return item.timeEnd != undefined && item.status == 2 && item.id > 4 && item.id != 6
+                                    return item.timeEnd != undefined && item.status == 2 && item.id > 4
                                     }).reverse().map((item:any) => (
                                         <div className="winner-card mb-30" key={item.id}>
                                             <div className="winner-card__thumb">
