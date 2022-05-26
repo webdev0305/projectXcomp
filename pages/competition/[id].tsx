@@ -181,6 +181,9 @@ export default function Competition() {
                   <div className="content-block">
                     <h3 className="title">Prize details</h3>
                     <p style={{whiteSpace: 'pre-wrap'}}>{competition.description}</p>
+                    <div className={styles.slider}>
+			          <ImageGallery items={items} showThumbnails={true} showFullscreenButton={false} showPlayButton={false} showNav={false} autoPlay={true} />
+			        </div>
                   </div>
                 </div>
               </div>
