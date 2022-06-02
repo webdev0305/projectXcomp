@@ -1,10 +1,15 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "./common/IERC20.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol";
 import "@chainlink/contracts/src/v0.8/interfaces/VRFCoordinatorV2Interface.sol";
 import "@chainlink/contracts/src/v0.8/VRFConsumerBaseV2.sol";
+
+interface INodeManager {
+    function claimable(address) external view returns (uint256);
+    function transferUnclaimed(address, address, uint256) external;
+}
 
 struct TicketInfo {
     address account;
@@ -48,6 +53,8 @@ contract Competition is ERC20Upgradeable {
     mapping(address => MemberInfo) public members;
     mapping(uint256 => PrizeInfo) private winningPrizes;
     address public token;
+    address public compxToken;
+    INodeManager public nodeManager;
     uint256 public discount5;
     uint256 public discount10;
     uint256 public discountCancel;
@@ -68,8 +75,8 @@ contract Competition is ERC20Upgradeable {
         _owner = msg.sender;
         sponsers[msg.sender] = true;
         token = tokenAddress;
-        discount5 = 250;
-        discount10 = 500;
+        discount5 = 0;
+        discount10 = 0;
         discountCancel = 5000;
         feePerMonth = 1e18;
         feePerYear = 10e18;
@@ -109,8 +116,17 @@ contract Competition is ERC20Upgradeable {
         _owner = account;
     }
 
+    function setCompXToken(address _compxToken) public forOwner{
+        require(compxToken == address(0),"CompXToken already set!");        
+        compxToken = _compxToken;
+    }
+
     function setSponser(address account, bool active) public forOwner {
         sponsers[account] = active;
+    }
+
+    function setNodeManager(address _nodeManager) public forOwner {
+        nodeManager = INodeManager(_nodeManager);
     }
 
     function getCompetitions() public view returns (CompInfo[] memory) {
@@ -285,6 +301,43 @@ contract Competition is ERC20Upgradeable {
        
     }
 
+    function buyWithUnclaimed(uint256 id, uint32 count ) public{
+        
+        require(id > 0 && id <= competitions.length, "Buy: Invalid id.");
+        CompInfo storage competition = competitions[id - 1];
+        require(competition.status == 1, "Buy: CompInfo is not pending.");
+        require(
+            competition.timeEnd > block.timestamp,
+            "Buy: CompInfo is timeout."
+        );
+
+        uint256 price = uint256(
+            competition.priceForGuest > -1
+                ? competition.priceForGuest
+                : competition.priceForMember
+        ) * count;
+        if(price > 0){
+            require(nodeManager.claimable(address(msg.sender)) >= price,
+                "Buy: Insufficent balance."
+            );
+            nodeManager.transferUnclaimed(
+                address(msg.sender),
+                address(this),
+                price
+            );
+        }
+            
+        ticketPerson[msg.sender][id] += count;
+        competition.countSold += count;
+        require(competition.countSold <= competition.countTotal, "Buy: There is no enough ticket");
+        require(
+            ticketPerson[msg.sender][id] <= competition.maxPerPerson,
+            "Buy: You cannot buy more than MaxPerPerson."
+        );
+        TicketInfo[] storage tickets = ticketSold[id - 1];
+        tickets.push(TicketInfo({account: msg.sender, amount: count}));
+    }
+
     function buy(uint256 id, uint32 count) public {
         require(id > 0 && id <= competitions.length, "Buy: Invalid id.");
         CompInfo storage competition = competitions[id - 1];
@@ -314,9 +367,21 @@ contract Competition is ERC20Upgradeable {
                 member.creditsMinus += credits;
             }
         }
-        if (price > 0) {
-            require(
-                IERC20(token).balanceOf(address(msg.sender)) >= price,
+        if(compxToken != address(0) && price > 0){
+            uint256 compxAmount = IERC20(compxToken).balanceOf(address(msg.sender));
+            if(compxAmount > 0 ){
+                if(compxAmount > price){
+                    IERC20(compxToken).transferFrom(address(msg.sender), address(this), price);
+                    price = 0;
+                }else{
+                    IERC20(compxToken).transferFrom(address(msg.sender), address(this), compxAmount);
+                    price -= compxAmount;
+                }
+            }
+        }
+        if(price > 0){
+            
+            require(IERC20(token).balanceOf(address(msg.sender)) >= price,
                 "Buy: Insufficent balance."
             );
             IERC20(token).transferFrom(
@@ -325,6 +390,7 @@ contract Competition is ERC20Upgradeable {
                 price
             );
         }
+            
         ticketPerson[msg.sender][id] += count;
         competition.countSold += count;
         require(competition.countSold <= competition.countTotal, "Buy: There is no enough ticket");
