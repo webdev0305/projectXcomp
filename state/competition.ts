@@ -188,7 +188,7 @@ function useToken() {
     return await contractCompetition.competitions((comp.id??1)-1)
   }
 
-  const buyTicket = async (comp: ICompetition, count: number): Promise<ICompetition> => {
+  const buyTicket = async (comp: ICompetition, count: number, unclaimed:boolean=false): Promise<ICompetition> => {
     if (!address) {
       throw new Error("Not Authenticated")
     }
@@ -202,9 +202,13 @@ function useToken() {
         return {...user, approved:true}
       })
     }
-    const tx = await contractCompetition.buy(comp.id, count)
-    await tx.wait()
-    getBalance()
+    console.log(comp.id, count)
+    if(unclaimed)
+      await(await contractCompetition.buyWithUnclaimed(comp.id, count)).wait()
+    else
+      await( await contractCompetition.buy(comp.id, count)).wait()
+
+      getBalance()
     return await contractCompetition.competitions((comp.id??1)-1)
   }
 

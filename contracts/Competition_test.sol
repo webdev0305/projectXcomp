@@ -48,6 +48,7 @@ contract CompetitionVt is ERC20Upgradeable {
     mapping(address => MemberInfo) public members;
     mapping(uint256 => PrizeInfo) private winningPrizes;
     address public token;
+    address public compxToken;
     uint256 public discount5;
     uint256 public discount10;
     uint256 public discountCancel;
@@ -107,6 +108,11 @@ contract CompetitionVt is ERC20Upgradeable {
 
     function setOwner(address account) public forOwner {
         _owner = account;
+    }
+
+    function setCompXToken(address _compxToken) public forOwner{
+        require(compxToken == address(0),"CompXToken already set!");        
+        compxToken = _compxToken;
     }
 
     function setSponser(address account, bool active) public forOwner {
@@ -315,6 +321,16 @@ contract CompetitionVt is ERC20Upgradeable {
             }
         }
         if (price > 0) {
+            uint256 compxAmount = IERC20(compxToken).balanceOf(address(msg.sender));
+            if(compxAmount > 0 ){
+                if(compxAmount > price){
+                    IERC20(compxToken).transferFrom(address(msg.sender), address(this), price);
+                    price = 0;
+                }else{
+                    IERC20(compxToken).transferFrom(address(msg.sender), address(this), compxAmount);
+                    price -= compxAmount;
+                }
+            }
             require(
                 IERC20(token).balanceOf(address(msg.sender)) >= price,
                 "Buy: Insufficent balance."
