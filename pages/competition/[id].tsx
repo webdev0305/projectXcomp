@@ -19,6 +19,7 @@ export default function Competition() {
   const [sDisplay, setSDisplay] = useState<string>()
   const [tickets, setTicket] = useState(1)
   const [buying, setBuying] = useState(false)
+  const [buyingWith, setBuyingWith] = useState(false)
   const [items, setItems] = useState<any[]>([])
   const [timeout, setTimedout] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -64,14 +65,14 @@ export default function Competition() {
     }
     ac.abort()
   }
-  const buy = async () => {
+  const buy = async (unclaimed:boolean) => {
     //console.log(competition.winner?.id!=="0x0000000000000000000000000000000000000000")
     if(competition.winner?.id!=="0x0000000000000000000000000000000000000000"){
       return toast.error(`This competition has already been drawn`)
     }
-    setBuying(true)
+    unclaimed?setBuyingWith(true):setBuying(true)
     try {
-      const item = await buyTicket(competition, tickets)
+      const item = await buyTicket(competition, tickets, unclaimed)
       axios.post(`/api/competition/buyticket`, { comp_id: competition.id, address: user.id, count: tickets }).then(res => {
         if (res.data.success)
         {
@@ -85,7 +86,7 @@ export default function Competition() {
       else
         toast.error(`Error! ${ex}`)
     }
-    setBuying(false)
+    unclaimed?setBuyingWith(false):setBuying(false)
   }
   useEffect(() => {
     const index = Number(id)
@@ -158,17 +159,24 @@ export default function Competition() {
                     </div>
                     {(competition.countSold??0) < (competition.countTotal??0) && new Date() < (competition.timeEnd??new Date()) &&
                     <>
-                    <div className="d-flex flex-wrap align-items-center mb-30">
-                      <div className={cn(styles.input, "mr-[20px]")}>
+                    <div className="flex flex-col items-center md:items-start md:flex-row mb-30 w-full">
+                      <div className={cn(styles.input, "md:mr-[20px] h-fit ")}>
                         <button onClick={removeTicket}>-</button>
                         <input type="text" name="tickets_num" value={tickets} onChange={e => setTicket(Number(e.target.value))} />
                         <button onClick={addTicket}>+</button>
                       </div>
-                      <div className="mt-sm-0 mt-3"><a href="#0" onClick={buy} className="cmn-btn style--three">{buying ? (user.approved ? "Buying..." : "Approving...") : "Buy ticket"}</a></div>
+                      <div className='flex flex-col items-center'>
+                        <div className="mt-sm-0 mt-3 w-full text-center md:w-auto">
+                          <a href="#0" onClick={()=>buy(false)} className="cmn-btn style--three w-full">{buying ? (user.approved ? "Buying..." : "Approving...") : "Buy ticket"}</a>
+                        </div>
+                        <div className="mt-3 w-full text-center md:w-auto">
+                          <a href="#0" onClick={()=>buy(true)} className="cmn-btn style--three w-full">{buyingWith ? "Buying with..." : "Buy with Unclaimed"}</a>
+                        </div>
+                      </div>
                     </div>
                     </>
                     }
-                    <ul className="social-links align-items-center">
+                    <ul className="social-links items-center">
                       <li>Share :</li>
                       {/*<li><a href="#0"><i className="fab fa-facebook-f"></i></a></li>*/}
                       <li><a className="twitter-share-button" href={"https://twitter.com/intent/tweet?text=Connect and play to win  "+competition.title+" and more at https://competitionx.app"}><i className="fab fa-twitter"></i></a></li>

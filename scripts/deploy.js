@@ -1,5 +1,5 @@
 const { ethers } = require("hardhat")
-const { deploy, deployProxy, upgradeProxy, getAt } = require('./utils')
+const { deploy, deployProxy, upgradeProxy, getAt, forceImport } = require('./utils')
 // const deployContract = async (contractName,...args)=>{
 //   const factory = await ethers.getContractFactory(contractName)
 //   const contract = await factory.deploy(...args)
@@ -18,12 +18,15 @@ const main = async () => {
 
   // CompX = await deploy("Compx")
   // Competition = await deployProxy("Competition",["0x5FC8d32690cc91D4c39d9d3abcBD16989F875707"])
+  // const contractFactory = await ethers.getContractFactory('Competition')
+  // await forceImport("0xfD83265Bb0aB05289327D5A5f70279236881A750", contractFactory)
+    Competition = await upgradeProxy("Competition","0xfD83265Bb0aB05289327D5A5f70279236881A750")
 
-  CompX = await getAt("Compx", "0x9A9f2CCfdE556A7E9Ff0848998Aa4a0CFD8863AE")
-  await CompX.setNftAddress("0xB7f8BC63BbcaD18155201308C8f3540b07f84F5e")
+  // CompX = await getAt("Compx", "0x9A9f2CCfdE556A7E9Ff0848998Aa4a0CFD8863AE")
+  // await CompX.setNftAddress("0xB7f8BC63BbcaD18155201308C8f3540b07f84F5e")
 
-  await CompX.connect(addr1).claimToken();
-  console.log("Compx amount",CompX.balanceOf(addr1.address))
+  // await CompX.connect(addr1).claimToken();
+  // console.log("Compx amount",CompX.balanceOf(addr1.address))
 
   // saveFrontendFiles()
 }

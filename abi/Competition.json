@@ -191,6 +191,24 @@
         "internalType": "uint256",
         "name": "id",
         "type": "uint256"
+      },
+      {
+        "internalType": "uint32",
+        "name": "count",
+        "type": "uint32"
+      }
+    ],
+    "name": "buyWithUnclaimed",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "id",
+        "type": "uint256"
       }
     ],
     "name": "canDraw",
@@ -302,6 +320,19 @@
         "internalType": "uint8",
         "name": "status",
         "type": "uint8"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "compxToken",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
       }
     ],
     "stateMutability": "view",
@@ -724,6 +755,19 @@
   },
   {
     "inputs": [],
+    "name": "nodeManager",
+    "outputs": [
+      {
+        "internalType": "contract INodeManager",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "owner",
     "outputs": [
       {
@@ -831,6 +875,19 @@
   {
     "inputs": [
       {
+        "internalType": "address",
+        "name": "_compxToken",
+        "type": "address"
+      }
+    ],
+    "name": "setCompXToken",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "uint256",
         "name": "credits",
         "type": "uint256"
@@ -902,6 +959,19 @@
       }
     ],
     "name": "setFeePerYear",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_nodeManager",
+        "type": "address"
+      }
+    ],
+    "name": "setNodeManager",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
