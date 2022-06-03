@@ -3,6 +3,8 @@ pragma solidity ^0.8.0;
 
 import "./common/IERC20.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol";
+import "@chainlink/contracts/src/v0.8/interfaces/VRFCoordinatorV2Interface.sol";
+import "@chainlink/contracts/src/v0.8/VRFConsumerBaseV2.sol";
 
 struct TicketInfo {
     address account;
@@ -37,7 +39,7 @@ struct CompInfo {
     uint8 status; // 0-Created, 1-Started, 2-SaleEnd, 3-Past
 }
 
-contract Competition_o is ERC20Upgradeable{
+contract CompetitionO is ERC20Upgradeable {
     address private _owner;
     CompInfo[] public competitions;
     mapping(address => bool) public sponsers;
@@ -53,6 +55,15 @@ contract Competition_o is ERC20Upgradeable{
     uint256 public feePerYear;
     uint256 public creditsPerMonth;
 
+    VRFCoordinatorV2Interface COORDINATOR;
+    uint64 private subscriptionId;
+    bytes32 private keyHash;
+    mapping(uint256 => uint256) private drawRequests;
+    mapping(uint256 => uint256) public drawResults;
+    bool public canDrawMiddle;
+    event Drawn(uint256 indexed, uint256);
+    event Finished(uint256 indexed, address);
+
     function initialize(address tokenAddress) public initializer {
         _owner = msg.sender;
         sponsers[msg.sender] = true;
@@ -63,6 +74,21 @@ contract Competition_o is ERC20Upgradeable{
         feePerMonth = 1e18;
         feePerYear = 10e18;
         creditsPerMonth = 5e17;
+        COORDINATOR = VRFCoordinatorV2Interface(0xd5D517aBE5cF79B7e95eC98dB0f0277788aFF634); // Avax Mainnet
+        subscriptionId = 6;
+        keyHash = 0x06eb0e2ea7cca202fc7c8258397a36f33d88568d2522b37aaa3b14ff6ee1b696;
+    }
+
+    function updateConsumer() public {
+        COORDINATOR = VRFCoordinatorV2Interface(0xd5D517aBE5cF79B7e95eC98dB0f0277788aFF634); // Avax Mainnet
+        subscriptionId = 6;
+        keyHash = 0x06eb0e2ea7cca202fc7c8258397a36f33d88568d2522b37aaa3b14ff6ee1b696;
+    }
+
+    function rawFulfillRandomWords(uint256 requestId, uint256[] memory randomWords) external {
+        if (msg.sender == address(COORDINATOR)) {
+            fulfillRandomWords(requestId, randomWords);
+        }
     }
     
     modifier forOwner() {
@@ -168,32 +194,44 @@ contract Competition_o is ERC20Upgradeable{
         competition.status = 1;
     }
 
-    function finish(uint256 id) public forSponser returns (address) {
+    function canDraw(uint256 id) public view returns (bool) {
+        require(id > 0 && id <= competitions.length, "Draw: Invalid id.");
+        CompInfo storage competition = competitions[id - 1];
+        require(competition.status == 1, "Draw: CompInfo was not started.");
+        if(canDrawMiddle)
+            require(competition.countSold == competition.countTotal, "Draw: all ticket must be sold!");
+        else
+            require(
+                competition.timeEnd <= block.timestamp,
+                "Draw: CompInfo is not ready to draw."
+            );
+        
+        require(competition.countSold > 0, "Draw: No ticket was sold.");
+        require(ticketSold[id - 1].length > 0, "Draw: No ticket was sold.");
+        return true;
+    }
+
+    function fulfillRandomWords(
+        uint256 requestId,
+        uint256[] memory randomWords
+    ) internal {
+        uint256 id = drawRequests[requestId];
+        if(canDraw(id)) {
+            CompInfo storage competition = competitions[id - 1];
+            drawResults[id-1] = randomWords[0];
+            competition.status = 2;
+            emit Drawn(id, randomWords[0]);
+        }
+
+    }
+
+    function finish(uint256 id) public forSponser {
         require(id > 0 && id <= competitions.length, "Finish: Invalid id.");
         CompInfo storage competition = competitions[id - 1];
-        require(competition.status == 1, "Finish: CompInfo was not started.");
-        require(
-            competition.timeEnd <= block.timestamp,
-            "Finish: CompInfo is not ready to finish."
-        );
-        require(competition.countSold > 0, "Finish: No ticket was sold.");
+        require(competition.status == 2, "Finish: CompInfo was not drawn.");
+        require(competition.winner == address(0), "Finish: CompInfo was already finished.");
         TicketInfo[] storage tickets = ticketSold[id - 1];
-        require(tickets.length > 0, "Finish: No ticket was sold.");
-        uint256 seed = uint256(
-            keccak256(
-                abi.encodePacked(
-                    (block.timestamp - competition.timeStart) +
-                        block.difficulty +
-                        ((
-                            uint256(keccak256(abi.encodePacked(block.coinbase)))
-                        ) / (block.timestamp)) +
-                        block.gaslimit +
-                        ((uint256(keccak256(abi.encodePacked(id)))) /
-                            (block.timestamp)) +
-                        block.number
-                )
-            )
-        ) % competition.countSold;
+        uint256 seed = drawResults[id-1] % competition.countSold;
         uint256 sum = 0;
         uint256 i = 0;
         for (i = 0; i < tickets.length; i++) {
@@ -201,11 +239,50 @@ contract Competition_o is ERC20Upgradeable{
             sum = sum + tickets[i].amount;
             if (sum > seed) {
                 competition.winner = tickets[i].account;
-                competition.status = 2;
-                return competition.winner;
+                emit Finished(id, competition.winner);
+                break;
             }
         }
-        return address(0);
+    }
+
+    function draw(uint256 id) public forSponser {
+        if(canDraw(id)) {
+            uint256 requestId = COORDINATOR.requestRandomWords(
+                keyHash,
+                subscriptionId,
+                3,
+                100000,
+                1
+            );
+            drawRequests[requestId] = id;
+        }
+        // uint256 seed = uint256(
+        //     keccak256(
+        //         abi.encodePacked(
+        //             (block.timestamp - competition.timeStart) +
+        //                 block.difficulty +
+        //                 ((
+        //                     uint256(keccak256(abi.encodePacked(block.coinbase)))
+        //                 ) / (block.timestamp)) +
+        //                 block.gaslimit +
+        //                 ((uint256(keccak256(abi.encodePacked(id)))) /
+        //                     (block.timestamp)) +
+        //                 block.number
+        //         )
+        //     )
+        // ) % competition.countSold;
+        // uint256 sum = 0;
+        // uint256 i = 0;
+        // for (i = 0; i < tickets.length; i++) {
+        //     if (tickets[i].amount == 0) continue;
+        //     sum = sum + tickets[i].amount;
+        //     if (sum > seed) {
+        //         competition.winner = tickets[i].account;
+        //         competition.status = 2;
+        //         return competition.winner;
+        //     }
+        // }
+       
     }
 
     function buy(uint256 id, uint32 count) public {
@@ -250,6 +327,7 @@ contract Competition_o is ERC20Upgradeable{
         }
         ticketPerson[msg.sender][id] += count;
         competition.countSold += count;
+        require(competition.countSold <= competition.countTotal, "Buy: There is no enough ticket");
         require(
             ticketPerson[msg.sender][id] <= competition.maxPerPerson,
             "Buy: You cannot buy more than MaxPerPerson."
@@ -421,6 +499,10 @@ contract Competition_o is ERC20Upgradeable{
 
     function setToken(address _token) public forSponser {
         token = _token;
+    }
+
+    function setCanDrawMiddle(bool value) public forSponser {
+        canDrawMiddle = value;
     }
 
     function setCreditsPerMonth(uint256 credits) public forSponser {

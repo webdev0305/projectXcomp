@@ -43,7 +43,7 @@ const upgradeProxy = async (contractName, contractAddress)=>{
     const implAddress = await getImplementationAddress(ethers.provider, contract.address);
     await updateABI(contractName)
     await verify(implAddress)
-    console.log(contractName, contract.address)
+    console.log(contractName, contract.address, implAddress)
     return contract
 }
 
@@ -61,6 +61,14 @@ const verify = async (contractAddress, args = [])=> {
     } catch(ex) {}
 }
 
+const forceImport = async(contractAddress, deployedImpl, opts={kind:"transparent"}) => {
+    return await upgrades.forceImport(
+        contractAddress,
+        deployedImpl,
+        opts
+      )
+} 
+
 module.exports = {
-    getAt, deploy, deployProxy, upgradeProxy
+    getAt, deploy, deployProxy, upgradeProxy, forceImport
 }
