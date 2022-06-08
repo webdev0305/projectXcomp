@@ -167,15 +167,16 @@ export default function Competition() {
                       </div>
                       <div className='flex flex-col items-center'>
                         <div className="mt-sm-0 mt-3 w-full text-center md:w-auto">
-                          <a href="#0" onClick={()=>buy(false)} className="cmn-btn style--three w-full">{buying ? (user.approved ? "Buying..." : "Approving...") : "Buy ticket"}</a>
+                          <a href="#0" onClick={()=>buy(false)} className="cmn-btn style--three w-full">{buying ? (user.approved ? "Buy from wallet" : "Approving...") : "Buy from wallet"}</a>
                         </div>
                         <div className="mt-3 w-full text-center md:w-auto">
-                          <a href="#0" onClick={()=>buy(true)} className="cmn-btn style--three w-full">{buyingWith ? "Buying with..." : "Buy with Unclaimed"}</a>
+                          <a href="#0" onClick={()=>buy(true)} className="cmn-btn style--three w-full">{buyingWith ? "Buy with Unclaimed" : "Buy with Unclaimed"}</a>
                         </div>
                       </div>
                     </div>
                     </>
                     }
+                    <p>Buying tickets with unclaimed PXT has the additional benefit of cutting your rewards claim tax in half to just 15%!</p>
                     <ul className="social-links items-center">
                       <li>Share :</li>
                       {/*<li><a href="#0"><i className="fab fa-facebook-f"></i></a></li>*/}

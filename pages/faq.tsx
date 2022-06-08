@@ -15,6 +15,10 @@ export default function Faq() {
             answer: 'Please check the ‘My Draws’ section to see your active entries.'
         },
         {
+            question: 'Can I buy with unclaimed $PXT rewards?',
+            answer: 'Yes you can! Simply use the "Buy with unclaimed PXT" button. And best of all, claim tax rate is half!'
+        },
+        {
             question: 'How will I be contacted if I win?',
             answer: 'You will not be contacted as competitionX is completely KYC free, simply check back on the ‘My Draws -> My Wins’ section to see if you’ve been lucky!'
         },

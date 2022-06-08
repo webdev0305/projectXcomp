@@ -39,7 +39,7 @@ export default function Howtoplay() {
                       target="_blank"
                       rel="noreferrer"
                     > DEX
-                    </a>
+                    </a> or use your unclaimed PXT rewards!
                     </p>
                   </div>
                 </div>
