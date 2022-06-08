@@ -176,7 +176,7 @@ export default function Competition() {
                     </div>
                     </>
                     }
-                    <p>Buying tickets with unclaimed PXT has the additional benefit of cutting your rewards claim tax in half to just 15%!</p>
+                    <p>Buying tickets with unclaimed PXT has the additional benefit of cutting your rewards claim tax in half!</p>
                     <ul className="social-links items-center">
                       <li>Share :</li>
                       {/*<li><a href="#0"><i className="fab fa-facebook-f"></i></a></li>*/}
