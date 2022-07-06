@@ -7,6 +7,7 @@ import { BigNumber } from "ethers"
 import axios from 'axios'
 
 const CompetitionABI = require("abi/CompetitionAbi.json")
+const NodeManagerABI = require("abi/NodeMangerAbi.json")
 const ERC20ABI = require("abi/ERC20Abi.json")
 const UINT256_MAX = '115792089237316195423570985008687907853269984665640564039457584007913129639935'
 
@@ -56,12 +57,14 @@ export interface IUser {
   creditBalance?: BigNumber
   balanceETH?: BigNumber
   balanceToken?: BigNumber
+  balanceClaimable?:BigNumber
 }
 
 function useToken() {
   const defaultProvider = new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_URL??"https://speedy-nodes-nyc.moralis.io/0e1178f702f6a0f85209f04a/avalanche/testnet")
   let contractCompetition: ethers.Contract
   let contractToken: ethers.Contract
+  let contractProjectX: ethers.Contract
   let tokenAddress: string
 
   const { address, provider } = eth.useContainer()
@@ -82,6 +85,11 @@ function useToken() {
     contractCompetition = new ethers.Contract(
       String(process.env.NEXT_PUBLIC_CONTRACT_ADDRESS),
       CompetitionABI,
+      address?provider?.getSigner():defaultProvider
+    )
+    contractProjectX = new ethers.Contract(
+      String(process.env.NEXT_PUBLIC_NODEMANAGER_ADDRESS),
+      NodeManagerABI,
       address?provider?.getSigner():defaultProvider
     )
   }
@@ -202,7 +210,6 @@ function useToken() {
         return {...user, approved:true}
       })
     }
-    console.log(comp.id, count)
     if(unclaimed)
       await(await contractCompetition.buyWithUnclaimed(comp.id, count)).wait()
     else
@@ -325,6 +332,12 @@ function useToken() {
         return {...user, balanceToken:BigNumber.from(balance)}
       })
     })
+    contractProjectX?.claimable(address).then((balance:any)=>{
+      setUser(user=>{
+        return {...user, balanceClaimable:BigNumber.from(balance)}
+      })
+    })
+
     if(user.isMember) contractCompetition.creditBalance(address).then((balance:any)=>setUser(user=>{
       return {...user, creditBalance:balance}
     }))
@@ -449,6 +462,7 @@ function useToken() {
     finishCompetition,
     drawWinner,
     buyTicket,
+    getBalance,
     setCompetitions,
     setUser,
     payForMonth,

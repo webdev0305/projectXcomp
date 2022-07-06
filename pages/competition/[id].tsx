@@ -10,7 +10,9 @@ import { toast } from 'react-toastify'
 import classNames from 'classnames'
 import Hero from 'components/Hero'
 import Image from 'next/image'
+import { formatFixed, BigNumber } from "@ethersproject/bignumber"
 import { ICompetition, token } from '../../state/competition'
+import { ethers } from 'ethers'
 
 export default function Competition() {
   const [dDisplay, setDDisplay] = useState<string>()
@@ -114,6 +116,7 @@ export default function Competition() {
   var diff = Math.abs(promissHour?.getTime() - nowHour.getTime());
   var diffHours = Math.ceil(diff / (1000 * 3600));
   var diffMins = Math.ceil(diff / (1000 * 60));
+
   return competition && (
     <div className={classNames(styles.competition, buying && styles.loading)}>
       <div className="page-wrapper">
@@ -172,6 +175,7 @@ export default function Competition() {
                         <div className="mt-3 w-full text-center md:w-auto">
                           <a href="#0" onClick={()=>buy(true)} className="cmn-btn style--three w-full">{buyingWith ? "Buying with..." : "Buy with Unclaimed"}</a>
                         </div>
+                        {Number(formatFixed(user.balanceClaimable??0,18)).toFixed(2)}
                       </div>
                     </div>
                     </>
